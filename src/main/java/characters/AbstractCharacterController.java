@@ -97,7 +97,7 @@ public abstract class AbstractCharacterController {
 	}
 	
 	public boolean verifyShareKnowledge(AbstractCharacterController characterToShareWith, boolean checkedOneDirection){
-		return (this.hasCardForCurrentCity() && characterToShareWith.getCharactersCurrentCity().equals(this.character.getCurrentCity())) || (checkedOneDirection && characterToShareWith.verifyShareKnowledge(this, true));
+		return (this.hasCardForCurrentCity() && characterToShareWith.getCharactersCurrentCity().equals(this.character.getCurrentCity())) || (!checkedOneDirection && characterToShareWith.verifyShareKnowledge(this, true));
 	}
 	
 	public void shareKnowledge(CharacterModel characterToShareWith, CardModel cardToShare){
