@@ -162,5 +162,7 @@ public class GameModel {
 		this.difficulty = difficulty;
 	}
 	
-	public void setCharacters()
+	public void setCharacters(List<CharacterModel> characters){
+		this.characters = characters;
+	}
 }

@@ -9,12 +9,18 @@ import diseases.DiseaseModel;
 
 public class CharacterModel {
 
+	private String name;
 	private Set<CardModel> handOfCards;
 	private CityModel currentCity;
 	
-	public CharacterModel(CityModel currentCity){
+	public CharacterModel(String name, CityModel currentCity){
+		this.name = name;
 		this.handOfCards = new HashSet<>();
 		this.currentCity = currentCity;
+	}
+	
+	public String getName(){
+		return this.name;
 	}
 	
 	public Set<CardModel> getHandOfCards(){
