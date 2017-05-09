@@ -65,7 +65,7 @@ public class GameView extends JFrame {
 	
 	private void setBackground() {
 		ImageIcon backgroundImg = new ImageIcon();
-		Image image = this.setImage(MAP_IMG);
+		Image image = setImage(MAP_IMG);
 		Image scaledImage = image.getScaledInstance(1730, 860, Image.SCALE_SMOOTH);
 		backgroundImg = new ImageIcon(scaledImage);
 
@@ -76,6 +76,7 @@ public class GameView extends JFrame {
 		Image image = null;
 
 		try {
+			System.out.println(filepath);
 			File file = new File(filepath);
 			image = ImageIO.read(file);
 		} catch (IOException e) {
