@@ -9,6 +9,8 @@ import cards.CardModel;
 import cards.InfectionDeckCardController;
 import cards.PlayerDeckCardController;
 import characters.AbstractCharacterController;
+import characters.CharacterControllerFactory;
+import characters.CharacterModel;
 import city.CityController;
 import city.CityModel;
 import diseases.DiseaseController;
@@ -46,6 +48,11 @@ public class GameController {
 					this.cityController.infect(cityToInfect, cityToInfect.getPrimaryDisease());
 				}
 			}
+		}
+		
+		CharacterControllerFactory characterFactory = new CharacterControllerFactory();
+		for(CharacterModel c : this.gameModel.getCharacters()){
+			this.characters.add(characterFactory.createCharacterController(c));
 		}
 		
 		for(AbstractCharacterController c : this.characters){
