@@ -29,7 +29,7 @@ public abstract class AbstractDeckCardController {
 	}
 	
 	public CardModel draw(){
-		return this.deckCards.remove(this.discardCards.size() - 1);
+		return this.deckCards.remove(this.deckCards.size() - 1);
 	}
 	
 	public List<CardModel> drawNumberOfCards(int numberOfCardsToDraw){

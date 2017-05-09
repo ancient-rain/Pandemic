@@ -34,6 +34,7 @@ public class GameController {
 		this.initializeGame();
 	}
 	
+	//TEST
 	private void initializeGame(){
 		this.cityController.buildResearchStation(this.cityController.getCityByName("Atlanta"));
 		
@@ -51,11 +52,13 @@ public class GameController {
 			for(int i = 0; i < this.gameModel.getNumberOfStartingCards(); i++){
 				c.addCardToHandOfCards(this.playerDeckController.draw());
 			}
+			c.moveWithoutCard(this.cityController.getCityByName("Atlanta"));
 		}
 		
 		this.playerDeckController.specialShuffle(this.gameModel.getDifficulty());
 	}
 	
+	//TEST
 	public boolean moveCharacter(AbstractCharacterController characterToMove, CityModel cityToMoveTo){
 		boolean moved = false;
 		if(characterToMove.verifyMoveWithoutCard(cityToMoveTo)){
@@ -78,6 +81,7 @@ public class GameController {
 		return moved;
 	}
 	
+	//TEST
 	public boolean treatCity(DiseaseModel diseaseToTreat){
 		if(this.getCurrentPlayer().verifyTreat(diseaseToTreat)){
 			this.getCurrentPlayer().treat(diseaseToTreat);
@@ -87,6 +91,7 @@ public class GameController {
 		return false;
 	}
 	
+	//TEST
 	public boolean cureDisease(Set<CardModel> cardsToCureWith, DiseaseModel diseaseToCure){
 		if(this.getCurrentPlayer().verifyCure(cardsToCureWith, diseaseToCure)){
 			this.getCurrentPlayer().cure(cardsToCureWith, diseaseToCure);
@@ -99,6 +104,7 @@ public class GameController {
 		return false;
 	}
 	
+	//TEST
 	public boolean buildResearchStation(){
 		if(this.getCurrentPlayer().verifyBuild(this.cityController)){
 			this.getCurrentPlayer().build(this.cityController);
@@ -108,6 +114,7 @@ public class GameController {
 		return false;
 	}
 	
+	//TEST
 	public boolean shareKnowledge(AbstractCharacterController characterToShareWith, CardModel cardToShare){
 		if(this.getCurrentPlayer().verifyShareKnowledge(characterToShareWith, false)){
 			this.getCurrentPlayer().shareKnowledge(characterToShareWith.getCharacterModel(), cardToShare);
@@ -117,6 +124,7 @@ public class GameController {
 		return false;
 	}
 	
+	//TEST
 	public boolean specialAbility(){
 		if(this.getCurrentPlayer().verifyAbility(this)){
 			this.getCurrentPlayer().ability(this);
@@ -126,6 +134,7 @@ public class GameController {
 		return false;
 	}
 	
+	//TEST
 	public void endOfAction(){
 		this.gameModel.setActionsLeft(this.gameModel.getActionsLeft() - 1);
 		if(this.gameModel.getActionsLeft() <= 0){
@@ -133,6 +142,7 @@ public class GameController {
 		}
 	}
 	
+	//TEST
 	public void endOfTurn(){
 		if(this.playerDeckController.getNumberOfCardsInDeck() == 0){
 			this.gameModel.setLost(true);
@@ -169,6 +179,7 @@ public class GameController {
 		this.gameModel.setTurnCounter(this.gameModel.getTurnCounter() + 1);
 	}
 	
+	//TEST
 	public void handleEpidemic(){
 		if(this.gameModel.getInfectionRateIndex() < this.gameModel.getInfectionRates().length - 1){
 			this.gameModel.setInfectionRateIndex(this.gameModel.getInfectionRateIndex() + 1);
@@ -192,6 +203,7 @@ public class GameController {
 		}
 	}
 	
+	//TEST
 	public boolean playEventCard(CardModel eventCardToPlay){
 		switch(eventCardToPlay.getName()){
 		case "Airlift":
@@ -209,11 +221,13 @@ public class GameController {
 		}
 	}
 	
+	//TEST
 	private boolean playAirlift(AbstractCharacterController characterToMove, CityModel cityToMoveTo){
 		characterToMove.getCharacterModel().setCurrentCity(cityToMoveTo);
 		return true;
 	}
 	
+	//TEST
 	private boolean playForecast(){
 		this.gameModel.setForecastCardsLeft(6);
 		List<CardModel> toReturn = new ArrayList<CardModel>();
@@ -224,6 +238,7 @@ public class GameController {
 		return true;
 	}
 	
+	//TEST
 	public boolean forecastReturnCard(CardModel cardToPutBack){
 		if(this.gameModel.getForecastCardsLeft() > 0){
 			((InfectionDeckCardController)this.infectionDeckController).addToTop(cardToPutBack);
@@ -233,6 +248,7 @@ public class GameController {
 		return false;
 	}
 	
+	//TEST
 	private boolean playGovernmentGrant(CityModel cityToAddResearchStation){
 		if(this.cityController.getResearchStationCounter() < 6 && !cityToAddResearchStation.isHasResearchStation()){
 			cityToAddResearchStation.setHasResearchStation(true);
@@ -241,11 +257,13 @@ public class GameController {
 		return false;
 	}
 	
+	//TEST
 	private boolean playOneQuietNight(){
 		this.gameModel.setQuietNightsLeft(this.characters.size());
 		return false;
 	}
 	
+	//TEST
 	private boolean playResilientPopulation(CardModel cardToRemove){
 		return this.infectionDeckController.getDiscardedCards().remove(cardToRemove);
 	}
@@ -262,7 +280,11 @@ public class GameController {
 		return this.gameModel;
 	}
 	
-	private AbstractCharacterController getCurrentPlayer(){
+	public CityController getCityController(){
+		return this.cityController;
+	}
+	
+	public AbstractCharacterController getCurrentPlayer(){
 		return this.characters.get(this.gameModel.getTurnCounter() % this.characters.size());
 	}
 }

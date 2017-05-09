@@ -28,9 +28,9 @@ public class GameModel {
 	
 	public GameModel(){
 		this.characters = new ArrayList<CharacterModel>();
-		this.turnCounter = 0;
+		this.turnCounter = 1;
 		this.numberOfStartingCards = 0;
-		this.difficulty = 0;
+		this.difficulty = 1;
 		this.actionsLeft = 4;
 		this.infectionRateIndex = 0;
 		this.infectionRates = new int[] {2, 2, 2, 3, 3, 4, 4};
@@ -156,5 +156,9 @@ public class GameModel {
 
 	public void setSelectedContingencyPlan(CardModel selectedContingencyPlan) {
 		this.selectedContingencyPlan = selectedContingencyPlan;
+	}
+	
+	public void setDifficulty(int difficulty){
+		this.difficulty = difficulty;
 	}
 }

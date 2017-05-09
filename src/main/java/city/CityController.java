@@ -57,13 +57,15 @@ public class CityController {
 	}
 	
 	public void infect(CityModel cityToInfect, DiseaseModel diseaseInfecting){
-		int currentCubes = cityToInfect.getCubesByDisease(diseaseInfecting);
-		if(currentCubes > 2){
-			cityToInfect.setCubesByDisease(diseaseInfecting, 3);
-			this.outbreak(cityToInfect, diseaseInfecting);
-		} else {
-			diseaseInfecting.removeFromCubesLeft(1);
-			cityToInfect.setCubesByDisease(diseaseInfecting, currentCubes + 1);
+		if(!cityToInfect.isQuarentined()){
+			int currentCubes = cityToInfect.getCubesByDisease(diseaseInfecting);
+			if(currentCubes > 2){
+				cityToInfect.setCubesByDisease(diseaseInfecting, 3);
+				this.outbreak(cityToInfect, diseaseInfecting);
+			} else {
+				diseaseInfecting.removeFromCubesLeft(1);
+				cityToInfect.setCubesByDisease(diseaseInfecting, currentCubes + 1);
+			}
 		}
 	}
 	
