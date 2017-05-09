@@ -74,7 +74,11 @@ public class GameView extends JFrame {
 	}
 	
 	private void drawDiseaseInfoCounters() {
+		GameInfoView diseaseInfo = new GameInfoView();
 		
+		diseaseInfo.drawPanel();
+		
+		this.gameInfoPanel.add(diseaseInfo);
 	}
 	
 	private void drawInfectionDeckOutline() {
