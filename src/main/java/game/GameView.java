@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import cards.CardView;
+import diseases.DiseaseView;
 
 import static constants.Constants.*;
 
@@ -65,7 +66,11 @@ public class GameView extends JFrame {
 	}
 	
 	private void drawCureOutlineMarkers() {
+		DiseaseView cureMarkers = new DiseaseView();
 		
+		cureMarkers.drawPanel();
+		
+		this.gameInfoPanel.add(cureMarkers);
 	}
 	
 	private void drawDiseaseInfoCounters() {
