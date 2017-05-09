@@ -82,7 +82,11 @@ public class GameView extends JFrame {
 	}
 	
 	private void drawInfectionDeckOutline() {
+		CardView infectionDeck = new CardView(false, false);
 		
+		infectionDeck.drawPanel();
+		
+		this.gameInfoPanel.add(infectionDeck);
 	}
 	
 	private void drawPlayerInfo() {
