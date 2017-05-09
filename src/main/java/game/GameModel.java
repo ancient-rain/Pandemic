@@ -161,4 +161,6 @@ public class GameModel {
 	public void setDifficulty(int difficulty){
 		this.difficulty = difficulty;
 	}
+	
+	public void setCharacters()
 }
