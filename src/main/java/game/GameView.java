@@ -5,12 +5,15 @@ import java.awt.BorderLayout;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import cards.CardView;
 
 import static constants.Constants.*;
 
@@ -47,6 +50,29 @@ public class GameView extends JFrame {
 	}
 	
 	private void drawGameInfo() {
+		drawPlayerDeckOutline();
+		drawCureOutlineMarkers();
+		drawDiseaseInfoCounters();
+		drawInfectionDeckOutline();
+	}
+	
+	private void drawPlayerDeckOutline() {
+		CardView playerDeck = new CardView(true, true);
+		
+		playerDeck.drawPanel();
+		
+		this.gameInfoPanel.add(playerDeck);
+	}
+	
+	private void drawCureOutlineMarkers() {
+		
+	}
+	
+	private void drawDiseaseInfoCounters() {
+		
+	}
+	
+	private void drawInfectionDeckOutline() {
 		
 	}
 	
@@ -76,10 +102,9 @@ public class GameView extends JFrame {
 		Image image = null;
 
 		try {
-			System.out.println(filepath);
-			File file = new File(filepath);
+			File file = new File(getClass().getResource(filepath).toURI());
 			image = ImageIO.read(file);
-		} catch (IOException e) {
+		} catch (IOException | URISyntaxException e) {
 			System.out.println(e.getMessage());
 			System.exit(0);
 		}
