@@ -1,7 +1,5 @@
-/city/
-/citiesTests/
-/diseases/
-/gameTests/
-/cards/
 /game/
-/characters/
+/constants/
+/main.class
+/files/
+/images/
