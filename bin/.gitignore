@@ -69,3 +69,8 @@ local.properties
  
 # PDT-specific
 .buildpath
+/cards/
+/characters/
+/city/
+/diseases/
+/game/
