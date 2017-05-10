@@ -101,7 +101,7 @@ public abstract class AbstractCharacterController {
 	}
 	
 	public void shareKnowledge(CharacterModel characterToShareWith, CardModel cardToShare){
-		if(this.hasCardForCurrentCity()){
+		if(this.character.isInHand(cardToShare)){
 			this.character.removeCardFromHandOfCards(cardToShare);
 			characterToShareWith.addCardToHandOfCards(cardToShare);
 		} else {
