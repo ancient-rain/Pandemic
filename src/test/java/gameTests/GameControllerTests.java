@@ -2,7 +2,10 @@ package gameTests;
 
 import static org.junit.Assert.*;
 
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -241,4 +244,103 @@ public class GameControllerTests {
 		assertTrue(this.playerController.getCharacterModel().isInHand(card));
 	}
 	
+	@Test
+	public void testNormalCure(){
+		CityModel currentCity = this.playerController.getCharactersCurrentCity();
+		DiseaseModel diseaseToCure = currentCity.getPrimaryDisease();
+		CardModel card1 = new CardModel(currentCity.getName());
+		CityModel city1 = this.cityController.getCityByName("Chicago");
+		CityModel city2 = this.cityController.getCityByName("Paris");
+		CityModel city3 = this.cityController.getCityByName("Montreal");
+		CityModel city4 = this.cityController.getCityByName("Washington");
+		CardModel card2 = new CardModel(city1.getName());
+		CardModel card3 = new CardModel(city2.getName());
+		CardModel card4 = new CardModel(city3.getName());
+		CardModel card5 = new CardModel(city4.getName());
+		this.playerController.addCardToHandOfCards(card1);
+		this.playerController.addCardToHandOfCards(card2);
+		this.playerController.addCardToHandOfCards(card3);
+		this.playerController.addCardToHandOfCards(card4);
+		this.playerController.addCardToHandOfCards(card5);
+		
+		Set<CardModel> toCureWithSet = new HashSet<CardModel>();
+		toCureWithSet.add(card1);
+		toCureWithSet.add(card2);
+		toCureWithSet.add(card3);
+		toCureWithSet.add(card4);
+		toCureWithSet.add(card5);
+		
+		assertFalse(this.diseaseController.getBlueDisease().isCured());
+		
+		this.controller.cureDisease(toCureWithSet, diseaseToCure);
+		
+		assertTrue(this.diseaseController.getBlueDisease().isCured());
+	}
+	
+	@Test
+	public void testScientistCure(){
+		this.controller.getPlayers().clear();
+		CityModel startingCity = this.cityController.getCityByName("Atlanta");
+		CharacterModel playerModel = new CharacterModel("Dispatcher", startingCity);
+		CharacterControllerFactory factory = new CharacterControllerFactory();
+		this.controller.getPlayers().add(factory.createCharacterController(playerModel));
+		playerModel = new CharacterModel("Scientist", startingCity);
+		this.controller.getPlayers().add(factory.createCharacterController(playerModel));
+		this.playerController = this.controller.getCurrentPlayer();
+		
+		CityModel currentCity = this.playerController.getCharactersCurrentCity();
+		DiseaseModel diseaseToCure = currentCity.getPrimaryDisease();
+		CardModel card1 = new CardModel(currentCity.getName());
+		CityModel city1 = this.cityController.getCityByName("Chicago");
+		CityModel city2 = this.cityController.getCityByName("Paris");
+		CityModel city3 = this.cityController.getCityByName("Montreal");
+		CardModel card2 = new CardModel(city1.getName());
+		CardModel card3 = new CardModel(city2.getName());
+		CardModel card4 = new CardModel(city3.getName());
+		this.playerController.addCardToHandOfCards(card1);
+		this.playerController.addCardToHandOfCards(card2);
+		this.playerController.addCardToHandOfCards(card3);
+		this.playerController.addCardToHandOfCards(card4);
+		
+		Set<CardModel> toCureWithSet = new HashSet<CardModel>();
+		toCureWithSet.add(card1);
+		toCureWithSet.add(card2);
+		toCureWithSet.add(card3);
+		toCureWithSet.add(card4);
+		
+		assertFalse(this.diseaseController.getBlueDisease().isCured());
+		
+		this.controller.cureDisease(toCureWithSet, diseaseToCure);
+		
+		assertTrue(this.diseaseController.getBlueDisease().isCured());
+	}
+	
+	@Test
+	public void testNormalCureFourCards(){
+		CityModel currentCity = this.playerController.getCharactersCurrentCity();
+		DiseaseModel diseaseToCure = currentCity.getPrimaryDisease();
+		CardModel card1 = new CardModel(currentCity.getName());
+		CityModel city1 = this.cityController.getCityByName("Chicago");
+		CityModel city2 = this.cityController.getCityByName("Paris");
+		CityModel city3 = this.cityController.getCityByName("Montreal");
+		CardModel card2 = new CardModel(city1.getName());
+		CardModel card3 = new CardModel(city2.getName());
+		CardModel card4 = new CardModel(city3.getName());
+		this.playerController.addCardToHandOfCards(card1);
+		this.playerController.addCardToHandOfCards(card2);
+		this.playerController.addCardToHandOfCards(card3);
+		this.playerController.addCardToHandOfCards(card4);
+		
+		Set<CardModel> toCureWithSet = new HashSet<CardModel>();
+		toCureWithSet.add(card1);
+		toCureWithSet.add(card2);
+		toCureWithSet.add(card3);
+		toCureWithSet.add(card4);
+		
+		assertFalse(this.diseaseController.getBlueDisease().isCured());
+		
+		this.controller.cureDisease(toCureWithSet, diseaseToCure);
+		
+		assertFalse(this.diseaseController.getBlueDisease().isCured());
+	}
 }

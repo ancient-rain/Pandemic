@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.DefaultSingleSelectionModel;
+
 import cards.AbstractDeckCardController;
 import cards.CardModel;
 import cards.InfectionDeckCardController;
@@ -25,6 +27,21 @@ public class GameController {
 	private AbstractDeckCardController infectionDeckController;
 	private List<AbstractCharacterController> characters;
 	
+	public GameController(GameModel gameModel,
+			DiseaseController diseaseController,
+			CityController cityController,
+			AbstractDeckCardController playerDeckController,
+			AbstractDeckCardController infectionDeckController){
+		this.gameModel = gameModel;
+		this.diseaseController = diseaseController;
+		this.cityController = cityController;
+		this.playerDeckController = playerDeckController;
+		this.infectionDeckController = infectionDeckController;
+		this.characters = new ArrayList<AbstractCharacterController>();
+		
+		this.initializeGame();
+	}
+	
 	public GameController(GameModel gameModel){
 		this.gameModel = new GameModel();
 		this.diseaseController = new DiseaseController();
@@ -35,6 +52,8 @@ public class GameController {
 		
 		this.initializeGame();
 	}
+	
+	
 	
 	//TEST
 	private void initializeGame(){
@@ -96,7 +115,6 @@ public class GameController {
 		return false;
 	}
 	
-	//TEST
 	public boolean cureDisease(Set<CardModel> cardsToCureWith, DiseaseModel diseaseToCure){
 		if(this.getCurrentPlayer().verifyCure(cardsToCureWith, diseaseToCure)){
 			this.getCurrentPlayer().cure(cardsToCureWith, diseaseToCure);
