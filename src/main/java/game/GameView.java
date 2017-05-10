@@ -1,11 +1,14 @@
 package game;
 
+import static constants.Constants.*;
 
 import java.awt.BorderLayout;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -14,20 +17,24 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import cards.CardView;
+import characters.CharacterModel;
+import characters.CharacterView;
+import city.CityController;
+import city.CityView;
 import diseases.DiseaseView;
-
-import static constants.Constants.*;
 
 public class GameView extends JFrame {
 
+	GameController controller;
 	GameModel model;
 	BorderLayout layout;
 	JLabel background;
 	JPanel gameInfoPanel, playerInfoPanel, playerActionPanel, mapPanel;
+	List<CharacterModel> players;
 
-	public GameView(GameModel model) {
-		this.model = model;
-		
+	public GameView(GameController controller) {
+		this.controller = controller;
+		this.model = controller.getGameModel();
 		init();
 	}
 	
@@ -40,6 +47,8 @@ public class GameView extends JFrame {
 		this.playerInfoPanel = new JPanel();
 		this.playerActionPanel = new JPanel();
 		this.mapPanel = new JPanel();
+		
+		this.players = this.model.getCharacters();
 	}
 	
 	public void viewGame() {
@@ -51,45 +60,30 @@ public class GameView extends JFrame {
 	}
 	
 	private void drawGameInfo() {
-		drawPlayerDeckOutline();
-		drawCureOutlineMarkers();
-		drawDiseaseInfoCounters();
-		drawInfectionDeckOutline();
-	}
-	
-	private void drawPlayerDeckOutline() {
 		CardView playerDeck = new CardView(true, true);
-		
-		playerDeck.drawPanel();
-		
-		this.gameInfoPanel.add(playerDeck);
-	}
-	
-	private void drawCureOutlineMarkers() {
 		DiseaseView cureMarkers = new DiseaseView();
-		
-		cureMarkers.drawPanel();
-		
-		this.gameInfoPanel.add(cureMarkers);
-	}
-	
-	private void drawDiseaseInfoCounters() {
 		GameInfoView diseaseInfo = new GameInfoView();
-		
-		diseaseInfo.drawPanel();
-		
-		this.gameInfoPanel.add(diseaseInfo);
-	}
-	
-	private void drawInfectionDeckOutline() {
 		CardView infectionDeck = new CardView(false, false);
 		
 		infectionDeck.drawPanel();
+		cureMarkers.drawPanel();
+		diseaseInfo.drawPanel();	
+		playerDeck.drawPanel();
 		
+		this.gameInfoPanel.add(playerDeck);
+		this.gameInfoPanel.add(cureMarkers);
+		this.gameInfoPanel.add(diseaseInfo);
 		this.gameInfoPanel.add(infectionDeck);
 	}
 	
 	private void drawPlayerInfo() {
+		for (CharacterModel character : this.players) {
+			CharacterView view = new CharacterView(character);
+			
+			view.drawPanel();
+			
+			this.playerInfoPanel.add(view);
+		}
 		
 	}
 	
@@ -138,5 +132,20 @@ public class GameView extends JFrame {
 //				+ getDifficulty() + " " + DIFFICULTY);
 		this.pack();
 		this.setVisible(true);
+	}
+	
+	public void paint(Graphics gr) {
+		super.paint(gr);
+		paintBoard(gr);
+	}
+	
+	private void paintBoard(Graphics gr) {
+		this.paintCities(gr);
+	}
+
+	private void paintCities(Graphics gr) {
+		CityController cityController = this.controller.getCityController();
+		CityView cities = new CityView(cityController);
+		cities.paintCities(gr);
 	}
 }

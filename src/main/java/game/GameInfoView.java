@@ -38,7 +38,6 @@ public class GameInfoView extends JPanel {
 		ImageIcon infectionImg = new ImageIcon();
 		Image image = null;
 		
-		
 		numResearch.setText(INITIAL_NUM_RESEARCH_STATIONS);
 		numResearch.setForeground(CUSTOM_GRAY_1);
 		image = this.setImage(RESEARCH_STATION_IMG);

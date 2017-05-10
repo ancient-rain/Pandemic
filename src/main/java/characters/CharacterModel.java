@@ -1,5 +1,6 @@
 package characters;
 
+import java.awt.Color;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,17 +11,35 @@ import diseases.DiseaseModel;
 public class CharacterModel {
 
 	private String name;
+	private String imgPath;
+	private Color color;
 	private Set<CardModel> handOfCards;
 	private CityModel currentCity;
 	
-	public CharacterModel(String name, CityModel currentCity){
+	public CharacterModel(String name, CityModel currentCity) {
 		this.name = name;
 		this.handOfCards = new HashSet<>();
 		this.currentCity = currentCity;
 	}
 	
+	public CharacterModel(String name, String imgPath, Color color, CityModel currentCity) {
+		this.name = name;
+		this.handOfCards = new HashSet<>();
+		this.currentCity = currentCity;
+		this.imgPath = imgPath;
+		this.color = color;
+	}
+	
 	public String getName(){
 		return this.name;
+	}
+	
+	public String getImgPath() {
+		return this.imgPath;
+	}
+	
+	public Color getColor() {
+		return this.color;
 	}
 	
 	public Set<CardModel> getHandOfCards(){
