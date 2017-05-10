@@ -40,21 +40,7 @@ public class GameController {
 		this.characters = new ArrayList<AbstractCharacterController>();
 		
 		this.initializeGame();
-	}
-	
-	@Deprecated
-	public GameController(GameModel gameModel){
-		this.gameModel = new GameModel();
-		this.diseaseController = new DiseaseController();
-		this.cityController = new CityController(this.diseaseController);
-		this.playerDeckController = new PlayerDeckCardController(this.cityController);
-		this.infectionDeckController = new InfectionDeckCardController(this.cityController);
-		this.characters = new ArrayList<AbstractCharacterController>();
-		
-		this.initializeGame();
-	}
-	
-	
+	}	
 	
 	//TEST
 	private void initializeGame(){

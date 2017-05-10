@@ -1,5 +1,6 @@
 package city;
 
+import java.awt.Color;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -111,7 +112,7 @@ public class CityController {
 		
 		CityModel bangkok = new CityModel("Bangkok", diseaseController.getRedDisease());
 		CityModel jakarta = new CityModel("Jakarta", diseaseController.getRedDisease());
-		CityModel hoChi = new CityModel("Ho Chi Minh CityModel", diseaseController.getRedDisease());
+		CityModel hoChi = new CityModel("Ho Chi Minh City", diseaseController.getRedDisease());
 		CityModel hongKong = new CityModel("Hong Kong", diseaseController.getRedDisease());
 		CityModel beijing = new CityModel("Beijing", diseaseController.getRedDisease());
 		CityModel seoul = new CityModel("Seoul", diseaseController.getRedDisease());
@@ -123,14 +124,14 @@ public class CityController {
 		CityModel shang = new CityModel("Shanghai", diseaseController.getRedDisease());
 		
 		CityModel la = new CityModel("Los Angeles", diseaseController.getYellowDisease());
-		CityModel mexicoCity= new CityModel("Mexico CityModel", diseaseController.getYellowDisease());
+		CityModel mexicoCity= new CityModel("Mexico City",  diseaseController.getYellowDisease());
 		CityModel miami = new CityModel("Miami", diseaseController.getYellowDisease());
 		CityModel bogata = new CityModel("Bogota", diseaseController.getYellowDisease());
 		CityModel lima = new CityModel("Lima", diseaseController.getYellowDisease());
 		CityModel santi = new CityModel("Santiago", diseaseController.getYellowDisease());
 		CityModel bueno = new CityModel("Buenos Aires", diseaseController.getYellowDisease());
 		CityModel saoPalo = new CityModel("Sao Paulo", diseaseController.getYellowDisease());
-		CityModel lago = new CityModel("Lagos", diseaseController.getYellowDisease());
+		CityModel lago = new CityModel("Lagos",  diseaseController.getYellowDisease());
 		CityModel kinsha = new CityModel("Kinshasa", diseaseController.getYellowDisease());
 		CityModel johann = new CityModel("Johannesburg", diseaseController.getYellowDisease());
 		CityModel khar = new CityModel("Khartoum", diseaseController.getYellowDisease());
