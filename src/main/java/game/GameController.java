@@ -42,6 +42,7 @@ public class GameController {
 		this.initializeGame();
 	}
 	
+	@Deprecated
 	public GameController(GameModel gameModel){
 		this.gameModel = new GameModel();
 		this.diseaseController = new DiseaseController();
