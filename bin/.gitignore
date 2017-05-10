@@ -1,5 +1,12 @@
-/citiesTests/
-/diseases/
 /game/
+/constants/
+/main.class
+/files/
+/images/
+/cards/
+/diseases/
+/characters/
+/city/
+/citiesTests/
 /gameTests/
 /tests/
