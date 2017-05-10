@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.DefaultSingleSelectionModel;
+
 import cards.AbstractDeckCardController;
 import cards.CardModel;
 import cards.InfectionDeckCardController;
@@ -25,16 +27,20 @@ public class GameController {
 	private AbstractDeckCardController infectionDeckController;
 	private List<AbstractCharacterController> characters;
 	
-	public GameController(GameModel gameModel){
+	public GameController(GameModel gameModel,
+			DiseaseController diseaseController,
+			CityController cityController,
+			AbstractDeckCardController playerDeckController,
+			AbstractDeckCardController infectionDeckController){
 		this.gameModel = gameModel;
-		this.diseaseController = new DiseaseController();
-		this.cityController = new CityController(this.diseaseController);
-		this.playerDeckController = new PlayerDeckCardController(this.cityController);
-		this.infectionDeckController = new InfectionDeckCardController(this.cityController);
+		this.diseaseController = diseaseController;
+		this.cityController = cityController;
+		this.playerDeckController = playerDeckController;
+		this.infectionDeckController = infectionDeckController;
 		this.characters = new ArrayList<AbstractCharacterController>();
 		
 		this.initializeGame();
-	}
+	}	
 	
 	//TEST
 	private void initializeGame(){
@@ -65,7 +71,6 @@ public class GameController {
 		this.playerDeckController.specialShuffle(this.gameModel.getDifficulty());
 	}
 	
-	//TEST
 	public boolean moveCharacter(AbstractCharacterController characterToMove, CityModel cityToMoveTo){
 		boolean moved = false;
 		if(characterToMove.verifyMoveWithoutCard(cityToMoveTo)){
@@ -88,7 +93,6 @@ public class GameController {
 		return moved;
 	}
 	
-	//TEST
 	public boolean treatCity(DiseaseModel diseaseToTreat){
 		if(this.getCurrentPlayer().verifyTreat(diseaseToTreat)){
 			this.getCurrentPlayer().treat(diseaseToTreat);
@@ -98,7 +102,6 @@ public class GameController {
 		return false;
 	}
 	
-	//TEST
 	public boolean cureDisease(Set<CardModel> cardsToCureWith, DiseaseModel diseaseToCure){
 		if(this.getCurrentPlayer().verifyCure(cardsToCureWith, diseaseToCure)){
 			this.getCurrentPlayer().cure(cardsToCureWith, diseaseToCure);
@@ -111,7 +114,6 @@ public class GameController {
 		return false;
 	}
 	
-	//TEST
 	public boolean buildResearchStation(){
 		if(this.getCurrentPlayer().verifyBuild(this.cityController)){
 			this.getCurrentPlayer().build(this.cityController);
@@ -121,7 +123,6 @@ public class GameController {
 		return false;
 	}
 	
-	//TEST
 	public boolean shareKnowledge(AbstractCharacterController characterToShareWith, CardModel cardToShare){
 		if(this.getCurrentPlayer().verifyShareKnowledge(characterToShareWith, false)){
 			this.getCurrentPlayer().shareKnowledge(characterToShareWith.getCharacterModel(), cardToShare);
@@ -228,13 +229,11 @@ public class GameController {
 		}
 	}
 	
-	//TEST
 	private boolean playAirlift(AbstractCharacterController characterToMove, CityModel cityToMoveTo){
 		characterToMove.getCharacterModel().setCurrentCity(cityToMoveTo);
 		return true;
 	}
 	
-	//TEST
 	private boolean playForecast(){
 		this.gameModel.setForecastCardsLeft(6);
 		List<CardModel> toReturn = new ArrayList<CardModel>();
@@ -245,7 +244,6 @@ public class GameController {
 		return true;
 	}
 	
-	//TEST
 	public boolean forecastReturnCard(CardModel cardToPutBack){
 		if(this.gameModel.getForecastCardsLeft() > 0){
 			((InfectionDeckCardController)this.infectionDeckController).addToTop(cardToPutBack);
@@ -255,7 +253,6 @@ public class GameController {
 		return false;
 	}
 	
-	//TEST
 	private boolean playGovernmentGrant(CityModel cityToAddResearchStation){
 		if(this.cityController.getResearchStationCounter() < 6 && !cityToAddResearchStation.isHasResearchStation()){
 			cityToAddResearchStation.setHasResearchStation(true);
@@ -264,13 +261,11 @@ public class GameController {
 		return false;
 	}
 	
-	//TEST
 	private boolean playOneQuietNight(){
 		this.gameModel.setQuietNightsLeft(this.characters.size());
 		return false;
 	}
 	
-	//TEST
 	private boolean playResilientPopulation(CardModel cardToRemove){
 		return this.infectionDeckController.getDiscardedCards().remove(cardToRemove);
 	}
@@ -293,5 +288,13 @@ public class GameController {
 	
 	public AbstractCharacterController getCurrentPlayer(){
 		return this.characters.get(this.gameModel.getTurnCounter() % this.characters.size());
+	}
+	
+	public List<AbstractCharacterController> getPlayers(){
+		return this.characters;
+	}
+	
+	public DiseaseController getDiseaseController(){
+		return this.diseaseController;
 	}
 }

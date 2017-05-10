@@ -2,8 +2,13 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import cards.AbstractDeckCardController;
+import cards.InfectionDeckCardController;
+import cards.PlayerDeckCardController;
 import characters.CharacterModel;
+import city.CityController;
 import city.CityModel;
+import diseases.DiseaseController;
 import diseases.DiseaseModel;
 import game.GameController;
 import game.GameModel;
@@ -12,7 +17,11 @@ import game.GameView;
 public class main {
 	
 	public static void main(String [] args) {
-		GameModel model = new GameModel();
+		GameModel gameModel = new GameModel();
+		DiseaseController diseaseController = new DiseaseController();
+		CityController cityController = new CityController(diseaseController);
+		AbstractDeckCardController playerDeckController = new PlayerDeckCardController(cityController);
+		AbstractDeckCardController infectionDeckController = new InfectionDeckCardController(cityController);
 		
 		// This will be retrieved from our other menus
 		DiseaseModel blue = new DiseaseModel();
@@ -24,9 +33,9 @@ public class main {
 		characters.add(medic);
 		characters.add(scientist);
 		
-		model.setCharacters(characters);
+		gameModel.setCharacters(characters);
 		
-		GameController controller = new GameController(model);
+		GameController controller = new GameController(gameModel, diseaseController, cityController, playerDeckController, infectionDeckController);
 		GameView view = new GameView(controller);
 		
 		view.viewGame();
