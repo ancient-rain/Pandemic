@@ -3,6 +3,7 @@ package game;
 import static constants.Constants.*;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
@@ -11,7 +12,9 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -77,6 +80,10 @@ public class GameView extends JFrame {
 	}
 	
 	private void drawPlayerInfo() {
+		BoxLayout playerInfoLayout = new BoxLayout(playerInfoPanel, BoxLayout.Y_AXIS);
+		
+		this.playerInfoPanel.setLayout(playerInfoLayout);
+				
 		for (CharacterModel character : this.players) {
 			CharacterView view = new CharacterView(character);
 			
@@ -88,7 +95,16 @@ public class GameView extends JFrame {
 	}
 	
 	private void drawPlayerActions() {
+		FlowLayout actionLayout = new FlowLayout(FlowLayout.LEFT, OFFSET_15, OFFSET_20);
+//		JButton moveButton = new JButton(MOVE_BUTTON);
+//		JButton treatButton = new JButton(TREAT_BUTTON);
+//		JButton cureButton = new JButton(CURE_BUTTON);
+//		JButton buildButton = new JButton(BUILD_BUTTON);
+//		JButton shareButton = new JButton(SHARE_BUTTON);
+//		JButton passButton = new JButton(PASS_BUTTON);
 		
+		this.playerActionPanel.setLayout(actionLayout);
+		this.playerActionPanel.add(new JButton("temp"));
 	}
 	
 	private void drawMap() {

@@ -26,7 +26,7 @@ public class GameController {
 	private List<AbstractCharacterController> characters;
 	
 	public GameController(GameModel gameModel){
-		this.gameModel = new GameModel();
+		this.gameModel = gameModel;
 		this.diseaseController = new DiseaseController();
 		this.cityController = new CityController(this.diseaseController);
 		this.playerDeckController = new PlayerDeckCardController(this.cityController);

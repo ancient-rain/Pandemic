@@ -8,15 +8,32 @@ public class Constants {
 	public final static Dimension PLAYER_HEADER_SIZE = new Dimension(190, 65);
 	public final static Dimension CARD_SIZE = new Dimension(121, 69);
 	
-	public final static Color CUSTOM_GRAY_1 = new Color(238, 238, 238);
-	
 	public final static int CITY_RADIUS = 25;
 	public final static int DELTA = CITY_RADIUS / 2;
 	public final static int INITIAL_PLAYER_DECK_SIZE = 48;
 	public final static int OFFSET_5 = 5;
 	public final static int OFFSET_10 = 10;
+	public final static int OFFSET_15 = 15;
+	public final static int OFFSET_20 = 20;
 	public final static int OFFSET_30 = 30;
 	public final static int OFFSET_40 = 40;
+	
+	public final static Color CUSTOM_GRAY_1 = new Color(238, 238, 238);
+	public final static Color MEDIC_COLOR = new Color(254, 84, 9);
+	public final static Color DISPATCHER_COLOR = new Color(236, 81, 175);
+	public final static Color QUARANTINE_SPECIALIST_COLOR = new Color(34, 108, 27);
+	public final static Color CONTINGENCY_PLANNER_COLOR = new Color(55, 195, 213);
+	public final static Color RESEARCHER_COLOR = new Color(126, 69, 24);
+	public final static Color SCIENTIST_COLOR = new Color(195, 197, 191);
+	public final static Color OPERATIONS_EXPERT_COLOR = new Color(77, 187, 1);
+
+	public final static String MEDIC_ICON = "/images/characters/icons/medic.png";
+	public final static String DISPATCHER_ICON = "/images/characters/icons/dispatcher.png";
+	public final static String QUARANTINE_SPECIALIST_ICON = "/images/characters/icons/quarantineSpecialist.png";
+	public final static String CONTINGENCY_PLANNER_ICON = "/images/characters/icons/contingencyPlanner.png";
+	public final static String RESEARCHER_ICON = "/images/characters/icons/researcher.png";
+	public final static String SCIENTIST_ICON = "/images/characters/icons/scientist.png";
+	public final static String OPERATIONS_EXPERT_ICON = "/images/characters/icons/operationsExpert.png";
 	
 	public final static String BLACK_OUTLINE = "/images/cureMarkers/blackOutline.png";
 	public final static String BLUE_OUTLINE = "/images/cureMarkers/blueOutline.png";
@@ -96,4 +113,11 @@ public class Constants {
 	public final static String TOKYO = "Tokyo";
 	public final static String WASHINGTON = "Washington";
 
+	public final static String MEDIC = "Medic";
+	public final static String DISPATCHER = "Dispatcher";
+	public final static String QUARANTINE_SPECIALIST = "Quarantine Specialist";
+	public final static String CONTINGENCY_PLANNER = "Contingency Planner";
+	public final static String RESEARCHER = "Researcher";
+	public final static String SCIENTIST = "Scientist";
+	public final static String OPERATIONS_EXPERT = "Operations Expert";
 }

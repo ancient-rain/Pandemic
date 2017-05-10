@@ -9,26 +9,24 @@ import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Set;
-
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import cards.CardModel;
-
 public class CharacterView extends JPanel {
-	CharacterModel model;
+	CharacterModel characterModel;
+	CharacterFrontEndModel model;
 
 	public CharacterView(CharacterModel character) {
-		this.model = character;
+		this.characterModel = character;
+		this.model = new CharacterFrontEndModel(character);
 	}
 
 	public void drawPanel() {
-		String name = this.model.getName(); // Need a way to get player names
-		String character = this.model.getName();
+		String name = this.characterModel.getName(); // This will have to be retrieved from character menu some way
+		String character = this.characterModel.getName();
 		JPanel playerInfoPanel = new JPanel();
 		JPanel characterInfo = new JPanel();
 		JPanel info = new JPanel();
