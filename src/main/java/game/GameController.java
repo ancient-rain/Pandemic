@@ -94,7 +94,7 @@ public class GameController {
 	}
 	
 	public boolean treatCity(DiseaseModel diseaseToTreat){
-		if(this.getCurrentPlayer().verifyTreat(diseaseToTreat)){
+		if(this.getCurrentPlayer().verifyDiseaseCanBeTreated(diseaseToTreat)){
 			this.getCurrentPlayer().treat(diseaseToTreat);
 			this.endOfAction();
 			return true;

@@ -51,8 +51,8 @@ public class AbstractCharacterControllerTests {
 
 		
 		String characterName = "CharacterName";
-		this.blueDisease = new DiseaseModel();
-		this.redDisease = new DiseaseModel();
+		this.blueDisease = diseaseController.getBlueDisease();
+		this.redDisease = diseaseController.getRedDisease();
 		
 		Set<CityModel> setOfCities = cityController.getCities();
 		this.listOfCities = new ArrayList<CityModel>(setOfCities);
@@ -92,5 +92,26 @@ public class AbstractCharacterControllerTests {
 		
 		assertFalse(this.characterController.verifyMoveWithoutCard(fakeCityModel));
 	}
+	
+	// can anyone move to any research station if they are on a current research station
+	
+	@Test
+	public void testMoveWithoutCard(){		
+		CityModel fakeCityModel = new CityModel(this.cityName, new DiseaseModel());
+		this.characterController.moveWithoutCard(fakeCityModel);
+		
+		assertEquals(fakeCityModel, this.character.getCurrentCity());
+	}
+	
+	@Test
+	public void testVerifyDiseaseCanBeTreatedTrue(){		
+		CityModel fakeCityModel = new CityModel(this.cityName, new DiseaseModel());
+		this.characterController.moveWithoutCard(fakeCityModel);
+		
+		this.cityModel.setCubesByDisease(this.blueDisease, 2);
+		
+		assertTrue(this.characterController.verifyDiseaseCanBeTreated(this.blueDisease));
+	}
+	
 
 }

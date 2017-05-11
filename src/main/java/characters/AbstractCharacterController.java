@@ -42,7 +42,7 @@ public abstract class AbstractCharacterController {
 		this.moveWithoutCard(cityToMoveTo);
 	}
 	
-	public boolean verifyTreat(DiseaseModel diseaseToTreat){
+	public boolean verifyDiseaseCanBeTreated(DiseaseModel diseaseToTreat){
 		return this.character.getCubesByDiseaseOnCurrentCity(diseaseToTreat) > 0;
 	}
 	
