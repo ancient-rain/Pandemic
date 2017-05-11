@@ -114,12 +114,24 @@ public class AbstractCharacterControllerTests {
 	}*/
 	
 	@Test
-	public void testVerifyBuildFalse(){	
-		//this.cityController
+	public void testVerifyBuildFalse(){
 		CityController currentCityController = this.gameController.getCityController();
-		
 		currentCityController.setResearchStationCounter(6);
-		
 		assertFalse(this.characterController.verifyBuild(currentCityController));
+	}
+	
+	@Test
+	public void testVerifyBuildNoCard(){
+		CityController currentCityController = this.gameController.getCityController();
+		currentCityController.setResearchStationCounter(3);
+		assertFalse(this.characterController.verifyBuild(currentCityController));
+	}
+	
+	@Test
+	public void testVerifyBuildTrue(){
+		CityController currentCityController = this.gameController.getCityController();
+		currentCityController.setResearchStationCounter(3);
+		this.characterController.addCardToHandOfCards(null);
+		assertTrue(this.characterController.verifyBuild(currentCityController));
 	}
 }
