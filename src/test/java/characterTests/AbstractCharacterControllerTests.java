@@ -1,7 +1,6 @@
 package characterTests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +80,17 @@ public class AbstractCharacterControllerTests {
 		this.neighborCityModel = list.get(0);
 		
 		assertTrue(this.characterController.verifyMoveWithoutCard(this.neighborCityModel));
+	}
+	
+	@Test
+	public void testverifyMoveWithoutCardIsNotANeighbor(){
+		Set<CityModel> setOfNeighbors = this.cityModel.getNeighbors();
+		List<CityModel> list = new ArrayList<CityModel>(setOfNeighbors);
+		this.neighborCityModel = list.get(0);
+		
+		CityModel fakeCityModel = new CityModel(this.cityName, new DiseaseModel());
+		
+		assertFalse(this.characterController.verifyMoveWithoutCard(fakeCityModel));
 	}
 
 }
