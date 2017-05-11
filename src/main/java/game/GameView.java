@@ -34,8 +34,14 @@ import city.CityController;
 import city.CityView;
 import diseases.DiseaseView;
 
-public class GameView extends JFrame {
+public class GameView extends JFrame implements ActionListener {
 
+	private JButton moveButton = new JButton(MOVE_BUTTON);
+	private JButton treatButton = new JButton(TREAT_BUTTON);
+	private JButton cureButton = new JButton(CURE_BUTTON);
+	private JButton buildButton = new JButton(BUILD_BUTTON);
+	private JButton shareButton = new JButton(SHARE_BUTTON);
+	private JButton passButton = new JButton(PASS_BUTTON);
 	GameController controller;
 	GameModel model;
 	BorderLayout layout;
@@ -104,12 +110,6 @@ public class GameView extends JFrame {
 	
 	private void drawPlayerActions() {
 		FlowLayout actionLayout = new FlowLayout(FlowLayout.LEFT, OFFSET_15, OFFSET_20);
-		JButton moveButton = new JButton(MOVE_BUTTON);
-		JButton treatButton = new JButton(TREAT_BUTTON);
-		JButton cureButton = new JButton(CURE_BUTTON);
-		JButton buildButton = new JButton(BUILD_BUTTON);
-		JButton shareButton = new JButton(SHARE_BUTTON);
-		JButton passButton = new JButton(PASS_BUTTON);
 		JLabel spacer = new JLabel();
 		JLabel selectedCityOutline = new JLabel();
 		
@@ -121,57 +121,53 @@ public class GameView extends JFrame {
 		selectedCityOutline.setHorizontalAlignment(JLabel.CENTER);
 		selectedCityOutline.setPreferredSize(SELECTED_CITY_SIZE);
 		
-		addActionListeners(moveButton, treatButton, cureButton, buildButton, shareButton, passButton);
+		this.moveButton.addActionListener(this);
+		this.treatButton.addActionListener(this);
+		this.cureButton.addActionListener(this);
+		this.buildButton.addActionListener(this);
+		this.shareButton.addActionListener(this);
+		this.passButton.addActionListener(this);
 		
 		this.playerActionPanel.setLayout(actionLayout);
 		this.playerActionPanel.add(spacer);
 		this.playerActionPanel.add(selectedCityOutline);
-		this.playerActionPanel.add(moveButton);
-		this.playerActionPanel.add(treatButton);
-		this.playerActionPanel.add(cureButton);
-		this.playerActionPanel.add(buildButton);
-		this.playerActionPanel.add(shareButton);
-		this.playerActionPanel.add(passButton);
+		this.playerActionPanel.add(this.moveButton);
+		this.playerActionPanel.add(this.treatButton);
+		this.playerActionPanel.add(this.cureButton);
+		this.playerActionPanel.add(this.buildButton);
+		this.playerActionPanel.add(this.shareButton);
+		this.playerActionPanel.add(this.passButton);
 	}
 	
-	private void addActionListeners(JButton moveButton, JButton treatButton, JButton cureButton, JButton buildButton,
-			JButton shareButton, JButton passButton) {
-		moveButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// write method to click a city
-			}
-		});
-		
-		treatButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		if (event.getSource() instanceof JButton) {
+			Object button = event.getSource();
+			
+			if (button == this.moveButton) {
+			
+			} else if (button == this.treatButton) {
 				
-			}
-		});
-		
-		buildButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			} else if (button == this.cureButton) {
 				
-			}
-		});
-		
-		shareButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			} else if (button == this.buildButton) {
 				
-			}
-		});
-		
-		passButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			} else if (button == this.shareButton) {
 				
-			}
-		});
-		
-		treatButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			} else if (button == this.passButton) {
+				int turnCounter = this.model.getTurnCounter() + 1;
+				int totalPlayers = this.model.getCharacters().size();
 				
+				if (turnCounter >= totalPlayers) {
+					this.model.setTurnCounter(0);
+				} else {
+					this.model.setTurnCounter(turnCounter);
+				}
+				
+
+				repaint();
 			}
-		});
-		
+		}
 	}
 
 	private void drawMap() {
@@ -252,7 +248,7 @@ public class GameView extends JFrame {
 		Graphics2D gr2D = (Graphics2D) gr;
 		Font font = new Font("Dialog", Font.BOLD, TEXT_SIZE);
 		Font largeFont = new Font("Dialog", Font.BOLD, TEXT_SIZE * 4);
-		CharacterModel character = this.model.getCharacters().get(this.model.getTurnCounter() - 1);
+		CharacterModel character = this.model.getCharacters().get(this.model.getTurnCounter());
 		CharacterFrontEndModel characterFrontEnd = new CharacterFrontEndModel(character);
 		String name = character.getName();
 		String role = character.getRole();
@@ -276,6 +272,7 @@ public class GameView extends JFrame {
 			gr2D.fillOval(408, 882 + OFFSET_15 * count, 14, 14);
 			count++;
 		}
+		System.out.println(role);
 	}
 
 	private void paintCities(Graphics gr) {
