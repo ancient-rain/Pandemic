@@ -125,9 +125,9 @@ public class GameView extends JFrame {
 		Image image = null;
 
 		try {
-			File file = new File(getClass().getResource(filepath).toURI());
+			File file = new File(filepath);
 			image = ImageIO.read(file);
-		} catch (IOException | URISyntaxException e) {
+		} catch (IOException e) {
 			System.out.println(e.getMessage());
 			System.exit(0);
 		}
