@@ -10,27 +10,38 @@ import diseases.DiseaseModel;
 
 public class CharacterModel {
 
-	private String name;
+	private String role;
 	private String imgPath;
 	private Color color;
 	private Set<CardModel> handOfCards;
 	private CityModel currentCity;
+	String name;
 	
-	public CharacterModel(String name, CityModel currentCity) {
-		this.name = name;
+	public CharacterModel(String role, CityModel currentCity) {
+		this.role = role;
+		this.name = "Player";
 		this.handOfCards = new HashSet<>();
 		this.currentCity = currentCity;
 	}
 	
-	public CharacterModel(String name, String imgPath, Color color, CityModel currentCity) {
-		this.name = name;
+	public CharacterModel(String role, String imgPath, Color color, CityModel currentCity) {
+		this.role = role;
+		this.name = "Player";
 		this.handOfCards = new HashSet<>();
 		this.currentCity = currentCity;
 		this.imgPath = imgPath;
 		this.color = color;
 	}
 	
-	public String getName(){
+	public String getRole(){
+		return this.role;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getName() {
 		return this.name;
 	}
 	

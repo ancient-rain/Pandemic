@@ -5,8 +5,11 @@ import static constants.Constants.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -24,6 +27,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import cards.CardView;
+import characters.CharacterFrontEndModel;
 import characters.CharacterModel;
 import characters.CharacterView;
 import city.CityController;
@@ -225,32 +229,53 @@ public class GameView extends JFrame {
 		paintInfections(gr);
 		paintGameCounters(gr);
 		paintPlayerHands(gr);
-		paintTurnPanel(gr);
+		paintCurrentTurn(gr);
 	}
 
 	private void paintResearchStations(Graphics gr) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	private void paintInfections(Graphics gr) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	private void paintGameCounters(Graphics gr) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	private void paintPlayerHands(Graphics gr) {
-		// TODO Auto-generated method stub
 		
 	}
 
-	private void paintTurnPanel(Graphics gr) {
-		// TODO Auto-generated method stub
+	private void paintCurrentTurn(Graphics gr) {
+		Graphics2D gr2D = (Graphics2D) gr;
+		Font font = new Font("Dialog", Font.BOLD, TEXT_SIZE);
+		Font largeFont = new Font("Dialog", Font.BOLD, TEXT_SIZE * 4);
+		CharacterModel character = this.model.getCharacters().get(this.model.getTurnCounter() - 1);
+		CharacterFrontEndModel characterFrontEnd = new CharacterFrontEndModel(character);
+		String name = character.getName();
+		String role = character.getRole();
+		String img = characterFrontEnd.getImgPath();
+		int actionsLeft = this.model.getActionsLeft();
+		int count = 1;
+		Image image = setImage(img);
+		Color color = characterFrontEnd.getColor();
 		
+		gr2D.setFont(font);
+		gr2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
+				RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+		gr2D.setColor(color);
+		gr2D.fillRect(213, 897, 190, 60);
+		gr2D.drawImage(image, 218, 902, null);
+		gr2D.setColor(CUSTOM_GRAY_2);
+		gr2D.drawString(name, 273, 922);
+		gr2D.drawString(role, 273, 937);
+		
+		while (count <= actionsLeft) {
+			gr2D.fillOval(408, 882 + OFFSET_15 * count, 14, 14);
+			count++;
+		}
 	}
 
 	private void paintCities(Graphics gr) {

@@ -30,6 +30,9 @@ public class main {
 		CharacterModel scientist = new CharacterModel("Scientist", atlanta);
 		List<CharacterModel> characters = new ArrayList<>();
 		
+		medic.setName("alkjsdf");
+		scientist.setName("kgjl");
+		
 		characters.add(medic);
 		characters.add(scientist);
 		

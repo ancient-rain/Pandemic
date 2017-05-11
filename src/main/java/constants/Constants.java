@@ -14,6 +14,7 @@ public class Constants {
 	public final static int CITY_RADIUS = 25;
 	public final static int DELTA = CITY_RADIUS / 2;
 	public final static int INITIAL_PLAYER_DECK_SIZE = 48;
+	public final static int TEXT_SIZE = 12;
 	public final static int OFFSET_5 = 5;
 	public final static int OFFSET_10 = 10;
 	public final static int OFFSET_15 = 15;
@@ -22,6 +23,7 @@ public class Constants {
 	public final static int OFFSET_40 = 40;
 	
 	public final static Color CUSTOM_GRAY_1 = new Color(238, 238, 238);
+	public final static Color CUSTOM_GRAY_2 = new Color(51, 51, 51);
 	public final static Color MEDIC_COLOR = new Color(254, 84, 9);
 	public final static Color DISPATCHER_COLOR = new Color(236, 81, 175);
 	public final static Color QUARANTINE_SPECIALIST_COLOR = new Color(34, 108, 27);
