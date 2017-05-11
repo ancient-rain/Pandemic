@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import cards.AbstractDeckCardController;
+import cards.CardModel;
 import cards.InfectionDeckCardController;
 import cards.PlayerDeckCardController;
 import characters.CharacterModel;
@@ -141,11 +142,34 @@ public class AbstractCharacterControllerTests {
 	
 	@Test
 	public void testHasCardForCurrentCityFalse(){
-		CityController currentCityController = this.gameController.getCityController();
-		CityModel fakeCityModel = new CityModel(this.cityName, new DiseaseModel());
-		
-		this.character.setCurrentCity(testCity);
-		this.characterController.addCardToHandOfCards(this.playerDeckController.getCityToCardMap().get(this.character.getCurrentCity()));
+		this.characterController.addCardToHandOfCards(this.playerDeckController.getCityToCardMap().get(this.testCity));
 		assertFalse(this.characterController.hasCardForCurrentCity());
+	}
+	
+	@Test
+	public void testMoveWithCard(){
+		CardModel testCityCardModel = this.playerDeckController.getCityToCardMap().get(this.testCity);
+		this.characterController.moveWithCard(testCity, testCityCardModel);
+		assertEquals(testCity, this.character.getCurrentCity());
+	}
+	
+	@Test
+	public void testVerifyMoveWithCardHasCard(){
+		CardModel testCityCardModel = this.playerDeckController.getCityToCardMap().get(this.testCity);
+		this.characterController.addCardToHandOfCards(this.playerDeckController.getCityToCardMap().get(this.testCity));
+		this.character.setCurrentCity(this.testCity);
+		assertTrue(this.characterController.verifyMoveWithCard(testCity, testCityCardModel));
+	}
+	
+	@Test
+	public void testVerifyMoveWithCardNoHasCard(){
+		CardModel testCityCardModel = this.playerDeckController.getCityToCardMap().get(this.testCity);
+		assertTrue(this.characterController.verifyMoveWithCard(testCity, testCityCardModel));
+	}
+	
+	@Test
+	public void testVerifyMoveWithCardFalse(){
+		CardModel testCityCardModel = this.playerDeckController.getCityToCardMap().get(this.testCity);
+		assertFalse(this.characterController.verifyMoveWithCard(this.character.getCurrentCity(), testCityCardModel));
 	}
 }

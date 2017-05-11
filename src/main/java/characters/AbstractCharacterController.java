@@ -115,8 +115,6 @@ public abstract class AbstractCharacterController {
 	
 	public boolean hasCardForCurrentCity(){
 		for(CardModel c : character.getHandOfCards()){
-			System.out.println("c name: " + c.getName());
-			System.out.println("character city: " + character.getCurrentCity().getName());
 			if(c.sharesName(character.getCurrentCity())){
 				return true;
 			}
