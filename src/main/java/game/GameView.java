@@ -4,6 +4,7 @@ import static constants.Constants.*;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -52,19 +53,12 @@ public class GameView extends JFrame implements ActionListener {
 	public GameView(GameController controller) {
 		this.controller = controller;
 		this.model = controller.getGameModel();
-		init();
-	}
-	
-	private void init() {
 		this.layout = new BorderLayout();
-		
 		this.background = new JLabel();
-		
 		this.gameInfoPanel = new JPanel();
 		this.playerInfoPanel = new JPanel();
 		this.playerActionPanel = new JPanel();
 		this.mapPanel = new JPanel();
-		
 		this.players = this.model.getCharacters();
 	}
 	
@@ -198,21 +192,23 @@ public class GameView extends JFrame implements ActionListener {
 		return image;
 	}
 	
+	
 	private void updateFrame() {
 		this.setLayout(this.layout);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setPreferredSize(GAME_BOARD_SIZE);
 		this.setResizable(false);
 		this.add(this.gameInfoPanel, BorderLayout.NORTH);
 		this.add(this.playerInfoPanel, BorderLayout.WEST);
 		this.add(this.playerActionPanel, BorderLayout.SOUTH);
 		this.add(this.mapPanel, BorderLayout.CENTER);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //		this.setTitle("Pandemic: " + numPlayers + " " + PLAYERS_AT 
 //				+ getDifficulty() + " " + DIFFICULTY);
 		this.pack();
 		this.setVisible(true);
 	}
 	
+	@Override
 	public void paint(Graphics gr) {
 		super.paint(gr);
 		paintBoard(gr);
@@ -221,14 +217,18 @@ public class GameView extends JFrame implements ActionListener {
 	private void paintBoard(Graphics gr) {
 		paintCities(gr);
 		paintPlayerHands(gr);
-		paintResearchStations(gr);
 		paintInfections(gr);
 		paintGameCounters(gr);
-		paintPlayerHands(gr);
 		paintCurrentTurn(gr);
 	}
+	
+	private void paintCities(Graphics gr) {
+		CityController cityController = this.controller.getCityController();
+		CityView cities = new CityView(cityController);
+		cities.paintCities(gr);
+	}
 
-	private void paintResearchStations(Graphics gr) {
+	private void paintPlayerHands(Graphics gr) {
 		
 	}
 
@@ -240,14 +240,8 @@ public class GameView extends JFrame implements ActionListener {
 		
 	}
 
-	private void paintPlayerHands(Graphics gr) {
-		
-	}
-
 	private void paintCurrentTurn(Graphics gr) {
 		Graphics2D gr2D = (Graphics2D) gr;
-		Font font = new Font("Dialog", Font.BOLD, TEXT_SIZE);
-		Font largeFont = new Font("Dialog", Font.BOLD, TEXT_SIZE * 4);
 		CharacterModel character = this.model.getCharacters().get(this.model.getTurnCounter());
 		CharacterFrontEndModel characterFrontEnd = new CharacterFrontEndModel(character);
 		String name = character.getName();
@@ -258,26 +252,19 @@ public class GameView extends JFrame implements ActionListener {
 		Image image = setImage(img);
 		Color color = characterFrontEnd.getColor();
 		
-		gr2D.setFont(font);
+		gr2D.setFont(FONT);
 		gr2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
 				RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 		gr2D.setColor(color);
-		gr2D.fillRect(213, 897, 190, 60);
-		gr2D.drawImage(image, 218, 902, null);
+		gr2D.fillRect(TURN_PANEL_X, TURN_PANEL_Y, TURN_PANEL_WIDTH, TURN_PANEL_HEIGHT);
+		gr2D.drawImage(image, TURN_PANEL_X + OFFSET_5, TURN_PANEL_Y + OFFSET_5, null);
 		gr2D.setColor(CUSTOM_GRAY_2);
-		gr2D.drawString(name, 273, 922);
-		gr2D.drawString(role, 273, 937);
+		gr2D.drawString(name, TURN_PANEL_TEXT_X, TURN_PANEL_TEXT_Y);
+		gr2D.drawString(role, TURN_PANEL_TEXT_X, TURN_PANEL_TEXT_Y + OFFSET_15);
 		
 		while (count <= actionsLeft) {
-			gr2D.fillOval(408, 882 + OFFSET_15 * count, 14, 14);
+			gr2D.fillOval(408, 882 + OFFSET_15 * count, TURN_RADIUS, TURN_RADIUS);
 			count++;
 		}
-		System.out.println(role);
-	}
-
-	private void paintCities(Graphics gr) {
-		CityController cityController = this.controller.getCityController();
-		CityView cities = new CityView(cityController);
-		cities.paintCities(gr);
 	}
 }

@@ -111,7 +111,7 @@ public class GameControllerTests {
 		
 		this.controller.moveCharacter(playerController, nextCity);
 		
-		assertFalse(nextCity.isHasResearchStation());
+		assertFalse(nextCity.hasResearchStation());
 		
 		this.controller.buildResearchStation();
 		
@@ -126,7 +126,7 @@ public class GameControllerTests {
 		
 		this.controller.moveCharacter(playerController, nextCity);
 		
-		assertFalse(nextCity.isHasResearchStation());
+		assertFalse(nextCity.hasResearchStation());
 		
 		this.controller.buildResearchStation();
 		

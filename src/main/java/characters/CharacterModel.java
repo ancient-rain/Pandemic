@@ -102,7 +102,7 @@ public class CharacterModel {
 	}
 	
 	public boolean isAtResearchStation(){
-		return this.currentCity.isHasResearchStation();
+		return this.currentCity.hasResearchStation();
 	}
 	
 	public void setHasResearchStationAtCurrentCity(boolean hasResearchStation){

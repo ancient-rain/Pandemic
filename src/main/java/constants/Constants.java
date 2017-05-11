@@ -2,25 +2,43 @@ package constants;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 
 public class Constants {
 	public final static Dimension GAME_BOARD_SIZE = new Dimension(1920, 1040);
 	public final static Dimension PLAYER_HEADER_SIZE = new Dimension(190, 65);
 	public final static Dimension CARD_SIZE = new Dimension(121, 69);
-	public final static Dimension TURN_HEADER_SIZE = new Dimension(190, 60);
 	public final static Dimension SELECTED_CITY_SIZE = new Dimension(155, 30);
 	public final static Dimension SPACER = new Dimension(180, 30);
 	
 	public final static int CITY_RADIUS = 25;
+	public final static int TURN_RADIUS = 14;
 	public final static int DELTA = CITY_RADIUS / 2;
 	public final static int INITIAL_PLAYER_DECK_SIZE = 48;
 	public final static int TEXT_SIZE = 12;
+	
+	public final static int OFFSET_1 = 1;
+	public final static int OFFSET_2 = 2;
 	public final static int OFFSET_5 = 5;
 	public final static int OFFSET_10 = 10;
 	public final static int OFFSET_15 = 15;
 	public final static int OFFSET_20 = 20;
 	public final static int OFFSET_30 = 30;
 	public final static int OFFSET_40 = 40;
+	
+	public final static int RESEARCH_STATION_TOP_OFFSET = 2;
+	public final static int RESEARCH_STATION_SIDE_OFFSET = 5;
+	public final static int RESEARCH_STATION_MIDDLE_OFFSET = 9;
+	public final static int RESEARCH_STATION_BOTTOM_OFFSET = 19;
+	
+	public final static int TURN_PANEL_X = 213;
+	public final static int TURN_PANEL_Y = 897;
+	public final static int TURN_PANEL_WIDTH = 190;
+	public final static int TURN_PANEL_HEIGHT = 60;
+	public final static int TURN_PANEL_TEXT_X = 273;
+	public final static int TURN_PANEL_TEXT_Y = 922;
+	
+	public final static Font FONT = new Font("Dialog", Font.BOLD, TEXT_SIZE);
 	
 	public final static Color CUSTOM_GRAY_1 = new Color(238, 238, 238);
 	public final static Color CUSTOM_GRAY_2 = new Color(51, 51, 51);

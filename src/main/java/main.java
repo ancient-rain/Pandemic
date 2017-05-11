@@ -43,5 +43,6 @@ public class main {
 		
 		view.viewGame();
 		view.repaint();
+
 	}
 }
