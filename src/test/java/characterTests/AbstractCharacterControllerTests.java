@@ -222,31 +222,7 @@ public class AbstractCharacterControllerTests {
 	
 	@Test
 	public void testCureTrue(){
-		Set<CityModel> setOfCities = cityController.getCities();
-		this.listOfCities = new ArrayList<CityModel>(setOfCities);
-		
-		CityModel firstCureCity = listOfCities.get(0);
-		CityModel secondCureCity = listOfCities.get(1);
-		CityModel thirdCureCity = listOfCities.get(2);
-		CityModel fourthCureCity = listOfCities.get(3);
-		CityModel fifthCureCity = listOfCities.get(4);
-		CardModel firstCureCard = this.playerDeckController.getCityToCardMap().get(firstCureCity);
-		CardModel secondCureCard = this.playerDeckController.getCityToCardMap().get(secondCureCity);
-		CardModel thirdCureCard = this.playerDeckController.getCityToCardMap().get(thirdCureCity);
-		CardModel fourthCureCard = this.playerDeckController.getCityToCardMap().get(fourthCureCity);
-		CardModel fifthCureCard = this.playerDeckController.getCityToCardMap().get(fifthCureCity);
-		this.characterController.addCardToHandOfCards(firstCureCard);
-		this.characterController.addCardToHandOfCards(secondCureCard);
-		this.characterController.addCardToHandOfCards(thirdCureCard);
-		this.characterController.addCardToHandOfCards(fourthCureCard);
-		this.characterController.addCardToHandOfCards(fifthCureCard);
-		
-		Set<CardModel> cardsToCure = new HashSet<CardModel>();
-		cardsToCure.add(firstCureCard);
-		cardsToCure.add(secondCureCard);
-		cardsToCure.add(thirdCureCard);
-		cardsToCure.add(fourthCureCard);
-		cardsToCure.add(fifthCureCard);
+		Set<CardModel> cardsToCure = developCardSet();
 		
 		this.characterController.cure(cardsToCure, this.blueDisease);
 		
@@ -255,32 +231,8 @@ public class AbstractCharacterControllerTests {
 	}
 	
 	@Test
-	public void testCureFalse(){
-		Set<CityModel> setOfCities = cityController.getCities();
-		this.listOfCities = new ArrayList<CityModel>(setOfCities);
-		
-		CityModel firstCureCity = listOfCities.get(0);
-		CityModel secondCureCity = listOfCities.get(1);
-		CityModel thirdCureCity = listOfCities.get(2);
-		CityModel fourthCureCity = listOfCities.get(3);
-		CityModel fifthCureCity = listOfCities.get(4);
-		CardModel firstCureCard = this.playerDeckController.getCityToCardMap().get(firstCureCity);
-		CardModel secondCureCard = this.playerDeckController.getCityToCardMap().get(secondCureCity);
-		CardModel thirdCureCard = this.playerDeckController.getCityToCardMap().get(thirdCureCity);
-		CardModel fourthCureCard = this.playerDeckController.getCityToCardMap().get(fourthCureCity);
-		CardModel fifthCureCard = this.playerDeckController.getCityToCardMap().get(fifthCureCity);
-		this.characterController.addCardToHandOfCards(firstCureCard);
-		this.characterController.addCardToHandOfCards(secondCureCard);
-		this.characterController.addCardToHandOfCards(thirdCureCard);
-		this.characterController.addCardToHandOfCards(fourthCureCard);
-		this.characterController.addCardToHandOfCards(fifthCureCard);
-		
-		Set<CardModel> cardsToCure = new HashSet<CardModel>();
-		cardsToCure.add(firstCureCard);
-		cardsToCure.add(secondCureCard);
-		cardsToCure.add(thirdCureCard);
-		cardsToCure.add(fourthCureCard);
-		cardsToCure.add(fifthCureCard);
+	public void testCureFalse(){		
+		Set<CardModel> cardsToCure = developCardSet();
 		
 		this.blueDisease.setCubesLeft(0);
 		
@@ -290,6 +242,36 @@ public class AbstractCharacterControllerTests {
 		assertFalse(this.blueDisease.isEradicated());
 	}
 	
+	private Set<CardModel> developCardSet() {
+		Set<CityModel> setOfCities = cityController.getCities();
+		this.listOfCities = new ArrayList<CityModel>(setOfCities);
+		
+		CityModel firstCureCity = listOfCities.get(0);
+		CityModel secondCureCity = listOfCities.get(1);
+		CityModel thirdCureCity = listOfCities.get(2);
+		CityModel fourthCureCity = listOfCities.get(3);
+		CityModel fifthCureCity = listOfCities.get(4);
+		CardModel firstCureCard = this.playerDeckController.getCityToCardMap().get(firstCureCity);
+		CardModel secondCureCard = this.playerDeckController.getCityToCardMap().get(secondCureCity);
+		CardModel thirdCureCard = this.playerDeckController.getCityToCardMap().get(thirdCureCity);
+		CardModel fourthCureCard = this.playerDeckController.getCityToCardMap().get(fourthCureCity);
+		CardModel fifthCureCard = this.playerDeckController.getCityToCardMap().get(fifthCureCity);
+		this.characterController.addCardToHandOfCards(firstCureCard);
+		this.characterController.addCardToHandOfCards(secondCureCard);
+		this.characterController.addCardToHandOfCards(thirdCureCard);
+		this.characterController.addCardToHandOfCards(fourthCureCard);
+		this.characterController.addCardToHandOfCards(fifthCureCard);
+		
+		Set<CardModel> cardsToCure = new HashSet<CardModel>();
+		cardsToCure.add(firstCureCard);
+		cardsToCure.add(secondCureCard);
+		cardsToCure.add(thirdCureCard);
+		cardsToCure.add(fourthCureCard);
+		cardsToCure.add(fifthCureCard);
+		
+		return cardsToCure;
+	}
+
 	@Test
 	public void testTreatNotCured(){
 		this.blueDisease.setCured(false);
