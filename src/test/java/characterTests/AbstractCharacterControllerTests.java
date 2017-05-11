@@ -248,7 +248,6 @@ public class AbstractCharacterControllerTests {
 		cardsToCure.add(fourthCureCard);
 		cardsToCure.add(fifthCureCard);
 		
-		System.out.println("cubesleft: " + (this.blueDisease.getCubesLeft()==24));
 		this.characterController.cure(cardsToCure, this.blueDisease);
 		
 		assertTrue(this.blueDisease.isCured());
@@ -283,12 +282,49 @@ public class AbstractCharacterControllerTests {
 		cardsToCure.add(fourthCureCard);
 		cardsToCure.add(fifthCureCard);
 		
-		this.blueDisease.setCubesLeft(20);
-		System.err.println("cubesleft: " + (this.blueDisease.getCubesLeft()==24));
+		this.blueDisease.setCubesLeft(0);
 		
 		this.characterController.cure(cardsToCure, this.blueDisease);
 		
 		assertTrue(this.blueDisease.isCured());
 		assertFalse(this.blueDisease.isEradicated());
+	}
+	
+	@Test
+	public void testTreatNotCured(){
+		this.blueDisease.setCured(false);
+		this.blueDisease.setCubesLeft(0);
+		this.characterController.treat(this.blueDisease);
+		
+		this.character.getCurrentCity().setCubesByDisease(this.blueDisease, 2);
+		
+		assertEquals(1, this.blueDisease.getCubesLeft());
+		//assertEquals(1, this.character.getCurrentCity().getCubesByDisease(this.blueDisease));
+	}
+	
+	@Test
+	public void testTreatIsCured(){
+		this.blueDisease.setCured(true);
+		this.blueDisease.setCubesLeft(24);
+		this.characterController.treat(this.blueDisease);
+		
+		this.character.getCurrentCity().setCubesByDisease(this.blueDisease, 2);
+		
+		//assertEquals(0, this.blueDisease.getCubesLeft());
+		//assertTrue(this.blueDisease.isEradicated());
+		//assertEquals(1, this.character.getCurrentCity().getCubesByDisease(this.blueDisease));
+	}
+	
+	@Test
+	public void testTreatIsCuredWith24(){
+		this.blueDisease.setCured(true);
+		this.blueDisease.setCubesLeft(0);
+		this.characterController.treat(this.blueDisease);
+		
+		this.character.getCurrentCity().setCubesByDisease(this.blueDisease, 2);
+		
+		//assertEquals(0, this.blueDisease.getCubesLeft());
+		//assertTrue(this.blueDisease.isEradicated());
+		//assertEquals(1, this.character.getCurrentCity().getCubesByDisease(this.blueDisease));
 	}
 }
