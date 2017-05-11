@@ -42,7 +42,7 @@ public class CharacterFrontEndModel {
 	}
 	
 	private Color setColor() {
-		switch(this.model.getName()){
+		switch(this.model.getRole()){
 		case "Contingency Planner":
 			return CONTINGENCY_PLANNER_COLOR;
 		case "Dispatcher":
@@ -61,7 +61,7 @@ public class CharacterFrontEndModel {
 	}
 	
 	private String setImgPath() {
-		switch(this.model.getName()){
+		switch(this.model.getRole()){
 		case "Contingency Planner":
 			return CONTINGENCY_PLANNER_ICON;
 		case "Dispatcher":

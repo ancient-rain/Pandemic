@@ -26,7 +26,7 @@ public class CharacterView extends JPanel {
 
 	public void drawPanel() {
 		String name = this.characterModel.getName(); // This will have to be retrieved from character menu some way
-		String character = this.characterModel.getName();
+		String character = this.characterModel.getRole();
 		JPanel playerInfoPanel = new JPanel();
 		JPanel characterInfo = new JPanel();
 		JPanel info = new JPanel();
@@ -51,12 +51,12 @@ public class CharacterView extends JPanel {
 		info.add(characterDesc);
 		
 		characterInfo.setLayout(characterLayout);
+		characterInfo.setPreferredSize(PLAYER_HEADER_SIZE);
 		characterInfo.setAlignmentX(LEFT_ALIGNMENT);
 		characterInfo.setBackground(color);
 		characterInfo.setOpaque(true);
 		characterInfo.add(characterImg);
 		characterInfo.add(info);
-		characterInfo.setPreferredSize(PLAYER_HEADER_SIZE);
 
 		playerInfoPanel.setLayout(playerInfoLayout);
 		playerInfoPanel.setBackground(color);

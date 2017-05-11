@@ -33,11 +33,11 @@ public class PlayerDeckCardController extends AbstractDeckCardController{
 	@Override
 	protected void initializeDeck(CityController cityController) {
 		super.initializeDeck(cityController);
-		this.discardCards.add(new CardModel("Airlift"));
-		this.discardCards.add(new CardModel("Forecast"));
-		this.discardCards.add(new CardModel("Government Grant"));
-		this.discardCards.add(new CardModel("One Quiet Night"));
-		this.discardCards.add(new CardModel("Resilient Population"));
+		this.deckCards.add(new CardModel("Airlift"));
+		this.deckCards.add(new CardModel("Forecast"));
+		this.deckCards.add(new CardModel("Government Grant"));
+		this.deckCards.add(new CardModel("One Quiet Night"));
+		this.deckCards.add(new CardModel("Resilient Population"));
 	}
 
 }
