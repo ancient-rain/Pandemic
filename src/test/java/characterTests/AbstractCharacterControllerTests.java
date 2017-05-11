@@ -1,8 +1,11 @@
 package characterTests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -34,6 +37,7 @@ public class AbstractCharacterControllerTests {
 	CityModel neighborCityModel;
 	DiseaseModel blueDisease;
 	DiseaseModel redDisease;
+	CityController cityController;
 	List<CityModel> listOfCities;
 	AbstractDeckCardController playerDeckController;
 	AbstractDeckCardController infectionDeckController;
@@ -42,7 +46,7 @@ public class AbstractCharacterControllerTests {
 	public void init() {
 		GameModel gameModel = new GameModel();
 		DiseaseController diseaseController = new DiseaseController();
-		CityController cityController = new CityController(diseaseController);
+		this.cityController = new CityController(diseaseController);
 		this.playerDeckController = new PlayerDeckCardController(cityController);
 		this.infectionDeckController = new InfectionDeckCardController(cityController);
 		
@@ -187,5 +191,104 @@ public class AbstractCharacterControllerTests {
 		CardModel testCityCardModel = this.playerDeckController.getCityToCardMap().get(this.testCity);
 		this.secondCharacter = new CharacterModel("otherCharacter", this.testCity);
 		this.characterController.shareKnowledge(this.secondCharacter, testCityCardModel);
+	}
+	
+	/*
+	 * what is this method?
+	 * @Test
+	public void testVerifyShareKnowledge(){
+		CardModel testCityCardModel = this.playerDeckController.getCityToCardMap().get(this.testCity);
+		this.secondCharacter = new CharacterModel("otherCharacter", this.testCity);
+		this.characterController.addCardToHandOfCards(this.playerDeckController.getCityToCardMap().get(this.testCity));
+		assertTrue(this.secondCharacter, true);
+	}*/
+	
+	@Test
+	public void testBuildCityTrue(){
+		CityController currentCityController = this.gameController.getCityController();
+		this.characterController.addCardToHandOfCards(this.playerDeckController.getCityToCardMap().get(this.testCity));
+		this.character.setCurrentCity(this.testCity);
+		this.characterController.build(currentCityController);
+		assertTrue(this.testCity.isHasResearchStation());
+	}
+	
+	@Test
+	public void testBuildCityFalse(){
+		CityController currentCityController = this.gameController.getCityController();
+		this.characterController.addCardToHandOfCards(this.playerDeckController.getCityToCardMap().get(this.testCity));
+		this.characterController.build(currentCityController);
+		assertFalse(this.testCity.isHasResearchStation());
+	}
+	
+	@Test
+	public void testCureTrue(){
+		Set<CityModel> setOfCities = cityController.getCities();
+		this.listOfCities = new ArrayList<CityModel>(setOfCities);
+		
+		CityModel firstCureCity = listOfCities.get(0);
+		CityModel secondCureCity = listOfCities.get(1);
+		CityModel thirdCureCity = listOfCities.get(2);
+		CityModel fourthCureCity = listOfCities.get(3);
+		CityModel fifthCureCity = listOfCities.get(4);
+		CardModel firstCureCard = this.playerDeckController.getCityToCardMap().get(firstCureCity);
+		CardModel secondCureCard = this.playerDeckController.getCityToCardMap().get(secondCureCity);
+		CardModel thirdCureCard = this.playerDeckController.getCityToCardMap().get(thirdCureCity);
+		CardModel fourthCureCard = this.playerDeckController.getCityToCardMap().get(fourthCureCity);
+		CardModel fifthCureCard = this.playerDeckController.getCityToCardMap().get(fifthCureCity);
+		this.characterController.addCardToHandOfCards(firstCureCard);
+		this.characterController.addCardToHandOfCards(secondCureCard);
+		this.characterController.addCardToHandOfCards(thirdCureCard);
+		this.characterController.addCardToHandOfCards(fourthCureCard);
+		this.characterController.addCardToHandOfCards(fifthCureCard);
+		
+		Set<CardModel> cardsToCure = new HashSet<CardModel>();
+		cardsToCure.add(firstCureCard);
+		cardsToCure.add(secondCureCard);
+		cardsToCure.add(thirdCureCard);
+		cardsToCure.add(fourthCureCard);
+		cardsToCure.add(fifthCureCard);
+		
+		System.out.println("cubesleft: " + (this.blueDisease.getCubesLeft()==24));
+		this.characterController.cure(cardsToCure, this.blueDisease);
+		
+		assertTrue(this.blueDisease.isCured());
+		assertTrue(this.blueDisease.isEradicated());
+	}
+	
+	@Test
+	public void testCureFalse(){
+		Set<CityModel> setOfCities = cityController.getCities();
+		this.listOfCities = new ArrayList<CityModel>(setOfCities);
+		
+		CityModel firstCureCity = listOfCities.get(0);
+		CityModel secondCureCity = listOfCities.get(1);
+		CityModel thirdCureCity = listOfCities.get(2);
+		CityModel fourthCureCity = listOfCities.get(3);
+		CityModel fifthCureCity = listOfCities.get(4);
+		CardModel firstCureCard = this.playerDeckController.getCityToCardMap().get(firstCureCity);
+		CardModel secondCureCard = this.playerDeckController.getCityToCardMap().get(secondCureCity);
+		CardModel thirdCureCard = this.playerDeckController.getCityToCardMap().get(thirdCureCity);
+		CardModel fourthCureCard = this.playerDeckController.getCityToCardMap().get(fourthCureCity);
+		CardModel fifthCureCard = this.playerDeckController.getCityToCardMap().get(fifthCureCity);
+		this.characterController.addCardToHandOfCards(firstCureCard);
+		this.characterController.addCardToHandOfCards(secondCureCard);
+		this.characterController.addCardToHandOfCards(thirdCureCard);
+		this.characterController.addCardToHandOfCards(fourthCureCard);
+		this.characterController.addCardToHandOfCards(fifthCureCard);
+		
+		Set<CardModel> cardsToCure = new HashSet<CardModel>();
+		cardsToCure.add(firstCureCard);
+		cardsToCure.add(secondCureCard);
+		cardsToCure.add(thirdCureCard);
+		cardsToCure.add(fourthCureCard);
+		cardsToCure.add(fifthCureCard);
+		
+		this.blueDisease.setCubesLeft(20);
+		System.err.println("cubesleft: " + (this.blueDisease.getCubesLeft()==24));
+		
+		this.characterController.cure(cardsToCure, this.blueDisease);
+		
+		assertTrue(this.blueDisease.isCured());
+		assertFalse(this.blueDisease.isEradicated());
 	}
 }
