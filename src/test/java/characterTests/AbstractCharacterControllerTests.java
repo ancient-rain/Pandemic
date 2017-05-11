@@ -1,7 +1,10 @@
 package characterTests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Before;
@@ -31,6 +34,7 @@ public class AbstractCharacterControllerTests {
 	CityModel neighborCityModel;
 	DiseaseModel blueDisease;
 	DiseaseModel redDisease;
+	List<CityModel> listOfCities;
 
 	@Before
 	public void init() {
@@ -50,12 +54,13 @@ public class AbstractCharacterControllerTests {
 		String characterName = "CharacterName";
 		this.blueDisease = new DiseaseModel();
 		this.redDisease = new DiseaseModel();
-		this.cityModel = new CityModel(cityName, this.blueDisease);
+		
+		Set<CityModel> setOfCities = cityController.getCities();
+		this.listOfCities = new ArrayList<CityModel>(setOfCities);
+		
+		this.cityModel = listOfCities.get(0);
 		this.character = new CharacterModel(characterName, this.cityModel);
 		this.characterController = new DispatcherCharacterController(this.character);
-		
-		//Set<CityModel> setOfNeighbors = this.cityModel.getNeighbors();
-		//this.neighborCityModel = (CityModel) setOfNeighbors.toArray()[0];
 		
 	}
 	
@@ -71,6 +76,10 @@ public class AbstractCharacterControllerTests {
 	
 	@Test
 	public void testverifyMoveWithoutCardIsANeighbor(){
+		Set<CityModel> setOfNeighbors = this.cityModel.getNeighbors();
+		List<CityModel> list = new ArrayList<CityModel>(setOfNeighbors);
+		this.neighborCityModel = list.get(0);
+		
 		assertTrue(this.characterController.verifyMoveWithoutCard(this.neighborCityModel));
 	}
 
