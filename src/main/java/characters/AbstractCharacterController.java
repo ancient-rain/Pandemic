@@ -113,8 +113,10 @@ public abstract class AbstractCharacterController {
 	public abstract void ability(GameController gameController);
 	public abstract void endTurn();
 	
-	protected boolean hasCardForCurrentCity(){
+	public boolean hasCardForCurrentCity(){
 		for(CardModel c : character.getHandOfCards()){
+			System.out.println("c name: " + c.getName());
+			System.out.println("character city: " + character.getCurrentCity().getName());
 			if(c.sharesName(character.getCurrentCity())){
 				return true;
 			}

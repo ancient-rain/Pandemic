@@ -29,19 +29,21 @@ public class AbstractCharacterControllerTests {
 	ContingencyPlannerCharacterController contPlanner;
 	CharacterModel character;
 	DispatcherCharacterController characterController;
-	CityModel cityModel;
+	CityModel cityModel, testCity;
 	CityModel neighborCityModel;
 	DiseaseModel blueDisease;
 	DiseaseModel redDisease;
 	List<CityModel> listOfCities;
+	AbstractDeckCardController playerDeckController;
+	AbstractDeckCardController infectionDeckController;
 
 	@Before
 	public void init() {
 		GameModel gameModel = new GameModel();
 		DiseaseController diseaseController = new DiseaseController();
 		CityController cityController = new CityController(diseaseController);
-		AbstractDeckCardController playerDeckController = new PlayerDeckCardController(cityController);
-		AbstractDeckCardController infectionDeckController = new InfectionDeckCardController(cityController);
+		this.playerDeckController = new PlayerDeckCardController(cityController);
+		this.infectionDeckController = new InfectionDeckCardController(cityController);
 		
 		this.gameController = new GameController(gameModel,
 											diseaseController,
@@ -58,6 +60,7 @@ public class AbstractCharacterControllerTests {
 		this.listOfCities = new ArrayList<CityModel>(setOfCities);
 		
 		this.cityModel = listOfCities.get(0);
+		this.testCity = listOfCities.get(30);
 		this.character = new CharacterModel(characterName, this.cityModel);
 		this.characterController = new DispatcherCharacterController(this.character);
 		
@@ -117,6 +120,7 @@ public class AbstractCharacterControllerTests {
 	public void testVerifyBuildFalse(){
 		CityController currentCityController = this.gameController.getCityController();
 		currentCityController.setResearchStationCounter(6);
+		this.characterController.addCardToHandOfCards(this.playerDeckController.getCityToCardMap().get(this.character.getCurrentCity()));
 		assertFalse(this.characterController.verifyBuild(currentCityController));
 	}
 	
@@ -131,7 +135,17 @@ public class AbstractCharacterControllerTests {
 	public void testVerifyBuildTrue(){
 		CityController currentCityController = this.gameController.getCityController();
 		currentCityController.setResearchStationCounter(3);
-		this.characterController.addCardToHandOfCards(null);
+		this.characterController.addCardToHandOfCards(this.playerDeckController.getCityToCardMap().get(this.character.getCurrentCity()));
 		assertTrue(this.characterController.verifyBuild(currentCityController));
+	}
+	
+	@Test
+	public void testHasCardForCurrentCityFalse(){
+		CityController currentCityController = this.gameController.getCityController();
+		CityModel fakeCityModel = new CityModel(this.cityName, new DiseaseModel());
+		
+		this.character.setCurrentCity(testCity);
+		this.characterController.addCardToHandOfCards(this.playerDeckController.getCityToCardMap().get(this.character.getCurrentCity()));
+		assertFalse(this.characterController.hasCardForCurrentCity());
 	}
 }

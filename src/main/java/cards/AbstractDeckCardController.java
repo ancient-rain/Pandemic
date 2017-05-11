@@ -2,6 +2,7 @@ package cards;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ public abstract class AbstractDeckCardController {
 	public AbstractDeckCardController(CityController cityController){
 		this.deckCards = new ArrayList<>();
 		this.discardCards = new ArrayList<>();
+		this.cityToCardMap = new HashMap<CityModel, CardModel>();
 		this.initializeDeck(cityController);
 		Collections.shuffle(deckCards);
 	}
