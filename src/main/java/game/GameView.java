@@ -27,12 +27,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import cards.CardModel;
 import cards.CardView;
 import characters.CharacterFrontEndModel;
 import characters.CharacterModel;
 import characters.CharacterView;
 import city.CityController;
 import city.CityView;
+import diseases.DiseaseController;
 import diseases.DiseaseView;
 
 public class GameView extends JFrame implements ActionListener {
@@ -139,7 +141,11 @@ public class GameView extends JFrame implements ActionListener {
 			Object button = event.getSource();
 			
 			if (button == this.moveButton) {
-			
+				if(this.controller.getCurrentPlayer().getCharactersCurrentCity().equals("Atlanta")){
+					this.controller.moveCharacter(this.controller.getCurrentPlayer(), this.controller.getCityController().getCityByName("Chicago"));
+				}else {
+					this.controller.moveCharacter(this.controller.getCurrentPlayer(), this.controller.getCityController().getCityByName("Atlanta"));
+				}
 			} else if (button == this.treatButton) {
 				
 			} else if (button == this.cureButton) {
@@ -149,18 +155,10 @@ public class GameView extends JFrame implements ActionListener {
 			} else if (button == this.shareButton) {
 				
 			} else if (button == this.passButton) {
-				int turnCounter = this.model.getTurnCounter() + 1;
-				int totalPlayers = this.model.getCharacters().size();
-				
-				if (turnCounter >= totalPlayers) {
-					this.model.setTurnCounter(0);
-				} else {
-					this.model.setTurnCounter(turnCounter);
-				}
-				
-
-				repaint();
+				this.controller.endOfTurn();
 			}
+			
+			repaint();
 		}
 	}
 
@@ -202,23 +200,26 @@ public class GameView extends JFrame implements ActionListener {
 		this.add(this.playerInfoPanel, BorderLayout.WEST);
 		this.add(this.playerActionPanel, BorderLayout.SOUTH);
 		this.add(this.mapPanel, BorderLayout.CENTER);
-//		this.setTitle("Pandemic: " + numPlayers + " " + PLAYERS_AT 
-//				+ getDifficulty() + " " + DIFFICULTY);
 		this.pack();
 		this.setVisible(true);
 	}
 	
-	@Override
+	@Override // TODO: fix the flashing issue, might have to extend JPanel
 	public void paint(Graphics gr) {
 		super.paint(gr);
+		
+		gr.setColor(CUSTOM_BLUE);
+		gr.fillRect(BLUE_FILLER_X, BLUE_FILLER_Y, 
+				GAME_BOARD_SIZE.width - BLUE_FILLER_WIDTH, OFFSET_5);
+		
 		paintBoard(gr);
 	}
 	
 	private void paintBoard(Graphics gr) {
 		paintCities(gr);
-		paintPlayerHands(gr);
 		paintInfections(gr);
 		paintGameCounters(gr);
+		paintPlayerHands(gr);
 		paintCurrentTurn(gr);
 	}
 	
@@ -237,12 +238,175 @@ public class GameView extends JFrame implements ActionListener {
 	}
 
 	private void paintGameCounters(Graphics gr) {
+		Graphics2D gr2D = (Graphics2D) gr;
 		
+		
+		gr2D.setFont(FONT);
+		gr2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
+				RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+		
+		paintPlayerDeckCount(gr2D);
+		paintDiseaseCounters(gr2D);
+		paintDiseaseStatus(gr2D);
+		paintNumResearchStation(gr2D);
+		paintNumOutbreaks(gr2D);
+		paintInfectionRate(gr2D);
+		paintDecks(gr2D);
+	}
+	
+	private void paintPlayerDeckCount(Graphics2D gr2D) {
+		int playerDeckCount = this.controller.getPlayerDeckController().getNumberOfCardsInDeck();
+		Color deckTextColor = checkLowCount(playerDeckCount);
+		
+		gr2D.setColor(deckTextColor);
+		gr2D.drawString(playerDeckCount + "", DECK_COUNTER_X, TOP_PANEL_TEXT_Y);
+	}
+	
+	private void paintDiseaseCounters(Graphics2D gr2D) {
+		DiseaseController diseaseController = this.controller.getDiseaseController();
+		int blueDisease = diseaseController.getBlueDisease().getCubesLeft();
+		int yellowDisease = diseaseController.getYellowDisease().getCubesLeft();
+		int blackDisease = diseaseController.getBlackDisease().getCubesLeft();
+		int redDisease = diseaseController.getRedDisease().getCubesLeft();
+		Color blueTextColor = checkLowCount(blueDisease);
+		Color yellowTextColor = checkLowCount(blueDisease);
+		Color blackTextColor = checkLowCount(blueDisease);
+		Color redTextColor = checkLowCount(blueDisease);
+		
+		gr2D.setColor(blueTextColor);
+		gr2D.drawString(blueDisease + "", BLUE_COUNTER_X, TOP_PANEL_TEXT_Y);
+		gr2D.setColor(yellowTextColor);
+		gr2D.drawString(yellowDisease + "", YELLOW_COUNTER_X, TOP_PANEL_TEXT_Y);
+		gr2D.setColor(blackTextColor);
+		gr2D.drawString(blackDisease + "", BLACK_COUNTER_X, TOP_PANEL_TEXT_Y);
+		gr2D.setColor(redTextColor);
+		gr2D.drawString(redDisease + "", RED_COUNTER_X, TOP_PANEL_TEXT_Y);
+	}
+	
+	private void paintDiseaseStatus(Graphics2D gr2D) {
+		Image diseaseStatus;
+		DiseaseController diseaseController = this.controller.getDiseaseController();
+		
+		if (diseaseController.getBlueDisease().isCured()) {
+			diseaseStatus = this.setImage(BLUE_CURED);
+			if (diseaseController.getBlueDisease().isEradicated()) {
+				diseaseStatus = this.setImage(BLUE_ERADICATED);
+			}
+
+			gr2D.drawImage(diseaseStatus, BLUE_DISEASE_X, DISEASE_Y, null);
+		}
+
+		if (diseaseController.getYellowDisease().isCured()) {
+			diseaseStatus = this.setImage(YELLOW_CURED);
+			if (diseaseController.getYellowDisease().isEradicated()) {
+				diseaseStatus = this.setImage(YELLOW_ERADICATED);
+			}
+
+			gr2D.drawImage(diseaseStatus, YELLOW_DISEASE_X, DISEASE_Y, null);
+		}
+
+		if (diseaseController.getBlackDisease().isCured()) {
+			diseaseStatus = this.setImage(BLACK_CURED);
+			if (diseaseController.getBlackDisease().isEradicated()) {
+				diseaseStatus = this.setImage(BLACK_ERADICATED);
+			}
+
+			gr2D.drawImage(diseaseStatus, BLACK_DISEASE_X, DISEASE_Y, null);
+		}
+
+		if (diseaseController.getRedDisease().isCured()) {
+			diseaseStatus = this.setImage(RED_CURED);
+			if (diseaseController.getRedDisease().isEradicated()) {
+				diseaseStatus = this.setImage(RED_ERADICATED);
+			}
+
+			gr2D.drawImage(diseaseStatus, RED_DISEASE_X, DISEASE_Y, null);
+		}
+	}
+	
+	private void paintNumResearchStation(Graphics2D gr2D) {
+		int numStations = this.controller.getCityController().getResearchStationCounter();
+		
+		gr2D.setColor(CUSTOM_GRAY_2);
+		gr2D.drawString(numStations + "", RESEARCH_COUNT_X, TOP_PANEL_TEXT_Y);
+	}
+	
+	private void paintNumOutbreaks(Graphics2D gr2D) {
+		int numOutbreaks = this.controller.getCityController().getOutbreakCoutner();
+		
+		gr2D.setColor(CUSTOM_GRAY_2);
+		gr2D.drawString(numOutbreaks + "", OUTBREAK_COUNT_X, TOP_PANEL_TEXT_Y);
+	}
+	
+	private void paintInfectionRate(Graphics2D gr2D) {	
+		gr2D.setColor(CUSTOM_GRAY_2);
+		gr2D.drawString("2", INFECTION_RATE_X, TOP_PANEL_TEXT_Y);
+		gr2D.setColor(CUSTOM_GRAY_3);
+		gr2D.drawString("2 2 3 3 4 4", INFECTION_RATE_X + OFFSET_10, TOP_PANEL_TEXT_Y);
+
+	}
+	
+	private void paintDecks(Graphics2D gr2D) {
+		List<CardModel> player = this.controller.getPlayerDeckController().getDiscardedCards();
+		List<CardModel> infected = this.controller.getInfectionDeckController().getDiscardedCards();
+		CardModel lastInfected = new CardModel("");
+		CardModel lastDiscarded = new CardModel("");
+		String infectedCityName = "";
+		String discardedCityName = "";
+		Image infectedCardImg = null;
+		Image discardCardImg = null;
+		Image playerCard = this.setImage(PLAYER_CARD_IMG);
+		Image infectionCard = this.setImage(INFECTION_CARD_IMG);
+		
+		if (player.size() > 0) {
+			System.out.println(player.size());
+			lastDiscarded = player.get(player.size() - 1);
+			System.out.println(lastDiscarded.getName());
+			discardedCityName = lastDiscarded.getName().toLowerCase();
+			discardCardImg = this.setImage(CARD_PATH + discardedCityName + BMP_FILE);
+		}
+		
+		if (infected.size() > 0) {
+			lastInfected = infected.get(infected.size() - 1);
+			infectedCityName = lastInfected.getName().toLowerCase();
+			infectedCardImg = this.setImage(CARD_PATH + infectedCityName + BMP_FILE);
+		}
+		
+		if (player.size() <= 0) {
+			gr2D.setColor(CUSTOM_GRAY_2);
+			gr2D.fillRect(PLAYER_DISCARD_X, CARD_Y, CARD_WIDTH, CARD_HEIGHT);
+			gr2D.setColor(Color.WHITE);
+			gr2D.drawString(PLAYER_DECK, TEXT_X, TEXT_UPPER_Y);
+			gr2D.drawString(DISCARD_PILE, TEXT_X, TEXT_LOWER_Y);
+		} else {
+			gr2D.drawImage(discardCardImg, INFECTION_DISCARD_X, CARD_Y, null);
+		}
+		
+		if (infected.size() <= 0) {
+			gr2D.setColor(CUSTOM_GRAY_2);
+			gr2D.fillRect(INFECTION_DISCARD_X, CARD_Y, CARD_WIDTH, CARD_HEIGHT);
+			gr2D.setColor(Color.WHITE);
+			gr2D.drawString(INFECTION_DECK, TEXT_X, TEXT_UPPER_Y);
+			gr2D.drawString(DISCARD_PILE, TEXT_X, TEXT_LOWER_Y);
+		} else {
+			gr2D.drawImage(infectedCardImg, INFECTION_DISCARD_X, CARD_Y, null);
+		}
+		
+		gr2D.drawImage(playerCard, PLAYER_CARD_X, CARD_Y, null);
+		gr2D.drawImage(infectionCard, INFECTION_CARD_X, CARD_Y, null);
+	}
+	
+	private Color checkLowCount(int numCards) {
+		if (numCards <= 10) {
+			return Color.RED;
+		} else {
+			return CUSTOM_GRAY_2;
+		}
 	}
 
 	private void paintCurrentTurn(Graphics gr) {
 		Graphics2D gr2D = (Graphics2D) gr;
-		CharacterModel character = this.model.getCharacters().get(this.model.getTurnCounter());
+		CharacterModel character = this.controller.getCurrentPlayer().getCharacterModel();
 		CharacterFrontEndModel characterFrontEnd = new CharacterFrontEndModel(character);
 		String name = character.getName();
 		String role = character.getRole();

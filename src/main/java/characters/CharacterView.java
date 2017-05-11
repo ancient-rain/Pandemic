@@ -51,12 +51,12 @@ public class CharacterView extends JPanel {
 		info.add(characterDesc);
 		
 		characterInfo.setLayout(characterLayout);
+		characterInfo.setPreferredSize(PLAYER_HEADER_SIZE);
 		characterInfo.setAlignmentX(LEFT_ALIGNMENT);
 		characterInfo.setBackground(color);
 		characterInfo.setOpaque(true);
 		characterInfo.add(characterImg);
 		characterInfo.add(info);
-		characterInfo.setPreferredSize(PLAYER_HEADER_SIZE);
 
 		playerInfoPanel.setLayout(playerInfoLayout);
 		playerInfoPanel.setBackground(color);

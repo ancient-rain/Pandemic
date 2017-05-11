@@ -297,4 +297,12 @@ public class GameController {
 	public DiseaseController getDiseaseController(){
 		return this.diseaseController;
 	}
+	
+	public AbstractDeckCardController getPlayerDeckController() {
+		return this.playerDeckController;
+	}
+	
+	public AbstractDeckCardController getInfectionDeckController() {
+		return this.infectionDeckController;
+	}
 }
