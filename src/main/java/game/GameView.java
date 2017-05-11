@@ -3,15 +3,19 @@ package game;
 import static constants.Constants.*;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -96,17 +100,76 @@ public class GameView extends JFrame {
 	
 	private void drawPlayerActions() {
 		FlowLayout actionLayout = new FlowLayout(FlowLayout.LEFT, OFFSET_15, OFFSET_20);
-//		JButton moveButton = new JButton(MOVE_BUTTON);
-//		JButton treatButton = new JButton(TREAT_BUTTON);
-//		JButton cureButton = new JButton(CURE_BUTTON);
-//		JButton buildButton = new JButton(BUILD_BUTTON);
-//		JButton shareButton = new JButton(SHARE_BUTTON);
-//		JButton passButton = new JButton(PASS_BUTTON);
+		JButton moveButton = new JButton(MOVE_BUTTON);
+		JButton treatButton = new JButton(TREAT_BUTTON);
+		JButton cureButton = new JButton(CURE_BUTTON);
+		JButton buildButton = new JButton(BUILD_BUTTON);
+		JButton shareButton = new JButton(SHARE_BUTTON);
+		JButton passButton = new JButton(PASS_BUTTON);
+		JLabel spacer = new JLabel();
+		JLabel selectedCityOutline = new JLabel();
+		
+		spacer.setPreferredSize(SPACER);
+		spacer.setBorder(BorderFactory.createLineBorder(CUSTOM_GRAY_1));
+		spacer.setOpaque(true);
+		
+		selectedCityOutline.setText(NO_SELECTED_CITY);
+		selectedCityOutline.setHorizontalAlignment(JLabel.CENTER);
+		selectedCityOutline.setPreferredSize(SELECTED_CITY_SIZE);
+		
+		addActionListeners(moveButton, treatButton, cureButton, buildButton, shareButton, passButton);
 		
 		this.playerActionPanel.setLayout(actionLayout);
-		this.playerActionPanel.add(new JButton("temp"));
+		this.playerActionPanel.add(spacer);
+		this.playerActionPanel.add(selectedCityOutline);
+		this.playerActionPanel.add(moveButton);
+		this.playerActionPanel.add(treatButton);
+		this.playerActionPanel.add(cureButton);
+		this.playerActionPanel.add(buildButton);
+		this.playerActionPanel.add(shareButton);
+		this.playerActionPanel.add(passButton);
 	}
 	
+	private void addActionListeners(JButton moveButton, JButton treatButton, JButton cureButton, JButton buildButton,
+			JButton shareButton, JButton passButton) {
+		moveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// write method to click a city
+			}
+		});
+		
+		treatButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
+		buildButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
+		shareButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
+		passButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
+		treatButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
+	}
+
 	private void drawMap() {
 		setBackground();
 		this.mapPanel.add(this.background);
@@ -156,7 +219,38 @@ public class GameView extends JFrame {
 	}
 	
 	private void paintBoard(Graphics gr) {
-		this.paintCities(gr);
+		paintCities(gr);
+		paintPlayerHands(gr);
+		paintResearchStations(gr);
+		paintInfections(gr);
+		paintGameCounters(gr);
+		paintPlayerHands(gr);
+		paintTurnPanel(gr);
+	}
+
+	private void paintResearchStations(Graphics gr) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void paintInfections(Graphics gr) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void paintGameCounters(Graphics gr) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void paintPlayerHands(Graphics gr) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void paintTurnPanel(Graphics gr) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void paintCities(Graphics gr) {

@@ -7,6 +7,9 @@ public class Constants {
 	public final static Dimension GAME_BOARD_SIZE = new Dimension(1920, 1040);
 	public final static Dimension PLAYER_HEADER_SIZE = new Dimension(190, 65);
 	public final static Dimension CARD_SIZE = new Dimension(121, 69);
+	public final static Dimension TURN_HEADER_SIZE = new Dimension(190, 60);
+	public final static Dimension SELECTED_CITY_SIZE = new Dimension(155, 30);
+	public final static Dimension SPACER = new Dimension(180, 30);
 	
 	public final static int CITY_RADIUS = 25;
 	public final static int DELTA = CITY_RADIUS / 2;
@@ -58,7 +61,9 @@ public class Constants {
 	public final static String RESEARCH_STATION_IMG = "images/researchStation.png";
 	public final static String BMP_FILE = ".bmp";
 	
-	public final static String PLAYER_DISCARD_PILE = "<html>Player Deck<br>" + "<center>Discard Pile<center><html>";
+	public static String DISCARD_PILE = "Discard Pile";
+	public static String PLAYER_DECK = "Player Deck";
+	public final static String PLAYER_DISCARD_PILE = "<html>" + PLAYER_DECK + "<br><center>" + DISCARD_PILE + "<center><html>";
 	
 	public final static String INITIAL_NUM_RESEARCH_STATIONS = "1";
 	public final static String INITIAL_NUM_OUTBREAKS = "0";
@@ -113,11 +118,19 @@ public class Constants {
 	public final static String TOKYO = "Tokyo";
 	public final static String WASHINGTON = "Washington";
 
-	public final static String MEDIC = "Medic";
-	public final static String DISPATCHER = "Dispatcher";
-	public final static String QUARANTINE_SPECIALIST = "Quarantine Specialist";
-	public final static String CONTINGENCY_PLANNER = "Contingency Planner";
-	public final static String RESEARCHER = "Researcher";
-	public final static String SCIENTIST = "Scientist";
-	public final static String OPERATIONS_EXPERT = "Operations Expert";
+	public static String MEDIC = "Medic";
+	public static String DISPATCHER = "Dispatcher";
+	public static String QUARANTINE_SPECIALIST = "Quarantine Specialist";
+	public static String CONTINGENCY_PLANNER = "Contingency Planner";
+	public static String RESEARCHER = "Researcher";
+	public static String SCIENTIST = "Scientist";
+	public static String OPERATIONS_EXPERT = "Operations Expert";
+	
+	public static String MOVE_BUTTON = "Move";
+	public static String TREAT_BUTTON = "Treat";
+	public static String CURE_BUTTON = "Cure";
+	public static String BUILD_BUTTON = "Build";
+	public static String SHARE_BUTTON = "Share";
+	public static String PASS_BUTTON = "Pass";
+	public static String NO_SELECTED_CITY = "No Selected City";
 }
