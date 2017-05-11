@@ -28,7 +28,7 @@ public class AbstractCharacterControllerTests {
 	String cityName = "Chicago";
 	GameController gameController;
 	ContingencyPlannerCharacterController contPlanner;
-	CharacterModel character;
+	CharacterModel character, secondCharacter;
 	DispatcherCharacterController characterController;
 	CityModel cityModel, testCity;
 	CityModel neighborCityModel;
@@ -63,6 +63,7 @@ public class AbstractCharacterControllerTests {
 		this.cityModel = listOfCities.get(0);
 		this.testCity = listOfCities.get(30);
 		this.character = new CharacterModel(characterName, this.cityModel);
+		this.secondCharacter = new CharacterModel("otherName", this.testCity);
 		this.characterController = new DispatcherCharacterController(this.character);
 		
 	}
@@ -171,5 +172,20 @@ public class AbstractCharacterControllerTests {
 	public void testVerifyMoveWithCardFalse(){
 		CardModel testCityCardModel = this.playerDeckController.getCityToCardMap().get(this.testCity);
 		assertFalse(this.characterController.verifyMoveWithCard(this.character.getCurrentCity(), testCityCardModel));
+	}
+	
+	@Test
+	public void testShareKnowledgeIsInHand(){
+		CardModel testCityCardModel = this.playerDeckController.getCityToCardMap().get(this.testCity);
+		this.secondCharacter = new CharacterModel("otherCharacter", this.testCity);
+		this.characterController.addCardToHandOfCards(this.playerDeckController.getCityToCardMap().get(this.testCity));
+		this.characterController.shareKnowledge(this.secondCharacter, testCityCardModel);
+	}
+	
+	@Test
+	public void testShareKnowledgeNotInHand(){
+		CardModel testCityCardModel = this.playerDeckController.getCityToCardMap().get(this.testCity);
+		this.secondCharacter = new CharacterModel("otherCharacter", this.testCity);
+		this.characterController.shareKnowledge(this.secondCharacter, testCityCardModel);
 	}
 }
