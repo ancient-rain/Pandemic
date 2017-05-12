@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
@@ -41,6 +42,7 @@ public class AbstractCharacterControllerTests {
 	List<CityModel> listOfCities;
 	AbstractDeckCardController playerDeckController;
 	AbstractDeckCardController infectionDeckController;
+	Map<CityModel, CardModel> cityToCardMap;
 
 	@Before
 	public void init() {
@@ -60,6 +62,8 @@ public class AbstractCharacterControllerTests {
 		String characterName = "CharacterName";
 		this.blueDisease = diseaseController.getBlueDisease();
 		this.redDisease = diseaseController.getRedDisease();
+		
+		this.cityToCardMap = playerDeckController.getCityToCardMap();
 		
 		Set<CityModel> setOfCities = cityController.getCities();
 		this.listOfCities = new ArrayList<CityModel>(setOfCities);
@@ -308,5 +312,57 @@ public class AbstractCharacterControllerTests {
 		//assertEquals(0, this.blueDisease.getCubesLeft());
 		//assertTrue(this.blueDisease.isEradicated());
 		//assertEquals(1, this.character.getCurrentCity().getCubesByDisease(this.blueDisease));
+	}
+	
+	@Test
+	public void testVerifyCureFiveCardsTrue(){
+		Set<CardModel> cardsToCure = developCardSet(5);
+		assertTrue(characterController.verifyCure(cardsToCure, this.blueDisease));
+	}
+	
+	@Test
+	public void testVerifyCureFiveCardsFalse(){
+		Set<CardModel> cardsToCure = developCardSetNoHandAdd(5);
+		assertFalse(characterController.verifyCure(cardsToCure, this.blueDisease));
+	}
+	
+	@Test
+	public void testVerifyCureFiveCardsTwoCards(){
+		Set<CardModel> cardsToCure = developCardSetNoHandAdd(2);
+		assertFalse(characterController.verifyCure(cardsToCure, this.blueDisease));
+	}
+	
+	@Test
+	public void testVerifyCureFiveCardsAlreadyCured(){
+		Set<CardModel> cardsToCure = developCardSetNoHandAdd(5);
+		this.blueDisease.setCured(true);
+		assertFalse(characterController.verifyCure(cardsToCure, this.blueDisease));
+	}
+	
+	private Set<CardModel> developCardSet(int n) {
+		Set<CityModel> setOfCities = cityController.getCities();
+		this.listOfCities = new ArrayList<CityModel>(setOfCities);
+		
+		Set<CardModel> cardsToCure = new HashSet<CardModel>();
+		for(int i = 0; i < n; i++){
+			CityModel cityToAdd = listOfCities.get(i);
+			this.characterController.addCardToHandOfCards(this.cityToCardMap.get(cityToAdd));
+			cardsToCure.add(this.cityToCardMap.get(cityToAdd));
+		}
+		
+		return cardsToCure;
+	}
+	
+	private Set<CardModel> developCardSetNoHandAdd(int n) {
+		Set<CityModel> setOfCities = cityController.getCities();
+		this.listOfCities = new ArrayList<CityModel>(setOfCities);
+		
+		Set<CardModel> cardsToCure = new HashSet<CardModel>();
+		for(int i = 0; i < n; i++){
+			CityModel cityToAdd = listOfCities.get(i);
+			cardsToCure.add(this.cityToCardMap.get(cityToAdd));
+		}
+		
+		return cardsToCure;
 	}
 }

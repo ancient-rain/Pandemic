@@ -3,10 +3,11 @@ package characters;
 import game.GameController;
 
 public class ResearcherCharacterController extends AbstractCharacterController{
-
+	CharacterModel character;
+	
 	public ResearcherCharacterController(CharacterModel character) {
 		super(character);
-		// TODO Auto-generated constructor stub
+		this.character = character;
 	}
 
 	@Override 

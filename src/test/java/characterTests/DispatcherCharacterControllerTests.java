@@ -1,17 +1,15 @@
 package characterTests;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import cards.AbstractDeckCardController;
-import cards.CardModel;
 import cards.InfectionDeckCardController;
 import cards.PlayerDeckCardController;
 import characters.CharacterModel;
-import characters.ContingencyPlannerCharacterController;
+import characters.DispatcherCharacterController;
 import city.CityController;
 import city.CityModel;
 import diseases.DiseaseController;
@@ -19,11 +17,11 @@ import diseases.DiseaseModel;
 import game.GameController;
 import game.GameModel;
 
-public class ContingencyPlannerTests {
+public class DispatcherCharacterControllerTests {
 	DiseaseController diseaseController;
 	String cityName = "Chicago";
 	GameController gameController;
-	ContingencyPlannerCharacterController contPlanner;
+	DispatcherCharacterController dispatcher;
 
 	@Before
 	public void init() {
@@ -44,22 +42,23 @@ public class ContingencyPlannerTests {
 		DiseaseModel diseaseModel = new DiseaseModel();
 		CityModel cityModel = new CityModel(cityName, diseaseModel);
 		CharacterModel characterModel = new CharacterModel(characterName, cityModel);
-		contPlanner = new ContingencyPlannerCharacterController(characterModel);
+		this.dispatcher = new DispatcherCharacterController(characterModel);
 		
 	}
 	
 	@Test
 	public void testVerifyAbilityFalse(){
-		assertFalse(contPlanner.verifyAbility(null));
+		assertFalse(dispatcher.verifyAbility(this.gameController));
 	}
 	
 	@Test
 	public void testEndTurn(){
-		this.contPlanner.endTurn();
+		this.dispatcher.endTurn();
 	}
 	
 	@Test
 	public void testAbilityNameEqual(){
-		this.contPlanner.ability(this.gameController);
+		dispatcher.ability(this.gameController);
 	}
+
 }
