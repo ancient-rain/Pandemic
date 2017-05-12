@@ -454,18 +454,18 @@ public class GameView extends JFrame implements ActionListener {
 			gr2D.setColor(CUSTOM_GRAY_2);
 			gr2D.fillRect(PLAYER_DISCARD_X, CARD_Y, CARD_WIDTH, CARD_HEIGHT);
 			gr2D.setColor(Color.WHITE);
-			gr2D.drawString(PLAYER_DECK, TEXT_X, TEXT_UPPER_Y);
-			gr2D.drawString(DISCARD_PILE, TEXT_X, TEXT_LOWER_Y);
+			gr2D.drawString(PLAYER_DECK, TEXT_PLAYER_X, TEXT_UPPER_Y);
+			gr2D.drawString(DISCARD_PILE, TEXT_PLAYER_X, TEXT_LOWER_Y);
 		} else {
-			gr2D.drawImage(discardCardImg, INFECTION_DISCARD_X, CARD_Y, null);
+			gr2D.drawImage(discardCardImg, PLAYER_DISCARD_X, CARD_Y, null);
 		}
 		
 		if (infected.size() <= 0) {
 			gr2D.setColor(CUSTOM_GRAY_2);
 			gr2D.fillRect(INFECTION_DISCARD_X, CARD_Y, CARD_WIDTH, CARD_HEIGHT);
 			gr2D.setColor(Color.WHITE);
-			gr2D.drawString(INFECTION_DECK, TEXT_X, TEXT_UPPER_Y);
-			gr2D.drawString(DISCARD_PILE, TEXT_X, TEXT_LOWER_Y);
+			gr2D.drawString(INFECTION_DECK, TEXT_INFECTION_X, TEXT_UPPER_Y);
+			gr2D.drawString(DISCARD_PILE, TEXT_INFECTION_X + OFFSET_5, TEXT_LOWER_Y);
 		} else {
 			gr2D.drawImage(infectedCardImg, INFECTION_DISCARD_X, CARD_Y, null);
 		}

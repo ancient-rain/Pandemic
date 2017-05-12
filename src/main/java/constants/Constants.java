@@ -58,14 +58,15 @@ public class Constants {
 	public final static int INFECTION_RATE_X = 1290;
 	public final static int CARD_WIDTH = 121;
 	public final static int CARD_HEIGHT = 167;
-	public final static int PLAYER_DISCARD_X = 369;
+	public final static int PLAYER_DISCARD_X = 299;
 	public final static int CARD_Y = 36;
-	public final static int TEXT_X = 395;
-	public final static int TEXT_UPPER_Y = 120;
-	public final static int TEXT_LOWER_Y = 140;
-	public final static int PLAYER_CARD_X = 500;
-	public final static int INFECTION_CARD_X = 1509;
-	public final static int INFECTION_DISCARD_X = 1640;
+	public final static int TEXT_PLAYER_X = 325;
+	public final static int TEXT_INFECTION_X = 1520;
+	public final static int TEXT_UPPER_Y = 115;
+	public final static int TEXT_LOWER_Y = 135;
+	public final static int PLAYER_CARD_X = 425;
+	public final static int INFECTION_CARD_X = 1374;
+	public final static int INFECTION_DISCARD_X = 1500;
 	
 	public final static int FIRST_PLAYER_INDEX = 0;
 	public final static int SECOND_PLAYER_INDEX = 1;
