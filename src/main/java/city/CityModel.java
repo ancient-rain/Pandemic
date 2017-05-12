@@ -32,7 +32,7 @@ public class CityModel {
 		return this.primaryDisease;
 	}
 
-	public boolean isHasResearchStation() {
+	public boolean hasResearchStation() {
 		return hasResearchStation;
 	}
 
