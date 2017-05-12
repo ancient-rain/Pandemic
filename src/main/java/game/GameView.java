@@ -2,15 +2,12 @@ package game;
 
 import static constants.Card.*;
 import static constants.Character.*;
-import static constants.City.*;
 import static constants.Disease.*;
 import static constants.Game.*;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -20,11 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
