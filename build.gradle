@@ -1,0 +1,48 @@
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'eclipse'
+apply plugin: 'checkstyle'
+
+sourceCompatibility = 1.8
+version = '1.0'
+
+group = "edu.rosehulman.rosebuild"
+
+repositories {
+	mavenCentral()
+ }
+
+jacoco {
+    toolVersion = "0.7.5.+"
+}
+
+jacocoTestReport {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports after running tests."
+    additionalSourceDirs = files(sourceSets.main.allJava.srcDirs)
+    
+	reports {
+        xml.enabled true
+        csv.enabled false
+        html.enabled true
+    }
+}
+
+dependencies {
+    testCompile 'junit:junit:4.+', 'org.easymock:easymock:3.4'
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Rose Hulman Build System Library',
+                   'Implementation-Version': '${version}'
+    }
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
