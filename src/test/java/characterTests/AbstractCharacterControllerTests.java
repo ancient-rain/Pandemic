@@ -209,7 +209,7 @@ public class AbstractCharacterControllerTests {
 		this.characterController.addCardToHandOfCards(this.playerDeckController.getCityToCardMap().get(this.testCity));
 		this.character.setCurrentCity(this.testCity);
 		this.characterController.build(currentCityController);
-		assertTrue(this.testCity.isHasResearchStation());
+		assertTrue(this.testCity.hasResearchStation());
 	}
 	
 	@Test
@@ -217,7 +217,7 @@ public class AbstractCharacterControllerTests {
 		CityController currentCityController = this.gameController.getCityController();
 		this.characterController.addCardToHandOfCards(this.playerDeckController.getCityToCardMap().get(this.testCity));
 		this.characterController.build(currentCityController);
-		assertFalse(this.testCity.isHasResearchStation());
+		assertFalse(this.testCity.hasResearchStation());
 	}
 	
 	@Test
