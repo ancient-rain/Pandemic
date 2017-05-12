@@ -94,7 +94,7 @@ public class GameController {
 	}
 	
 	public boolean treatCity(DiseaseModel diseaseToTreat){
-		if(this.getCurrentPlayer().verifyTreat(diseaseToTreat)){
+		if(this.getCurrentPlayer().verifyDiseaseCanBeTreated(diseaseToTreat)){
 			this.getCurrentPlayer().treat(diseaseToTreat);
 			this.endOfAction();
 			return true;
@@ -103,7 +103,7 @@ public class GameController {
 	}
 	
 	public boolean cureDisease(Set<CardModel> cardsToCureWith, DiseaseModel diseaseToCure){
-		if(this.getCurrentPlayer().verifyCure(cardsToCureWith, diseaseToCure)){
+		if((this.getCurrentPlayer().verifyCure(cardsToCureWith, diseaseToCure))){
 			this.getCurrentPlayer().cure(cardsToCureWith, diseaseToCure);
 			if(this.diseaseController.areAllDiseasesCured()){
 				this.gameModel.setWon(true);

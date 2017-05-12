@@ -10,6 +10,16 @@ import diseases.DiseaseModel;
 
 public class CharacterModel {
 
+	public enum CharacterRole{
+		CONTINGENCY_PLANNER,
+		DISPATCHER,
+		MEDIC,
+		OPERATIONS_EXPERT,
+		QUARENTINE_SPECIALIST,
+		RESEARCHER,
+		SCIENTIST
+	}
+	
 	private String role;
 	private String imgPath;
 	private Color color;

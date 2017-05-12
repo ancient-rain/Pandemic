@@ -7,20 +7,25 @@ public class CharacterControllerFactory {
 	}
 	
 	public AbstractCharacterController createCharacterController(CharacterModel characterToCreate){
-		switch(characterToCreate.getName()){
-		case "Contingency Planner":
+		if(characterToCreate.getRole().equals("Contigency Planner")){
 			return new ContingencyPlannerCharacterController(characterToCreate);
-		case "Dispatcher":
+		}
+		else if (characterToCreate.getRole().equals("Dispatcher")) {
 			return new DispatcherCharacterController(characterToCreate);
-		case "Medic":
+		}
+		else if (characterToCreate.getRole().equals("Medic")) {
 			return new MedicCharacterController(characterToCreate);
-		case "Operations Expert":
+		}
+		else if (characterToCreate.getRole().equals("Operations Expert")) {
 			return new OperationsExpertCharacterController(characterToCreate);
-		case "Quarentine Specialist":
+		}
+		else if (characterToCreate.getRole().equals("Quarentine Specialist")) {
 			return new QuarentineSpecialistCharacterController(characterToCreate);
-		case "Researcher":
+		}
+		else if (characterToCreate.getRole().equals("Researcher")) {
 			return new ResearcherCharacterController(characterToCreate);
-		default:
+		}
+		else {
 			return new ScientistCharacterController(characterToCreate);
 		}
 	}
