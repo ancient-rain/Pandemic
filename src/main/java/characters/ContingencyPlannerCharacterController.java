@@ -9,7 +9,7 @@ public class ContingencyPlannerCharacterController extends AbstractCharacterCont
 	
 	public ContingencyPlannerCharacterController(CharacterModel character) {
 		super(character);
-		this.contingencyPlan = new CardModel("");
+		this.contingencyPlan = new CardModel("", CardModel.CardType.EVENT);
 		
 	}
 
@@ -25,7 +25,7 @@ public class ContingencyPlannerCharacterController extends AbstractCharacterCont
 			this.contingencyPlan = gameController.getGameModel().getSelectedContingencyPlan();
 		} else {
 			gameController.playEventCard(contingencyPlan);
-			this.contingencyPlan = new CardModel("");
+			this.contingencyPlan = new CardModel("", CardModel.CardType.EVENT);
 		}
 	}
 

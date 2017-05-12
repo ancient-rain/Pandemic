@@ -16,7 +16,9 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -29,10 +31,12 @@ import javax.swing.JPanel;
 
 import cards.CardModel;
 import cards.CardView;
+import characters.AbstractCharacterController;
 import characters.CharacterFrontEndModel;
 import characters.CharacterModel;
 import characters.CharacterView;
 import city.CityController;
+import city.CityFrontEndModel;
 import city.CityView;
 import diseases.DiseaseController;
 import diseases.DiseaseView;
@@ -51,6 +55,7 @@ public class GameView extends JFrame implements ActionListener {
 	JLabel background;
 	JPanel gameInfoPanel, playerInfoPanel, playerActionPanel, mapPanel;
 	List<CharacterModel> players;
+	CityView cities;
 
 	public GameView(GameController controller) {
 		this.controller = controller;
@@ -62,6 +67,10 @@ public class GameView extends JFrame implements ActionListener {
 		this.playerActionPanel = new JPanel();
 		this.mapPanel = new JPanel();
 		this.players = this.model.getCharacters();
+		
+
+		CityController cityController = this.controller.getCityController();
+		this.cities = new CityView(cityController);
 	}
 	
 	public void viewGame() {
@@ -156,8 +165,7 @@ public class GameView extends JFrame implements ActionListener {
 				
 			} else if (button == this.passButton) {
 				this.controller.endOfTurn();
-			}
-			
+			}			
 			repaint();
 		}
 	}
@@ -212,7 +220,16 @@ public class GameView extends JFrame implements ActionListener {
 		gr.fillRect(BLUE_FILLER_X, BLUE_FILLER_Y, 
 				GAME_BOARD_SIZE.width - BLUE_FILLER_WIDTH, OFFSET_5);
 		
-		paintBoard(gr);
+		if (!this.model.isLost() && !this.model.isWon()) {
+			paintBoard(gr);
+		} else if (this.model.isLost()) {
+			System.out.println("GAME OVER");
+			System.exit(0);
+		} else if (this.model.isWon()) {
+			System.out.println("YOU WON!");
+			System.exit(0);
+		}
+		
 	}
 	
 	private void paintBoard(Graphics gr) {
@@ -224,13 +241,80 @@ public class GameView extends JFrame implements ActionListener {
 	}
 	
 	private void paintCities(Graphics gr) {
-		CityController cityController = this.controller.getCityController();
-		CityView cities = new CityView(cityController);
 		cities.paintCities(gr);
 	}
 
 	private void paintPlayerHands(Graphics gr) {
+		List<AbstractCharacterController> players = this.controller.getPlayers();
 		
+		for (int i = 0; i < players.size(); i++) {
+			CharacterModel player = players.get(i).getCharacterModel();
+			int startingY = findPlayerYCoord(i);
+			int cardCount = 0;
+			
+			for (CardModel card : player.getHandOfCards()) {
+				String name = card.getName();
+				
+				if (card.getType().equals(CardModel.CardType.PLAYER)) {
+					CityFrontEndModel cityModel = this.cities.getCityToDraw(name);
+					Color color = cityModel.getColor();
+					int yloc = startingY + cardCount * OFFSET_20;
+					
+					paintCard(gr, name, color, yloc);
+				} else {
+					int yloc = startingY + cardCount * OFFSET_20;
+					
+					paintCard(gr, name, Color.YELLOW, yloc);
+				}
+				
+				cardCount++;
+			}
+		}
+	}
+	
+	private int findPlayerYCoord(int playerNum) {
+		int totalPlayers = this.players.size();
+
+		if (playerNum == FIRST_PLAYER_INDEX) {
+			return PLAYER_ONE_Y;
+		} else if (playerNum == SECOND_PLAYER_INDEX) {
+			if (totalPlayers == TWO_PLAYERS) {
+				return PLAYER_TWO_TWO_PLAYERS_Y;
+			} else if (totalPlayers == THREE_PLAYERS) {
+				return PLAYER_TWO_THREE_PLAYERS_Y;
+			} else {
+				return PLAYER_TWO_FOUR_PLAYERS_Y;
+			}
+		} else if (playerNum == THIRD_PLAYER_INDEX) {
+			if (totalPlayers == THREE_PLAYERS) {
+				return PLAYER_THREE_THREE_PLAYERS_Y;
+			} else {
+				return PLAYER_THREE_FOUR_PLAYERS_Y;
+			}
+		} else {
+			return PLAYER_FOUR_PLAYERS_Y;
+		}
+	}
+	
+	private void paintCard(Graphics gr, String cityName, Color color, int yloc) {
+		Graphics2D gr2D = (Graphics2D) gr;
+		
+		if (color.equals(Color.BLUE)) {
+			gr.setColor(PLAYER_HAND_BLUE);
+		} else if (color.equals(Color.YELLOW)) {
+			gr.setColor(PLAYER_HAND_YELLOW);
+		} else if (color.equals(Color.BLACK)) {
+			gr.setColor(PLAYER_HAND_BLACK);
+		} else {
+			gr.setColor(PLAYER_HAND_RED);
+		}
+
+		gr2D.setFont(FONT);
+		gr2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
+				RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+		gr2D.fillRect(PLAYER_HAND_X, yloc, PLAYER_HAND_WIDTH, PLAYER_HAND_HEIGHT);
+		gr2D.setColor(CUSTOM_GRAY_2);
+		gr2D.drawString(cityName, PLAYER_HAND_X + OFFSET_5, yloc + OFFSET_15);
 	}
 
 	private void paintInfections(Graphics gr) {
@@ -349,8 +433,8 @@ public class GameView extends JFrame implements ActionListener {
 	private void paintDecks(Graphics2D gr2D) {
 		List<CardModel> player = this.controller.getPlayerDeckController().getDiscardedCards();
 		List<CardModel> infected = this.controller.getInfectionDeckController().getDiscardedCards();
-		CardModel lastInfected = new CardModel("");
-		CardModel lastDiscarded = new CardModel("");
+		CardModel lastInfected = new CardModel("", CardModel.CardType.INFECTION);
+		CardModel lastDiscarded = new CardModel("", CardModel.CardType.PLAYER);
 		String infectedCityName = "";
 		String discardedCityName = "";
 		Image infectedCardImg = null;
@@ -359,9 +443,7 @@ public class GameView extends JFrame implements ActionListener {
 		Image infectionCard = this.setImage(INFECTION_CARD_IMG);
 		
 		if (player.size() > 0) {
-			System.out.println(player.size());
 			lastDiscarded = player.get(player.size() - 1);
-			System.out.println(lastDiscarded.getName());
 			discardedCityName = lastDiscarded.getName().toLowerCase();
 			discardCardImg = this.setImage(CARD_PATH + discardedCityName + BMP_FILE);
 		}

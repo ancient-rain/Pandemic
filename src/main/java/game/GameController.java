@@ -167,7 +167,7 @@ public class GameController {
 		} else {
 			this.getCurrentPlayer().addCardToHandOfCards(drawnCard1);
 		}
-		if(drawnCard1.getName().equals("Epidemic")){
+		if(drawnCard2.getName().equals("Epidemic")){
 			this.handleEpidemic();
 		} else {
 			this.getCurrentPlayer().addCardToHandOfCards(drawnCard2);
@@ -184,6 +184,7 @@ public class GameController {
 		this.cityController.clearOutbrokenCities();
 		this.gameModel.setQuietNightsLeft(this.gameModel.getQuietNightsLeft() - 1);
 		this.getCurrentPlayer().endTurn();
+		this.gameModel.setActionsLeft(4);
 		this.gameModel.setTurnCounter(this.gameModel.getTurnCounter() + 1);
 	}
 	

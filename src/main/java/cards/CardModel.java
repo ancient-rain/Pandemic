@@ -4,10 +4,19 @@ import city.CityModel;
 
 public class CardModel {
 	
-	private String name;
+	public enum CardType{
+		PLAYER,
+		INFECTION,
+		EVENT,
+		EPIDEMIC
+	}
 	
-	public CardModel(String name){
+	private String name;
+	private CardType type;
+	
+	public CardModel(String name, CardType type){
 		this.name = name;
+		this.type = type;
 	}
 	
 	public String getName(){
@@ -16,5 +25,9 @@ public class CardModel {
 	
 	public boolean sharesName(CityModel cityModel){
 		return this.name.equals(cityModel.getName());
+	}
+	
+	public CardType getType(){
+		return this.type;
 	}
 }

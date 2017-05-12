@@ -67,6 +67,28 @@ public class Constants {
 	public final static int INFECTION_CARD_X = 1509;
 	public final static int INFECTION_DISCARD_X = 1640;
 	
+	public final static int FIRST_PLAYER_INDEX = 0;
+	public final static int SECOND_PLAYER_INDEX = 1;
+	public final static int THIRD_PLAYER_INDEX = 2;
+	final static int PLAYER_ONE = 1;
+	final static int PLAYER_TWO = 2;
+	final static int PLAYER_THREE = 3;
+	final static int PLAYER_FOUR = 4;
+	public final static int TWO_PLAYERS = 2;
+	public final static int THREE_PLAYERS = 3;
+	final static int FOUR_PLAYERS = 4;
+	
+	public final static int PLAYER_HAND_HEIGHT = 20;
+	public final static int PLAYER_HAND_WIDTH = 120;
+	public final static int PLAYER_HAND_X = 13;
+	public final static int PLAYER_ONE_Y = 180;
+	public final static int PLAYER_TWO_TWO_PLAYERS_Y = 607;
+	public final static int PLAYER_TWO_THREE_PLAYERS_Y = 460;
+	public final static int PLAYER_TWO_FOUR_PLAYERS_Y = 393;
+	public final static int PLAYER_THREE_THREE_PLAYERS_Y = 745;
+	public final static int PLAYER_THREE_FOUR_PLAYERS_Y = 607;
+	public final static int PLAYER_FOUR_PLAYERS_Y = 820;
+	
 	public final static Font FONT = new Font("Dialog", Font.BOLD, TEXT_SIZE);
 	
 	public final static Color CUSTOM_GRAY_1 = new Color(238, 238, 238);
@@ -80,6 +102,10 @@ public class Constants {
 	public final static Color RESEARCHER_COLOR = new Color(126, 69, 24);
 	public final static Color SCIENTIST_COLOR = new Color(195, 197, 191);
 	public final static Color OPERATIONS_EXPERT_COLOR = new Color(77, 187, 1);
+	public final static Color PLAYER_HAND_BLUE = new Color(181, 216, 236);
+	public final static Color PLAYER_HAND_YELLOW = new Color(252, 249, 201);
+	public final static Color PLAYER_HAND_BLACK = new Color(163, 164, 167);
+	public final static Color PLAYER_HAND_RED = new Color(242, 202, 186);
 
 	public final static String MEDIC_ICON = "images/characters/icons/medic.png";
 	public final static String DISPATCHER_ICON = "images/characters/icons/dispatcher.png";
