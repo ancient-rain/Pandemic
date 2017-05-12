@@ -3,8 +3,8 @@ package characterTests;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
@@ -15,8 +15,7 @@ import cards.CardModel;
 import cards.InfectionDeckCardController;
 import cards.PlayerDeckCardController;
 import characters.CharacterModel;
-import characters.MedicCharacterController;
-import characters.ResearcherCharacterController;
+import characters.OperationsExpertCharacterController;
 import city.CityController;
 import city.CityModel;
 import diseases.DiseaseController;
@@ -24,16 +23,18 @@ import diseases.DiseaseModel;
 import game.GameController;
 import game.GameModel;
 
-public class MedicCharacterControllerTests {
+public class OperationExpertCharacterControllerTests {
+
 	DiseaseController diseaseController;
+	DiseaseModel blueDisease;
 	String cityName = "Chicago";
 	GameController gameController;
-	MedicCharacterController medic;
-	CityModel cityModel;
-	List<CityModel> listOfCities;
+	OperationsExpertCharacterController operSpecialist;
+	Map<CityModel, CardModel> cityToCardMap;
 	AbstractDeckCardController playerDeckController;
 	AbstractDeckCardController infectionDeckController;
 	CityController cityController;
+	List<CityModel> listOfCities;
 
 	@Before
 	public void init() {
@@ -49,63 +50,54 @@ public class MedicCharacterControllerTests {
 											playerDeckController,
 											infectionDeckController);
 
+		Set<CityModel> setOfCities = cityController.getCities();
+		this.listOfCities = new ArrayList<CityModel>(setOfCities);
 		
 		String characterName = "CharacterName";
 		DiseaseModel diseaseModel = new DiseaseModel();
-		this.cityModel = new CityModel(cityName, diseaseModel);
+		//CityModel cityModel = new CityModel(cityName, diseaseModel);
+		CityModel cityModel = this.listOfCities.get(0);
 		CharacterModel characterModel = new CharacterModel(characterName, cityModel);
-		this.medic = new MedicCharacterController(characterModel);
-		
-		Set<CityModel> setOfCities = cityController.getCities();
-		this.listOfCities = new ArrayList<CityModel>(setOfCities);
+		this.operSpecialist = new OperationsExpertCharacterController(characterModel);
+		this.blueDisease = diseaseController.getBlueDisease();
+
+		this.cityToCardMap = playerDeckController.getCityToCardMap();
 		
 	}
 	
 	@Test
 	public void testVerifyAbilityFalse(){
-		assertFalse(this.medic.verifyAbility(this.gameController));
+		assertFalse(operSpecialist.verifyAbility(this.gameController));
 	}
 	
 	@Test
 	public void testEndTurn(){
-		this.medic.endTurn();
-	}
-	
-	@Test
-	public void testMoveWithoutCard(){
-		CityModel randomCity = this.listOfCities.get(20);
-
-		Set<DiseaseModel> setOfDiseases = randomCity.getDiseases();
-		List<DiseaseModel> listOfDiseases = new ArrayList<DiseaseModel>(setOfDiseases);
-		
-		DiseaseModel disease = listOfDiseases.get(0);
-		disease.setCured(true);
-		disease.setCubesLeft(24);
-		
-		this.medic.moveWithoutCard(randomCity);
-		
-		assertEquals(0, randomCity.getCubesByDisease(disease));
-		assertTrue(disease.isEradicated());
-	}
-	
-	@Test
-	public void testMoveWithoutCardLessCubes(){
-		CityModel randomCity = this.listOfCities.get(20);
-
-		Set<DiseaseModel> setOfDiseases = randomCity.getDiseases();
-		List<DiseaseModel> listOfDiseases = new ArrayList<DiseaseModel>(setOfDiseases);
-		
-		DiseaseModel disease = listOfDiseases.get(0);
-		disease.setCured(true);
-		disease.setCubesLeft(5);
-		
-		this.medic.moveWithoutCard(randomCity);
-		assertFalse(disease.isEradicated());
+		this.operSpecialist.endTurn();
 	}
 	
 	@Test
 	public void testAbility(){
-		this.medic.ability(this.gameController);
+		operSpecialist.ability(this.gameController);
+	}
+	
+	@Test
+	public void testBuild(){
+		operSpecialist.build(this.cityController);
+		assertEquals(2, this.cityController.getResearchStationCounter());
+	}
+	
+	@Test
+	public void testVerifyBuildTrue(){
+		operSpecialist.build(this.cityController);
+		this.cityController.setResearchStationCounter(1);
+		assertTrue(operSpecialist.verifyBuild(this.cityController));
+	}
+	
+	@Test
+	public void testVerifyBuildFalse(){
+		operSpecialist.build(this.cityController);
+		this.cityController.setResearchStationCounter(6);
+		assertFalse(operSpecialist.verifyBuild(this.cityController));
 	}
 
 }
