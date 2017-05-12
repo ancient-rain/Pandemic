@@ -297,4 +297,8 @@ public class GameController {
 	public DiseaseController getDiseaseController(){
 		return this.diseaseController;
 	}
+	
+	public AbstractDeckCardController getInfectionDeckController(){
+		return this.infectionDeckController;
+	}
 }
