@@ -10,7 +10,10 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
+import cards.AbstractDeckCardController;
 import cards.CardModel;
+import cards.InfectionDeckCardController;
+import cards.PlayerDeckCardController;
 import characters.AbstractCharacterController;
 import characters.CharacterControllerFactory;
 import characters.CharacterModel;
@@ -30,8 +33,18 @@ public class GameControllerTests {
 	
 	@Before
 	public void init(){
-		this.model = new GameModel();
-		this.controller = new GameController(model);
+		GameModel gameModel = new GameModel();
+		DiseaseController diseaseController = new DiseaseController();
+		CityController cityController = new CityController(diseaseController);
+		AbstractDeckCardController playerDeckController = new PlayerDeckCardController(cityController);
+		AbstractDeckCardController infectionDeckController = new InfectionDeckCardController(cityController);
+		
+		this.controller = new GameController(gameModel,
+											diseaseController,
+											cityController,
+											playerDeckController,
+											infectionDeckController);
+		
 		this.cityController = this.controller.getCityController();
 		CityModel startingCity = this.cityController.getCityByName("Atlanta");
 		CharacterModel playerModel = new CharacterModel("Researcher", startingCity);
@@ -67,6 +80,55 @@ public class GameControllerTests {
 	}
 	
 	@Test
+	public void testMoveCharactersToInvalidLocation() {
+		CityModel currentCity = this.playerController.getCharactersCurrentCity();
+		CityModel nextCity = this.cityController.getCityByName("Madrid");
+		
+		assertTrue(!currentCity.getNeighbors().contains(nextCity));
+		
+		assertFalse(this.controller.moveCharacter(playerController, nextCity));
+	}
+	
+	@Test
+	public void testCharterFlight() {
+		CityModel currentCity = this.playerController.getCharactersCurrentCity();
+		CityModel nextCity = this.cityController.getCityByName("Madrid");
+		CardModel card = new CardModel(currentCity.getName(), CardModel.CardType.PLAYER);
+		
+		this.playerController.getCharacterModel().getHandOfCards().add(card);
+		
+		assertTrue(!currentCity.getNeighbors().contains(nextCity));
+		
+		assertTrue(this.controller.moveCharacter(playerController, nextCity));
+	}
+	
+	@Test
+	public void testDirectFlight() {
+		CityModel currentCity = this.playerController.getCharactersCurrentCity();
+		CityModel nextCity = this.cityController.getCityByName("Madrid");
+		CardModel card = new CardModel(nextCity.getName(), CardModel.CardType.PLAYER);
+		
+		this.playerController.getCharacterModel().getHandOfCards().add(card);
+		
+		assertTrue(!currentCity.getNeighbors().contains(nextCity));
+		
+		assertTrue(this.controller.moveCharacter(playerController, nextCity));
+	}
+	
+	@Test
+	public void testInvalidFlight() {
+		CityModel currentCity = this.playerController.getCharactersCurrentCity();
+		CityModel nextCity = this.cityController.getCityByName("Madrid");
+		CardModel card = new CardModel("Washington", CardModel.CardType.PLAYER);
+		
+		this.playerController.getCharacterModel().getHandOfCards().add(card);
+		
+		assertTrue(!currentCity.getNeighbors().contains(nextCity));
+		
+		assertTrue(!this.controller.moveCharacter(playerController, nextCity));
+	}
+	
+	@Test
 	public void testMedicTreat() {
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		DiseaseModel currentDisease = this.diseaseController.getBlackDisease();
@@ -99,6 +161,14 @@ public class GameControllerTests {
 		
 		int afterTreat = currentCity.getCubesByDisease(currentDisease);
 		assertTrue(beforeTreat == afterTreat + 1);
+	}
+	
+	@Test
+	public void testInvalidTreat() {
+		CityModel currentCity = this.playerController.getCharactersCurrentCity();
+		DiseaseModel currentDisease = this.diseaseController.getBlackDisease();
+		
+		assertFalse(this.controller.treatCity(currentDisease));
 	}
 	
 	@Test
@@ -342,5 +412,75 @@ public class GameControllerTests {
 		this.controller.cureDisease(toCureWithSet, diseaseToCure);
 		
 		assertFalse(this.diseaseController.getBlueDisease().isCured());
+	}
+	
+	@Test
+	public void testCureWins(){
+		CityModel currentCity = this.playerController.getCharactersCurrentCity();
+		DiseaseModel diseaseToCure = currentCity.getPrimaryDisease();
+		CardModel card1 = new CardModel(currentCity.getName(), CardModel.CardType.PLAYER);
+		CityModel city1 = this.cityController.getCityByName("Chicago");
+		CityModel city2 = this.cityController.getCityByName("Paris");
+		CityModel city3 = this.cityController.getCityByName("Montreal");
+		CityModel city4 = this.cityController.getCityByName("Washington");
+		CardModel card2 = new CardModel(city1.getName(), CardModel.CardType.PLAYER);
+		CardModel card3 = new CardModel(city2.getName(), CardModel.CardType.PLAYER);
+		CardModel card4 = new CardModel(city3.getName(), CardModel.CardType.PLAYER);
+		CardModel card5 = new CardModel(city4.getName(), CardModel.CardType.PLAYER);
+		this.playerController.addCardToHandOfCards(card1);
+		this.playerController.addCardToHandOfCards(card2);
+		this.playerController.addCardToHandOfCards(card3);
+		this.playerController.addCardToHandOfCards(card4);
+		this.playerController.addCardToHandOfCards(card5);
+		
+		Set<CardModel> toCureWithSet = new HashSet<CardModel>();
+		toCureWithSet.add(card1);
+		toCureWithSet.add(card2);
+		toCureWithSet.add(card3);
+		toCureWithSet.add(card4);
+		toCureWithSet.add(card5);
+		
+		this.diseaseController.getBlackDisease().setCured(true);
+		this.diseaseController.getRedDisease().setCured(true);
+		this.diseaseController.getYellowDisease().setCured(true);
+		
+		assertFalse(this.diseaseController.getBlueDisease().isCured());
+		
+		this.controller.cureDisease(toCureWithSet, diseaseToCure);
+		
+		assertTrue(this.diseaseController.getBlueDisease().isCured());
+		
+		assertTrue(this.controller.checkForWin());
+	}
+	
+	@Test
+	public void testAirLift() {
+		CityModel currentCity = this.playerController.getCharactersCurrentCity();
+		Iterator<CityModel> iter = currentCity.getNeighbors().iterator();
+		CityModel nextCity = iter.next();
+		CardModel card = new CardModel("Airlift", CardModel.CardType.EVENT);
+		
+		this.controller.getGameModel().setCharacterToBeAirlifted(playerController);
+		this.controller.getGameModel().setCityForEvent(nextCity);
+		
+		this.controller.playEventCard(card);
+		
+		assertTrue(this.playerController.getCharactersCurrentCity().equals(nextCity));
+	}
+	
+	@Test
+	public void testGovernmentGrant() {
+		CityModel currentCity = this.playerController.getCharactersCurrentCity();
+		Iterator<CityModel> iter = currentCity.getNeighbors().iterator();
+		CityModel nextCity = iter.next();
+		CardModel card = new CardModel("Government Grant", CardModel.CardType.EVENT);
+		
+		this.controller.getGameModel().setCityForEvent(nextCity);
+		
+		assertFalse(this.controller.getCityController().getCityByName(nextCity.getName()).hasResearchStation());
+		
+		this.controller.playEventCard(card);
+		
+		assertTrue(this.controller.getCityController().getCityByName(nextCity.getName()).hasResearchStation());
 	}
 }

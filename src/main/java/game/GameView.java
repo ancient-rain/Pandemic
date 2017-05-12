@@ -260,11 +260,11 @@ public class GameView extends JFrame implements ActionListener {
 					Color color = cityModel.getColor();
 					int yloc = startingY + cardCount * OFFSET_20;
 					
-					paintCard(gr, name, color, yloc);
+					paintCardinHand(gr, name, color, yloc);
 				} else {
 					int yloc = startingY + cardCount * OFFSET_20;
 					
-					paintCard(gr, name, Color.YELLOW, yloc);
+					paintCardinHand(gr, name, Color.YELLOW, yloc);
 				}
 				
 				cardCount++;
@@ -296,7 +296,7 @@ public class GameView extends JFrame implements ActionListener {
 		}
 	}
 	
-	private void paintCard(Graphics gr, String cityName, Color color, int yloc) {
+	private void paintCardinHand(Graphics gr, String cityName, Color color, int yloc) {
 		Graphics2D gr2D = (Graphics2D) gr;
 		
 		if (color.equals(Color.BLUE)) {

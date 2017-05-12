@@ -35,8 +35,6 @@ public class main {
 		
 		characters.add(medic);
 		characters.add(scientist);
-		characters.add(medic);
-		characters.add(scientist);
 		
 		gameModel.setCharacters(characters);
 		
