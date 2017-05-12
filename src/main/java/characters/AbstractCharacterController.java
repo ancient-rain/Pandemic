@@ -26,8 +26,7 @@ public abstract class AbstractCharacterController {
 	
 	public boolean verifyMoveWithoutCard(CityModel cityToMoveTo){
 		return this.character.getCurrentNeighbors().contains(cityToMoveTo) 
-				|| (this.character.isAtResearchStation() && cityToMoveTo.hasResearchStation());
-
+				|| (this.character.isAtResearchStation() && cityToMoveTo.isHasResearchStation());
 	}
 	
 	public void moveWithoutCard(CityModel cityToMoveTo){
@@ -43,7 +42,7 @@ public abstract class AbstractCharacterController {
 		this.moveWithoutCard(cityToMoveTo);
 	}
 	
-	public boolean verifyTreat(DiseaseModel diseaseToTreat){
+	public boolean verifyDiseaseCanBeTreated(DiseaseModel diseaseToTreat){
 		return this.character.getCubesByDiseaseOnCurrentCity(diseaseToTreat) > 0;
 	}
 	
@@ -114,7 +113,7 @@ public abstract class AbstractCharacterController {
 	public abstract void ability(GameController gameController);
 	public abstract void endTurn();
 	
-	protected boolean hasCardForCurrentCity(){
+	public boolean hasCardForCurrentCity(){
 		for(CardModel c : character.getHandOfCards()){
 			if(c.sharesName(character.getCurrentCity())){
 				return true;
