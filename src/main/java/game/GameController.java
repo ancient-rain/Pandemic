@@ -254,7 +254,7 @@ public class GameController {
 	}
 	
 	private boolean playGovernmentGrant(CityModel cityToAddResearchStation){
-		if(this.cityController.getResearchStationCounter() < 6 && !cityToAddResearchStation.isHasResearchStation()){
+		if(this.cityController.getResearchStationCounter() < 6 && !cityToAddResearchStation.hasResearchStation()){
 			cityToAddResearchStation.setHasResearchStation(true);
 			return true;
 		}
@@ -298,7 +298,11 @@ public class GameController {
 		return this.diseaseController;
 	}
 	
-	public AbstractDeckCardController getInfectionDeckController(){
+	public AbstractDeckCardController getPlayerDeckController() {
+		return this.playerDeckController;
+	}
+	
+	public AbstractDeckCardController getInfectionDeckController() {
 		return this.infectionDeckController;
 	}
-}
+}

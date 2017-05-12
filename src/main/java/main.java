@@ -30,6 +30,11 @@ public class main {
 		CharacterModel scientist = new CharacterModel("Scientist", atlanta);
 		List<CharacterModel> characters = new ArrayList<>();
 		
+		medic.setName("Ralph");
+		scientist.setName("Bob");
+		
+		characters.add(medic);
+		characters.add(scientist);
 		characters.add(medic);
 		characters.add(scientist);
 		
@@ -38,7 +43,9 @@ public class main {
 		GameController controller = new GameController(gameModel, diseaseController, cityController, playerDeckController, infectionDeckController);
 		GameView view = new GameView(controller);
 		
+		view.setTitle("Pandemic at Noob Difficulty with 2 Players");
 		view.viewGame();
 		view.repaint();
+
 	}
 }

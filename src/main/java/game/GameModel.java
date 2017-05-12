@@ -28,7 +28,7 @@ public class GameModel {
 	
 	public GameModel(){
 		this.characters = new ArrayList<CharacterModel>();
-		this.turnCounter = 1;
+		this.turnCounter = 0;
 		this.numberOfStartingCards = 0;
 		this.difficulty = 1;
 		this.actionsLeft = 4;

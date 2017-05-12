@@ -26,7 +26,7 @@ public abstract class AbstractCharacterController {
 	
 	public boolean verifyMoveWithoutCard(CityModel cityToMoveTo){
 		return this.character.getCurrentNeighbors().contains(cityToMoveTo) 
-				|| (this.character.isAtResearchStation() && cityToMoveTo.isHasResearchStation());
+				|| (this.character.isAtResearchStation() && cityToMoveTo.hasResearchStation());
 
 	}
 	

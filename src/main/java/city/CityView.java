@@ -115,7 +115,46 @@ public class CityView {
 			gr.fillOval(xloc, yloc, CITY_RADIUS, CITY_RADIUS);
 			gr.setColor(Color.DARK_GRAY);
 			gr.drawString(name, xloc, yloc + OFFSET_40);
+			
+			if (city.getCityModel().hasResearchStation()) {
+				paintResearchStation(gr, city);
+			}
 		}
+	}
+	
+	private void paintResearchStation(Graphics gr, CityFrontEndModel city) {
+		int xloc = city.getX();
+		int yloc = city.getY();
+		int xleft = xloc + RESEARCH_STATION_SIDE_OFFSET;
+		int xright = xloc + RESEARCH_STATION_BOTTOM_OFFSET;
+		int ybottom = yloc + RESEARCH_STATION_BOTTOM_OFFSET;
+		int ymiddle = yloc + RESEARCH_STATION_MIDDLE_OFFSET;
+		int topX = xloc + DELTA;
+		int topY = yloc + RESEARCH_STATION_TOP_OFFSET;
+		int[] leftXTriangle = new int[] { xleft, topX, topX };
+		int[] leftYTriangle = new int[] { ymiddle, topY, ymiddle };
+		int[] rightXTriangle = new int[] { xright, topX, topX };
+		int[] rightYTriangle = new int[] { ymiddle, topY, ymiddle };
+
+		gr.setColor(Color.WHITE);
+		gr.fillRect(xleft, ymiddle, xright - xleft, ybottom - ymiddle);
+		gr.fillPolygon(leftXTriangle, leftYTriangle, leftXTriangle.length);
+		gr.fillPolygon(rightXTriangle, rightYTriangle, rightXTriangle.length);
+
+		gr.setColor(Color.BLACK);
+		gr.drawLine(xleft, ymiddle, xleft, ybottom);
+		gr.drawLine(xleft + OFFSET_1, ymiddle, xleft + OFFSET_1, ybottom);
+		gr.drawLine(xright, ymiddle, xright, ybottom);
+		gr.drawLine(xright - OFFSET_1, ymiddle, xright - OFFSET_1, ybottom);
+		gr.drawLine(xleft, ybottom, xright, ybottom);
+		gr.drawLine(xleft, ybottom - OFFSET_1, xright, ybottom - OFFSET_1);
+		gr.drawLine(xleft, ymiddle, topX, topY);
+		gr.drawLine(xleft + OFFSET_1, ymiddle, topX, topY + OFFSET_1);
+		gr.drawLine(xleft + OFFSET_2, ymiddle, topX, topY + OFFSET_2);
+		gr.drawLine(xright, ymiddle, topX, topY);
+		gr.drawLine(xright - OFFSET_1, ymiddle, topX, topY + OFFSET_1);
+		gr.drawLine(xright - OFFSET_2, ymiddle, topX, topY + OFFSET_2);
+
 	}
 	
 	private void updateBlueCities(Color color) {

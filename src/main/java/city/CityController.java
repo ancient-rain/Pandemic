@@ -81,6 +81,7 @@ public class CityController {
 	
 	public void buildResearchStation(CityModel cityToBuildOn){
 		cityToBuildOn.setHasResearchStation(true);
+		this.researchStationCounter++;
 	}
 	
 	private void initializeCities(DiseaseController diseaseController){
