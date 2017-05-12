@@ -1,6 +1,10 @@
 package game;
 
-import static constants.Constants.*;
+import static constants.Card.*;
+import static constants.Character.*;
+import static constants.City.*;
+import static constants.Disease.*;
+import static constants.Game.*;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -31,7 +35,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import cards.CardModel;
-import cards.CardView;
 import characters.AbstractCharacterController;
 import characters.CharacterFrontEndModel;
 import characters.CharacterModel;
@@ -82,20 +85,14 @@ public class GameView extends JFrame implements ActionListener {
 	}
 	
 	private void drawGameInfo() {
-		CardView playerDeck = new CardView(true, true);
 		DiseaseView cureMarkers = new DiseaseView();
 		GameInfoView diseaseInfo = new GameInfoView();
-		CardView infectionDeck = new CardView(false, false);
 		
-		infectionDeck.drawPanel();
 		cureMarkers.drawPanel();
 		diseaseInfo.drawPanel();	
-		playerDeck.drawPanel();
 		
-		this.gameInfoPanel.add(playerDeck);
 		this.gameInfoPanel.add(cureMarkers);
 		this.gameInfoPanel.add(diseaseInfo);
-		this.gameInfoPanel.add(infectionDeck);
 	}
 	
 	private void drawPlayerInfo() {

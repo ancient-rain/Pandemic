@@ -7,7 +7,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static constants.Constants.*;
+import static constants.City.*;
+import static constants.Game.OFFSET_1;
+import static constants.Game.OFFSET_2;
+import static constants.Game.OFFSET_40;
 
 public class CityView {
 	CityController controller;
