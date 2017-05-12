@@ -201,9 +201,9 @@ public class GameControllerTests {
 		CityModel nextCity = iter.next();
 		CardModel card = new CardModel(nextCity.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card);
-		this.controller.shareKnowledge(this.controller.getPlayers().get(1), card);
+		this.controller.shareKnowledge(this.controller.getPlayers().get(0), card);
 		
-		assertTrue(this.controller.getPlayers().get(1).getCharacterModel().isInHand(card));
+		assertTrue(this.controller.getPlayers().get(0).getCharacterModel().isInHand(card));
 		assertFalse(this.playerController.getCharacterModel().isInHand(card));
 	}
 	
@@ -241,9 +241,9 @@ public class GameControllerTests {
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		CardModel card = new CardModel(currentCity.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card);
-		this.controller.shareKnowledge(this.controller.getPlayers().get(1), card);
+		this.controller.shareKnowledge(this.controller.getPlayers().get(0), card);
 		
-		assertTrue(this.controller.getPlayers().get(1).getCharacterModel().isInHand(card));
+		assertTrue(this.controller.getPlayers().get(0).getCharacterModel().isInHand(card));
 		assertFalse(this.playerController.getCharacterModel().isInHand(card));
 	}
 	
@@ -344,6 +344,8 @@ public class GameControllerTests {
 		CityModel startingCity = this.cityController.getCityByName("Atlanta");
 		CharacterModel playerModel = new CharacterModel("Scientist", startingCity);
 		CharacterControllerFactory factory = new CharacterControllerFactory();
+		this.controller.getPlayers().add(factory.createCharacterController(playerModel));
+		playerModel = new CharacterModel("Dispatcher", startingCity);
 		this.controller.getPlayers().add(factory.createCharacterController(playerModel));
 		this.playerController = this.controller.getCurrentPlayer();
 		

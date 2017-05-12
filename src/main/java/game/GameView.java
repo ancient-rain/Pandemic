@@ -68,6 +68,10 @@ public class GameView extends JFrame implements ActionListener {
 		this.playerActionPanel = new JPanel();
 		this.mapPanel = new JPanel();
 		this.players = this.model.getCharacters();
+<<<<<<< Updated upstream
+=======
+		
+>>>>>>> Stashed changes
 
 		CityController cityController = this.controller.getCityController();
 		this.cities = new CityView(cityController);
@@ -241,11 +245,19 @@ public class GameView extends JFrame implements ActionListener {
 	}
 	
 	private void paintCities(Graphics gr) {
+<<<<<<< Updated upstream
 		this.cities.paintCities(gr);
+=======
+		cities.paintCities(gr);
+>>>>>>> Stashed changes
 	}
 
 	private void paintPlayerHands(Graphics gr) {
 		List<AbstractCharacterController> players = this.controller.getPlayers();
+<<<<<<< Updated upstream
+=======
+		
+>>>>>>> Stashed changes
 		for (int i = 0; i < players.size(); i++) {
 			CharacterModel player = players.get(i).getCharacterModel();
 			int startingY = findPlayerYCoord(i);
@@ -258,11 +270,20 @@ public class GameView extends JFrame implements ActionListener {
 					CityFrontEndModel cityModel = this.cities.getCityToDraw(name);
 					Color color = cityModel.getColor();
 					int yloc = startingY + cardCount * OFFSET_20;
+<<<<<<< Updated upstream
 					paintCardinHand(gr, name, color, yloc);
 				} else {
 					int yloc = startingY + cardCount * OFFSET_20;
 					
 					paintCardinHand(gr, name, Color.YELLOW, yloc);
+=======
+					
+					paintCard(gr, name, color, yloc);
+				} else {
+					int yloc = startingY + cardCount * OFFSET_20;
+					
+					paintCard(gr, name, Color.YELLOW, yloc);
+>>>>>>> Stashed changes
 				}
 				
 				cardCount++;
@@ -293,8 +314,15 @@ public class GameView extends JFrame implements ActionListener {
 			return PLAYER_FOUR_PLAYERS_Y;
 		}
 	}
+<<<<<<< Updated upstream
 	private void paintCardinHand(Graphics gr, String cityName, Color color, int yloc) {
 		Graphics2D gr2D = (Graphics2D) gr;
+=======
+	
+	private void paintCard(Graphics gr, String cityName, Color color, int yloc) {
+		Graphics2D gr2D = (Graphics2D) gr;
+		
+>>>>>>> Stashed changes
 		if (color.equals(Color.BLUE)) {
 			gr.setColor(PLAYER_HAND_BLUE);
 		} else if (color.equals(Color.YELLOW)) {
