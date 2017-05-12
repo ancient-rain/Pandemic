@@ -106,7 +106,7 @@ public class GameControllerTests {
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		Iterator<CityModel> iter = currentCity.getNeighbors().iterator();
 		CityModel nextCity = iter.next();
-		CardModel card = new CardModel(nextCity.getName());
+		CardModel card = new CardModel(nextCity.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card);
 		
 		this.controller.moveCharacter(playerController, nextCity);
@@ -115,7 +115,7 @@ public class GameControllerTests {
 		
 		this.controller.buildResearchStation();
 		
-		assertTrue(nextCity.isHasResearchStation());
+		assertTrue(nextCity.hasResearchStation());
 	}
 	
 	@Test
@@ -130,7 +130,7 @@ public class GameControllerTests {
 		
 		this.controller.buildResearchStation();
 		
-		assertFalse(nextCity.isHasResearchStation());
+		assertFalse(nextCity.hasResearchStation());
 	}
 	
 	@Test
@@ -138,7 +138,7 @@ public class GameControllerTests {
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		Iterator<CityModel> iter = currentCity.getNeighbors().iterator();
 		CityModel nextCity = iter.next();
-		CardModel card = new CardModel(nextCity.getName());
+		CardModel card = new CardModel(nextCity.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card);
 		this.controller.shareKnowledge(this.controller.getPlayers().get(0), card);
 		
@@ -151,7 +151,7 @@ public class GameControllerTests {
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		Iterator<CityModel> iter = currentCity.getNeighbors().iterator();
 		CityModel nextCity = iter.next();
-		CardModel card = new CardModel(nextCity.getName());
+		CardModel card = new CardModel(nextCity.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card);
 		
 		this.controller.moveCharacter(playerController, nextCity);
@@ -178,7 +178,7 @@ public class GameControllerTests {
 		this.playerController = this.controller.getCurrentPlayer();
 		
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
-		CardModel card = new CardModel(currentCity.getName());
+		CardModel card = new CardModel(currentCity.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card);
 		this.controller.shareKnowledge(this.controller.getPlayers().get(0), card);
 		
@@ -200,7 +200,7 @@ public class GameControllerTests {
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		Iterator<CityModel> iter = currentCity.getNeighbors().iterator();
 		CityModel nextCity = iter.next();
-		CardModel card = new CardModel(currentCity.getName());
+		CardModel card = new CardModel(currentCity.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card);
 		
 		this.controller.moveCharacter(playerController, nextCity);
@@ -229,7 +229,7 @@ public class GameControllerTests {
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		Iterator<CityModel> iter = currentCity.getNeighbors().iterator();
 		CityModel nextCity = iter.next();
-		CardModel card = new CardModel(nextCity.getName());
+		CardModel card = new CardModel(nextCity.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card);
 		
 		this.controller.moveCharacter(playerController, nextCity);
@@ -248,15 +248,15 @@ public class GameControllerTests {
 	public void testNormalCure(){
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		DiseaseModel diseaseToCure = currentCity.getPrimaryDisease();
-		CardModel card1 = new CardModel(currentCity.getName());
+		CardModel card1 = new CardModel(currentCity.getName(), CardModel.CardType.PLAYER);
 		CityModel city1 = this.cityController.getCityByName("Chicago");
 		CityModel city2 = this.cityController.getCityByName("Paris");
 		CityModel city3 = this.cityController.getCityByName("Montreal");
 		CityModel city4 = this.cityController.getCityByName("Washington");
-		CardModel card2 = new CardModel(city1.getName());
-		CardModel card3 = new CardModel(city2.getName());
-		CardModel card4 = new CardModel(city3.getName());
-		CardModel card5 = new CardModel(city4.getName());
+		CardModel card2 = new CardModel(city1.getName(), CardModel.CardType.PLAYER);
+		CardModel card3 = new CardModel(city2.getName(), CardModel.CardType.PLAYER);
+		CardModel card4 = new CardModel(city3.getName(), CardModel.CardType.PLAYER);
+		CardModel card5 = new CardModel(city4.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card1);
 		this.playerController.addCardToHandOfCards(card2);
 		this.playerController.addCardToHandOfCards(card3);
@@ -290,13 +290,13 @@ public class GameControllerTests {
 		
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		DiseaseModel diseaseToCure = currentCity.getPrimaryDisease();
-		CardModel card1 = new CardModel(currentCity.getName());
+		CardModel card1 = new CardModel(currentCity.getName(), CardModel.CardType.PLAYER);
 		CityModel city1 = this.cityController.getCityByName("Chicago");
 		CityModel city2 = this.cityController.getCityByName("Paris");
 		CityModel city3 = this.cityController.getCityByName("Montreal");
-		CardModel card2 = new CardModel(city1.getName());
-		CardModel card3 = new CardModel(city2.getName());
-		CardModel card4 = new CardModel(city3.getName());
+		CardModel card2 = new CardModel(city1.getName(), CardModel.CardType.PLAYER);
+		CardModel card3 = new CardModel(city2.getName(), CardModel.CardType.PLAYER);
+		CardModel card4 = new CardModel(city3.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card1);
 		this.playerController.addCardToHandOfCards(card2);
 		this.playerController.addCardToHandOfCards(card3);
@@ -319,13 +319,13 @@ public class GameControllerTests {
 	public void testNormalCureFourCards(){
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		DiseaseModel diseaseToCure = currentCity.getPrimaryDisease();
-		CardModel card1 = new CardModel(currentCity.getName());
+		CardModel card1 = new CardModel(currentCity.getName(), CardModel.CardType.PLAYER);
 		CityModel city1 = this.cityController.getCityByName("Chicago");
 		CityModel city2 = this.cityController.getCityByName("Paris");
 		CityModel city3 = this.cityController.getCityByName("Montreal");
-		CardModel card2 = new CardModel(city1.getName());
-		CardModel card3 = new CardModel(city2.getName());
-		CardModel card4 = new CardModel(city3.getName());
+		CardModel card2 = new CardModel(city1.getName(), CardModel.CardType.PLAYER);
+		CardModel card3 = new CardModel(city2.getName(), CardModel.CardType.PLAYER);
+		CardModel card4 = new CardModel(city3.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card1);
 		this.playerController.addCardToHandOfCards(card2);
 		this.playerController.addCardToHandOfCards(card3);

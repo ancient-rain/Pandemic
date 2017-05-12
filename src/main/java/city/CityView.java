@@ -11,13 +11,15 @@ import static constants.Constants.*;
 
 public class CityView {
 	CityController controller;
-	Set<CityModel> cities;
 	Map<String, CityFrontEndModel> citiesToDraw;
 	
 	public CityView(CityController controller) {
 		this.controller = controller;
-		this.cities = controller.getCities();
 		this.citiesToDraw = new HashMap<>();
+	}
+	
+	public CityFrontEndModel getCityToDraw(String cityName){
+		return this.citiesToDraw.get(cityName);
 	}
 	
 	public void paintCities(Graphics gr) {
@@ -27,7 +29,7 @@ public class CityView {
 	}
 	
 	private void updateCitiesToDraw() {	
-		for (CityModel c : this.cities) {
+		for (CityModel c : this.controller.getCities()) {
 			CityFrontEndModel city = new CityFrontEndModel(c);
 			String name = c.getName();
 			
