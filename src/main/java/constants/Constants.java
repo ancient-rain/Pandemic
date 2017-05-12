@@ -20,6 +20,7 @@ public class Constants {
 	public final static int OFFSET_1 = 1;
 	public final static int OFFSET_2 = 2;
 	public final static int OFFSET_5 = 5;
+	public final static int OFFSET_8 = 8;
 	public final static int OFFSET_10 = 10;
 	public final static int OFFSET_15 = 15;
 	public final static int OFFSET_20 = 20;

@@ -172,7 +172,12 @@ public class GameController {
 		} else {
 			this.getCurrentPlayer().addCardToHandOfCards(drawnCard2);
 		}
-		int numberOfInfections = this.gameModel.getInfectionRates()[this.gameModel.getInfectionRateIndex()];
+		int numberOfInfections = 0;
+		if (this.gameModel.getInfectionRateIndex() < 7) {
+			numberOfInfections = this.gameModel.getInfectionRates()[this.gameModel.getInfectionRateIndex()];
+		} else {
+			numberOfInfections = 4;
+		}
 		if(this.gameModel.getQuietNightsLeft() > 0){
 			numberOfInfections = 1;
 		}

@@ -63,6 +63,7 @@ public class CityController {
 			if(currentCubes > 2){
 				cityToInfect.setCubesByDisease(diseaseInfecting, 3);
 				this.outbreak(cityToInfect, diseaseInfecting);
+				this.outbrokenCities.add(cityToInfect);
 			} else {
 				diseaseInfecting.removeFromCubesLeft(1);
 				cityToInfect.setCubesByDisease(diseaseInfecting, currentCubes + 1);

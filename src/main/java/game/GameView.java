@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -67,7 +68,6 @@ public class GameView extends JFrame implements ActionListener {
 		this.playerActionPanel = new JPanel();
 		this.mapPanel = new JPanel();
 		this.players = this.model.getCharacters();
-		
 
 		CityController cityController = this.controller.getCityController();
 		this.cities = new CityView(cityController);
@@ -241,7 +241,7 @@ public class GameView extends JFrame implements ActionListener {
 	}
 	
 	private void paintCities(Graphics gr) {
-		cities.paintCities(gr);
+		this.cities.paintCities(gr);
 	}
 
 	private void paintPlayerHands(Graphics gr) {
@@ -437,6 +437,7 @@ public class GameView extends JFrame implements ActionListener {
 		Image discardCardImg = null;
 		Image playerCard = this.setImage(PLAYER_CARD_IMG);
 		Image infectionCard = this.setImage(INFECTION_CARD_IMG);
+		FontMetrics metrics = gr2D.getFontMetrics(FONT);
 		
 		if (player.size() > 0) {
 			lastDiscarded = player.get(player.size() - 1);
@@ -451,21 +452,29 @@ public class GameView extends JFrame implements ActionListener {
 		}
 		
 		if (player.size() <= 0) {
+			int xlocTop = PLAYER_DISCARD_X + (CARD_WIDTH - metrics.stringWidth(PLAYER_DECK)) / 2;
+			int xlocBottom = PLAYER_DISCARD_X + (CARD_WIDTH - metrics.stringWidth(DISCARD_PILE)) / 2;
+			int yloc = CARD_Y + ((CARD_HEIGHT - metrics.getHeight()) / 2) + metrics.getAscent();
+			
 			gr2D.setColor(CUSTOM_GRAY_2);
 			gr2D.fillRect(PLAYER_DISCARD_X, CARD_Y, CARD_WIDTH, CARD_HEIGHT);
 			gr2D.setColor(Color.WHITE);
-			gr2D.drawString(PLAYER_DECK, TEXT_PLAYER_X, TEXT_UPPER_Y);
-			gr2D.drawString(DISCARD_PILE, TEXT_PLAYER_X, TEXT_LOWER_Y);
+			gr2D.drawString(PLAYER_DECK, xlocTop, yloc + 8);
+			gr2D.drawString(DISCARD_PILE, xlocBottom, yloc - 8);
 		} else {
 			gr2D.drawImage(discardCardImg, PLAYER_DISCARD_X, CARD_Y, null);
 		}
 		
 		if (infected.size() <= 0) {
+			int xlocTop = INFECTION_DISCARD_X + (CARD_WIDTH - metrics.stringWidth(INFECTION_DECK)) / 2;
+			int xlocBottom = INFECTION_DISCARD_X + (CARD_WIDTH - metrics.stringWidth(DISCARD_PILE)) / 2;
+			int yloc = CARD_Y + ((CARD_HEIGHT - metrics.getHeight()) / 2) + metrics.getAscent();
+			
 			gr2D.setColor(CUSTOM_GRAY_2);
 			gr2D.fillRect(INFECTION_DISCARD_X, CARD_Y, CARD_WIDTH, CARD_HEIGHT);
 			gr2D.setColor(Color.WHITE);
-			gr2D.drawString(INFECTION_DECK, TEXT_INFECTION_X, TEXT_UPPER_Y);
-			gr2D.drawString(DISCARD_PILE, TEXT_INFECTION_X + OFFSET_5, TEXT_LOWER_Y);
+			gr2D.drawString(INFECTION_DECK, xlocTop, yloc + OFFSET_8);
+			gr2D.drawString(DISCARD_PILE, xlocBottom, yloc - OFFSET_8);
 		} else {
 			gr2D.drawImage(infectedCardImg, INFECTION_DISCARD_X, CARD_Y, null);
 		}
