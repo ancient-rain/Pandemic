@@ -45,31 +45,12 @@ public class ContingencyPlannerTests {
 		CharacterModel characterModel = new CharacterModel(characterName, cityModel);
 		contPlanner = new ContingencyPlannerCharacterController(characterModel);
 		
-		//this.gameController = new GameController(null, diseaseController, controller, null, null);
 	}
-	
-	/*@Test
-	public void testVerifyAbilityTrue(){
-		assertFalse(contPlanner.verifyAbility(null));
-		
-		// when it gets implemented
-	}*/
 	
 	@Test
 	public void testVerifyAbilityFalse(){
 		assertFalse(contPlanner.verifyAbility(null));
 	}
-	
-	@Test
-	public void testEndTurn(){
-		assertTrue(true);
-		
-		// fix when it gets implemented
-	}
-	
-	@Test
-	public void testAbilityEmpty(){
-		this.contPlanner.ability(this.gameController);
-	}
+
 
 }
