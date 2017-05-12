@@ -36,6 +36,7 @@ public class main {
 		characters.add(medic);
 		characters.add(scientist);
 		
+		gameModel.setNumberOfStartingCards(4);
 		gameModel.setCharacters(characters);
 		
 		GameController controller = new GameController(gameModel, diseaseController, cityController, playerDeckController, infectionDeckController);
