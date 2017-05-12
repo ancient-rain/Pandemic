@@ -7,7 +7,7 @@ public class CharacterControllerFactory {
 	}
 	
 	public AbstractCharacterController createCharacterController(CharacterModel characterToCreate){
-		if(characterToCreate.getRole().equals("Contigency Planner")){
+		if(characterToCreate.getRole().equals("Contingency Planner")){
 			return new ContingencyPlannerCharacterController(characterToCreate);
 		}
 		else if (characterToCreate.getRole().equals("Dispatcher")) {
