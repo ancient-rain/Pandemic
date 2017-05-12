@@ -483,4 +483,22 @@ public class GameControllerTests {
 		
 		assertTrue(this.controller.getCityController().getCityByName(nextCity.getName()).isHasResearchStation());
 	}
+	
+	@Test
+	public void testResiliantPop() {
+		CityModel currentCity = this.playerController.getCharactersCurrentCity();
+		Iterator<CityModel> iter = currentCity.getNeighbors().iterator();
+		CityModel nextCity = iter.next();
+		CardModel card = new CardModel("Resilient Population");
+		CardModel cityCard = new CardModel(nextCity.getName());
+		
+		this.controller.getGameModel().setCardToRemoveFromInfectionDeck(cityCard);
+		this.controller.getInfectionDeckController().discard(cityCard);
+		
+		assertTrue(this.controller.getInfectionDeckController().getDiscardedCards().contains(cityCard));
+		
+		this.controller.playEventCard(card);
+		
+		assertFalse(this.controller.getInfectionDeckController().getDiscardedCards().contains(cityCard));
+	}
 }

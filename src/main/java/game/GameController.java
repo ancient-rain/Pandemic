@@ -305,4 +305,4 @@ public class GameController {
 	public AbstractDeckCardController getInfectionDeckController() {
 		return this.infectionDeckController;
 	}
-}
+}
