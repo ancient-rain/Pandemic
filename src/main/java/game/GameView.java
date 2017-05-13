@@ -206,7 +206,6 @@ public class GameView extends JFrame implements ActionListener {
 	@Override // TODO: fix the flashing issue, might have to extend JPanel
 	public void paint(Graphics gr) {
 		super.paint(gr);
-		super.removeAll();
 		
 		gr.setColor(CUSTOM_BLUE);
 		gr.fillRect(BLUE_FILLER_X, BLUE_FILLER_Y, 
@@ -318,10 +317,10 @@ public class GameView extends JFrame implements ActionListener {
 	private void paintEventCards(Graphics gr, List<CardModel> eventCards) {
 		for (int i = 0; i < eventCards.size(); i++) {
 			String name = eventCards.get(i).getName().toLowerCase();
-			String imgPath = name.replace(' ', '_') + BMP_FILE;
+			String imgPath = EVENT_CARD_PATH + name.replace(' ', '_') + PNG_FILE;
 			Image image = this.setImage(imgPath);
 			
-			gr.drawImage(image, 1500, 1000, null);
+			gr.drawImage(image, EVENT_CARD_X - (EVENT_CARD_SEPARATION * i), EVENT_CARD_Y, null);
 		}
 	}
 
@@ -438,60 +437,66 @@ public class GameView extends JFrame implements ActionListener {
 	}
 	
 	private void paintDecks(Graphics2D gr2D) {
-		List<CardModel> player = this.controller.getPlayerDeckController().getDiscardedCards();
-		List<CardModel> infected = this.controller.getInfectionDeckController().getDiscardedCards();
-		CardModel lastInfected = new CardModel("", CardModel.CardType.INFECTION);
-		CardModel lastDiscarded = new CardModel("", CardModel.CardType.PLAYER);
-		String infectedCityName = "";
-		String discardedCityName = "";
-		Image infectedCardImg = null;
-		Image discardCardImg = null;
-		Image playerCard = this.setImage(PLAYER_CARD_IMG);
-		Image infectionCard = this.setImage(INFECTION_CARD_IMG);
 		FontMetrics metrics = gr2D.getFontMetrics(FONT);
 		
-		if (player.size() > 0) {
-			lastDiscarded = player.get(player.size() - 1);
-			discardedCityName = lastDiscarded.getName().toLowerCase();
-			discardCardImg = this.setImage(CITY_CARD_PATH + discardedCityName + BMP_FILE);
-		}
-		
-		if (infected.size() > 0) {
-			lastInfected = infected.get(infected.size() - 1);
-			infectedCityName = lastInfected.getName().toLowerCase();
-			infectedCardImg = this.setImage(CITY_CARD_PATH + infectedCityName + BMP_FILE);
-		}
+		paintPlayerDeck(gr2D, metrics);
+		paintInfectionDeck(gr2D, metrics);
+	}
+	
+	private void paintPlayerDeck(Graphics2D gr2D, FontMetrics metrics) {
+		List<CardModel> player = this.controller.getPlayerDeckController().getDiscardedCards();
+		CardModel lastDiscarded = new CardModel("", CardModel.CardType.PLAYER);
+		String discardedCityName = "";
+		Image discardCardImg = null;
+		Image playerCard = this.setImage(PLAYER_CARD_IMG);
 		
 		if (player.size() <= 0) {
-			int xlocTop = PLAYER_DISCARD_X + (CARD_WIDTH - metrics.stringWidth(PLAYER_DECK)) / 2;
-			int xlocBottom = PLAYER_DISCARD_X + (CARD_WIDTH - metrics.stringWidth(DISCARD_PILE)) / 2;
-			int yloc = CARD_Y + ((CARD_HEIGHT - metrics.getHeight()) / 2) + metrics.getAscent();
+			int xlocTop = PLAYER_DISCARD_X + (TOP_CARD_WIDTH - metrics.stringWidth(PLAYER_DECK)) / 2;
+			int xlocBottom = PLAYER_DISCARD_X + (TOP_CARD_WIDTH - metrics.stringWidth(DISCARD_PILE)) / 2;
+			int yloc = TOP_CARD_Y + ((TOP_CARD_HEIGHT - metrics.getHeight()) / 2) + metrics.getAscent();
 			
 			gr2D.setColor(CUSTOM_GRAY_2);
-			gr2D.fillRect(PLAYER_DISCARD_X, CARD_Y, CARD_WIDTH, CARD_HEIGHT);
+			gr2D.fillRect(PLAYER_DISCARD_X, TOP_CARD_Y, TOP_CARD_WIDTH, TOP_CARD_HEIGHT);
 			gr2D.setColor(Color.WHITE);
 			gr2D.drawString(PLAYER_DECK, xlocTop, yloc + 8);
 			gr2D.drawString(DISCARD_PILE, xlocBottom, yloc - 8);
 		} else {
-			gr2D.drawImage(discardCardImg, PLAYER_DISCARD_X, CARD_Y, null);
+			lastDiscarded = player.get(player.size() - 1);
+			discardedCityName = lastDiscarded.getName().toLowerCase();
+			discardCardImg = this.setImage(CITY_CARD_PATH + discardedCityName + BMP_FILE);
+			
+			gr2D.drawImage(discardCardImg, PLAYER_DISCARD_X, TOP_CARD_Y, null);
 		}
 		
+		gr2D.drawImage(playerCard, PLAYER_CARD_X, TOP_CARD_Y, null);
+	}
+	
+	private void paintInfectionDeck(Graphics2D gr2D, FontMetrics metrics) {
+		List<CardModel> infected = this.controller.getInfectionDeckController().getDiscardedCards();
+		CardModel lastInfected = new CardModel("", CardModel.CardType.INFECTION);
+		String infectedCityName = "";
+		Image infectedCardImg = null;
+		Image infectionCard = this.setImage(INFECTION_CARD_IMG);
+
 		if (infected.size() <= 0) {
-			int xlocTop = INFECTION_DISCARD_X + (CARD_WIDTH - metrics.stringWidth(INFECTION_DECK)) / 2;
-			int xlocBottom = INFECTION_DISCARD_X + (CARD_WIDTH - metrics.stringWidth(DISCARD_PILE)) / 2;
-			int yloc = CARD_Y + ((CARD_HEIGHT - metrics.getHeight()) / 2) + metrics.getAscent();
+			int xlocTop = INFECTION_DISCARD_X + (TOP_CARD_WIDTH - metrics.stringWidth(INFECTION_DECK)) / 2;
+			int xlocBottom = INFECTION_DISCARD_X + (TOP_CARD_WIDTH - metrics.stringWidth(DISCARD_PILE)) / 2;
+			int yloc = TOP_CARD_Y + ((TOP_CARD_HEIGHT - metrics.getHeight()) / 2) + metrics.getAscent();
 			
 			gr2D.setColor(CUSTOM_GRAY_2);
-			gr2D.fillRect(INFECTION_DISCARD_X, CARD_Y, CARD_WIDTH, CARD_HEIGHT);
+			gr2D.fillRect(INFECTION_DISCARD_X, TOP_CARD_Y, TOP_CARD_WIDTH, TOP_CARD_HEIGHT);
 			gr2D.setColor(Color.WHITE);
 			gr2D.drawString(INFECTION_DECK, xlocTop, yloc + OFFSET_8);
 			gr2D.drawString(DISCARD_PILE, xlocBottom, yloc - OFFSET_8);
 		} else {
-			gr2D.drawImage(infectedCardImg, INFECTION_DISCARD_X, CARD_Y, null);
+			lastInfected = infected.get(infected.size() - 1);
+			infectedCityName = lastInfected.getName().toLowerCase();
+			infectedCardImg = this.setImage(CITY_CARD_PATH + infectedCityName + BMP_FILE);
+			
+			gr2D.drawImage(infectedCardImg, INFECTION_DISCARD_X, TOP_CARD_Y, null);
 		}
 		
-		gr2D.drawImage(playerCard, PLAYER_CARD_X, CARD_Y, null);
-		gr2D.drawImage(infectionCard, INFECTION_CARD_X, CARD_Y, null);
+		gr2D.drawImage(infectionCard, INFECTION_CARD_X, TOP_CARD_Y, null);
 	}
 	
 	private Color checkLowCount(int numCards) {

@@ -71,6 +71,7 @@ public class Game {
 	public final static String PANDEMIC_RULES = "files/pandemic.pdf";
 	public final static String RESEARCH_STATION_IMG = "images/researchStation.png";
 	public final static String BMP_FILE = ".bmp";
+	public final static String PNG_FILE = ".png";
 	
 	public static String INFECTION_DECK = "Infection Deck";
 	public static String PLAYER_DECK = "Player Deck";

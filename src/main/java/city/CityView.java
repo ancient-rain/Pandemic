@@ -267,7 +267,7 @@ public class CityView {
 		this.citiesToDraw.get(OSAKA).setColor(color);
 		this.citiesToDraw.get(OSAKA).setLocation(1690, 430);
 		this.citiesToDraw.get(SYDNEY).setColor(color);
-		this.citiesToDraw.get(SYDNEY).setLocation(1700, 810);
+		this.citiesToDraw.get(SYDNEY).setLocation(1715, 810);
 	}
 
 }
