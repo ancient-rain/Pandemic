@@ -31,10 +31,16 @@ public class Card {
 	public final static int PLAYER_CARD_X = 425;
 	public final static int PLAYER_DISCARD_X = 299;
 	
-	public final static int INFECTION_CARD_X = 1374;
-	public final static int INFECTION_DISCARD_X = 1500;
+	public final static int INFECTION_CARD_X = 1369;
+	public final static int INFECTION_DISCARD_X = 1495;
 	
-	public final static String CARD_PATH = "images/playerDeck/cityCards/";
+	public final static String AIRLIFT = "images/playerDeck/eventCards/airlift.bmp";
+	public final static String FORECAST = "images/playerDeck/eventCards/forecast.bmp";
+	public final static String GOVERNMENT_GRANT = "images/playerDeck/eventCards/government_grant.bmp";
+	public final static String ONE_QUIET_NIGHT = "images/playerDeck/eventCards/one_quiet_night.bmp";
+	public final static String RESILIENT_POPULATION = "images/playerDeck/eventCards/resilient_population.bmp";
+	
+	public final static String CITY_CARD_PATH = "images/playerDeck/cityCards/";
 	public final static String ALGIERS_CARD = "images/playerDeck/cityCards/algiers.bmp";
 	public final static String ATLANTA_CARD = "images/playerDeck/cityCards/atlanta.bmp";
 	public final static String BAGHDAD_CARD = "images/playerDeck/cityCards/baghdad.bmp";

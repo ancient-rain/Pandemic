@@ -47,9 +47,9 @@ public class Game {
 	public final static int TURN_PANEL_TEXT_X = 273;
 	public final static int TURN_PANEL_TEXT_Y = 922;
 	
-	public final static int RESEARCH_COUNT_X = 1080;
-	public final static int OUTBREAK_COUNT_X = 1185;
-	public final static int INFECTION_RATE_X = 1290;
+	public final static int RESEARCH_COUNT_X = 1070;
+	public final static int OUTBREAK_COUNT_X = 1175;
+	public final static int INFECTION_RATE_X = 1280;
 	
 	public final static int FIRST_PLAYER_INDEX = 0;
 	public final static int SECOND_PLAYER_INDEX = 1;

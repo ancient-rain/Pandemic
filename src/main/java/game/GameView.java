@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -205,6 +206,7 @@ public class GameView extends JFrame implements ActionListener {
 	@Override // TODO: fix the flashing issue, might have to extend JPanel
 	public void paint(Graphics gr) {
 		super.paint(gr);
+		super.removeAll();
 		
 		gr.setColor(CUSTOM_BLUE);
 		gr.fillRect(BLUE_FILLER_X, BLUE_FILLER_Y, 
@@ -236,6 +238,7 @@ public class GameView extends JFrame implements ActionListener {
 
 	private void paintPlayerHands(Graphics gr) {
 		List<AbstractCharacterController> players = this.controller.getPlayers();
+		List<CardModel> eventCards = new ArrayList<>();
 
 		for (int i = 0; i < players.size(); i++) {
 			CharacterModel player = players.get(i).getCharacterModel();
@@ -254,12 +257,15 @@ public class GameView extends JFrame implements ActionListener {
 				} else {
 					int yloc = startingY + cardCount * OFFSET_20;
 					
-					paintCardinHand(gr, name, Color.YELLOW, yloc);
+					eventCards.add(card);
+					paintCardinHand(gr, name, Color.ORANGE, yloc);
 				}
 				
 				cardCount++;
 			}
 		}
+		
+		paintEventCards(gr, eventCards);
 	}
 	
 	private int findPlayerYCoord(int playerNum) {
@@ -295,8 +301,10 @@ public class GameView extends JFrame implements ActionListener {
 			gr.setColor(PLAYER_HAND_YELLOW);
 		} else if (color.equals(Color.BLACK)) {
 			gr.setColor(PLAYER_HAND_BLACK);
-		} else {
+		} else if (color.equals(Color.RED)){
 			gr.setColor(PLAYER_HAND_RED);
+		} else {
+			gr.setColor(Color.ORANGE);
 		}
 
 		gr2D.setFont(FONT);
@@ -306,6 +314,16 @@ public class GameView extends JFrame implements ActionListener {
 		gr2D.setColor(CUSTOM_GRAY_2);
 		gr2D.drawString(cityName, PLAYER_HAND_X + OFFSET_5, yloc + OFFSET_15);
 	}
+	
+	private void paintEventCards(Graphics gr, List<CardModel> eventCards) {
+		for (int i = 0; i < eventCards.size(); i++) {
+			String name = eventCards.get(i).getName().toLowerCase();
+			String imgPath = name.replace(' ', '_') + BMP_FILE;
+			Image image = this.setImage(imgPath);
+			
+			gr.drawImage(image, 1500, 1000, null);
+		}
+	}
 
 	private void paintInfections(Graphics gr) {
 		
@@ -313,7 +331,6 @@ public class GameView extends JFrame implements ActionListener {
 
 	private void paintGameCounters(Graphics gr) {
 		Graphics2D gr2D = (Graphics2D) gr;
-		
 		
 		gr2D.setFont(FONT);
 		gr2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
@@ -436,13 +453,13 @@ public class GameView extends JFrame implements ActionListener {
 		if (player.size() > 0) {
 			lastDiscarded = player.get(player.size() - 1);
 			discardedCityName = lastDiscarded.getName().toLowerCase();
-			discardCardImg = this.setImage(CARD_PATH + discardedCityName + BMP_FILE);
+			discardCardImg = this.setImage(CITY_CARD_PATH + discardedCityName + BMP_FILE);
 		}
 		
 		if (infected.size() > 0) {
 			lastInfected = infected.get(infected.size() - 1);
 			infectedCityName = lastInfected.getName().toLowerCase();
-			infectedCardImg = this.setImage(CARD_PATH + infectedCityName + BMP_FILE);
+			infectedCardImg = this.setImage(CITY_CARD_PATH + infectedCityName + BMP_FILE);
 		}
 		
 		if (player.size() <= 0) {

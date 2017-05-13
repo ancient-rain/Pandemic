@@ -1,10 +1,10 @@
 package constants;
 
 public class Disease {
-	public final static int BLUE_COUNTER_X = 673;
-	public final static int YELLOW_COUNTER_X = 771;
-	public final static int BLACK_COUNTER_X = 870;
-	public final static int RED_COUNTER_X = 967;
+	public final static int BLUE_COUNTER_X = 668;
+	public final static int YELLOW_COUNTER_X = 766;
+	public final static int BLACK_COUNTER_X = 865;
+	public final static int RED_COUNTER_X = 962;
 	public final static int DISEASE_Y = 36;
 	public final static int BLUE_DISEASE_X = 613;
 	public final static int YELLOW_DISEASE_X = 711;
