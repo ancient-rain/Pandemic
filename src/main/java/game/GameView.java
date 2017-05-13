@@ -2,6 +2,7 @@ package game;
 
 import static constants.Card.*;
 import static constants.Character.*;
+import static constants.City.*;
 import static constants.Disease.*;
 import static constants.Game.*;
 
@@ -35,12 +36,12 @@ import characters.CharacterModel;
 import characters.CharacterView;
 import city.CityController;
 import city.CityFrontEndModel;
+import city.CityModel;
 import city.CityView;
 import diseases.DiseaseController;
 import diseases.DiseaseView;
 
 public class GameView extends JFrame implements ActionListener {
-
 	private JButton moveButton = new JButton(MOVE_BUTTON);
 	private JButton treatButton = new JButton(TREAT_BUTTON);
 	private JButton cureButton = new JButton(CURE_BUTTON);
@@ -141,7 +142,7 @@ public class GameView extends JFrame implements ActionListener {
 			Object button = event.getSource();
 			
 			if (button == this.moveButton) {
-				if(this.controller.getCurrentPlayer().getCharactersCurrentCity().equals("Atlanta")){
+				if(this.controller.getCurrentPlayer().getCharactersCurrentCity().getName().equals("Atlanta")){
 					this.controller.moveCharacter(this.controller.getCurrentPlayer(), this.controller.getCityController().getCityByName("Chicago"));
 				}else {
 					this.controller.moveCharacter(this.controller.getCurrentPlayer(), this.controller.getCityController().getCityByName("Atlanta"));
@@ -225,7 +226,7 @@ public class GameView extends JFrame implements ActionListener {
 	
 	private void paintBoard(Graphics gr) {
 		paintCities(gr);
-		paintInfections(gr);
+		paintPlayerLocations(gr);
 		paintGameCounters(gr);
 		paintPlayerHands(gr);
 		paintCurrentTurn(gr);
@@ -233,6 +234,29 @@ public class GameView extends JFrame implements ActionListener {
 	
 	private void paintCities(Graphics gr) {
 		this.cities.paintCities(gr);
+	}
+	
+	private void paintPlayerLocations(Graphics gr) {
+		int playerNum = 0;
+		
+		for (CharacterModel character : this.model.getCharacters()) {
+			CityModel city = character.getCurrentCity();
+			String name = city.getName();
+			CityFrontEndModel cityFrontEnd = this.cities.getCityToDraw(name);
+			CharacterFrontEndModel characterFrontEnd = new CharacterFrontEndModel(character);
+			Color color = characterFrontEnd.getColor();
+			int cityXLocation = cityFrontEnd.getX();
+			int cityYLocation = cityFrontEnd.getY();
+			int xcoordinate = cityXLocation - DELTA;
+			int ycoordinate = cityYLocation - (DELTA - (playerNum * DELTA));
+
+			gr.setColor(color);
+			gr.fillOval(xcoordinate, ycoordinate, DELTA, DELTA);
+			gr.setColor(Color.BLACK);
+			gr.drawOval(xcoordinate, ycoordinate, DELTA - OFFSET_1, DELTA - OFFSET_1);
+			
+			playerNum++;
+		}
 	}
 
 	private void paintPlayerHands(Graphics gr) {
@@ -324,9 +348,6 @@ public class GameView extends JFrame implements ActionListener {
 		}
 	}
 
-	private void paintInfections(Graphics gr) {
-		
-	}
 
 	private void paintGameCounters(Graphics gr) {
 		Graphics2D gr2D = (Graphics2D) gr;
