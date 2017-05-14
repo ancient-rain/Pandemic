@@ -14,12 +14,14 @@ public class CityController {
 	
 	private Map<String, CityModel> cities;
 	private Set<CityModel> outbrokenCities;
+	private Set<CityModel> infectedCities;
 	private int researchStationCounter;
 	private int outbreakCounter;
 	
 	public CityController(DiseaseController diseaseController){
 		this.cities = new HashMap<String, CityModel>();
 		this.outbrokenCities = new HashSet<CityModel>();
+		this.infectedCities = new HashSet<>();
 		this.outbreakCounter = 0;
 		this.initializeCities(diseaseController);
 		this.initializeCityDiseases(diseaseController);
@@ -39,6 +41,14 @@ public class CityController {
 	
 	public void clearOutbrokenCities(){
 		this.outbrokenCities.clear();
+	}
+	
+	public Set<CityModel> getInfectedCities() {
+		return this.infectedCities;
+	}
+	
+	public void removeInfectedCity(CityModel city) {
+		this.infectedCities.remove(city);
 	}
 	
 	public int getResearchStationCounter() {
@@ -62,9 +72,10 @@ public class CityController {
 			int currentCubes = cityToInfect.getCubesByDisease(diseaseInfecting);
 			if(currentCubes > 2){
 				cityToInfect.setCubesByDisease(diseaseInfecting, 3);
-				this.outbreak(cityToInfect, diseaseInfecting);
 				this.outbrokenCities.add(cityToInfect);
+				this.outbreak(cityToInfect, diseaseInfecting);
 			} else {
+				this.infectedCities.add(cityToInfect);
 				diseaseInfecting.removeFromCubesLeft(1);
 				cityToInfect.setCubesByDisease(diseaseInfecting, currentCubes + 1);
 			}

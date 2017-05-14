@@ -1,5 +1,6 @@
 package characters;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import cards.CardModel;
@@ -82,11 +83,12 @@ public abstract class AbstractCharacterController {
 	}
 	
 	public boolean verifyBuild(CityController cityController){
-		return this.hasCardForCurrentCity() && cityController.getResearchStationCounter() < 6;
+		return this.hasCardForCurrentCity() && !this.character.isAtResearchStation() && cityController.getResearchStationCounter() < 6;
 	}
 	
 	public void build(CityController cityController){
-		for(CardModel c : this.character.getHandOfCards()){
+		Set<CardModel> copyOfHand = new HashSet<CardModel>(this.character.getHandOfCards());
+		for(CardModel c : copyOfHand){
 			if(c.sharesName(this.character.getCurrentCity())){
 				this.character.removeCardFromHandOfCards(c);
 			}

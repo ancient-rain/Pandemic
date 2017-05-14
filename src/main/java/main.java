@@ -24,8 +24,7 @@ public class main {
 		AbstractDeckCardController infectionDeckController = new InfectionDeckCardController(cityController);
 		
 		// This will be retrieved from our other menus
-		DiseaseModel blue = new DiseaseModel();
-		CityModel atlanta = new CityModel("Atlanta", blue);
+		CityModel atlanta = cityController.getCityByName("Atlanta");
 		CharacterModel medic = new CharacterModel("Medic", atlanta);
 		CharacterModel scientist = new CharacterModel("Scientist", atlanta);
 		List<CharacterModel> characters = new ArrayList<>();
@@ -38,6 +37,7 @@ public class main {
 		
 		gameModel.setNumberOfStartingCards(4);
 		gameModel.setCharacters(characters);
+		gameModel.setDifficulty(4);
 		
 		GameController controller = new GameController(gameModel, diseaseController, cityController, playerDeckController, infectionDeckController);
 		GameView view = new GameView(controller);
@@ -45,6 +45,5 @@ public class main {
 		view.setTitle("Pandemic at Noob Difficulty with 2 Players");
 		view.viewGame();
 		view.repaint();
-
 	}
 }

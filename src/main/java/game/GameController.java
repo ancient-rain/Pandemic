@@ -205,7 +205,6 @@ public class GameController {
 		this.infectionDeckController.discard(bottom);
 		
 		this.infectionDeckController.specialShuffle(0);
-		this.gameModel.setInfectionRateIndex(this.gameModel.getInfectionRateIndex() + 1);
 	}
 	
 	private void infect(CityModel cityToInfect, DiseaseModel diseaseInfecting){

@@ -19,7 +19,10 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -39,6 +42,8 @@ import city.CityFrontEndModel;
 import city.CityModel;
 import city.CityView;
 import diseases.DiseaseController;
+import diseases.DiseaseFrontEndModel;
+import diseases.DiseaseModel;
 import diseases.DiseaseView;
 
 public class GameView extends JFrame implements ActionListener {
@@ -152,7 +157,7 @@ public class GameView extends JFrame implements ActionListener {
 			} else if (button == this.cureButton) {
 				
 			} else if (button == this.buildButton) {
-				
+				this.controller.buildResearchStation();
 			} else if (button == this.shareButton) {
 				
 			} else if (button == this.passButton) {
@@ -226,6 +231,7 @@ public class GameView extends JFrame implements ActionListener {
 	
 	private void paintBoard(Graphics gr) {
 		paintCities(gr);
+		paintInfections(gr);
 		paintPlayerLocations(gr);
 		paintGameCounters(gr);
 		paintPlayerHands(gr);
@@ -234,6 +240,62 @@ public class GameView extends JFrame implements ActionListener {
 	
 	private void paintCities(Graphics gr) {
 		this.cities.paintCities(gr);
+	}
+	
+	private void paintInfections(Graphics gr) {
+		CityController cityController = this.controller.getCityController();
+		Set<CityModel> infectedCities = cityController.getInfectedCities();
+		DiseaseController diseaseController = this.controller.getDiseaseController();
+		DiseaseModel blueDisease = diseaseController.getBlueDisease();
+		DiseaseModel yellowDisease = diseaseController.getYellowDisease();
+		DiseaseModel blackDisease = diseaseController.getBlackDisease();
+		DiseaseModel redDisease = diseaseController.getRedDisease();
+		DiseaseFrontEndModel blueDiseaseFrontEnd = new DiseaseFrontEndModel(blueDisease, Color.BLUE);
+		DiseaseFrontEndModel yellowDiseaseFrontEnd = new DiseaseFrontEndModel(yellowDisease, Color.YELLOW);
+		DiseaseFrontEndModel blackDiseaseFrontEnd = new DiseaseFrontEndModel(blackDisease, Color.BLACK);
+		DiseaseFrontEndModel redDiseaseFrontEnd = new DiseaseFrontEndModel(redDisease, Color.RED);
+		
+		for (CityModel c : infectedCities) {
+			int blueCount = c.getCubesByDisease(blueDiseaseFrontEnd.getDisease());
+			int yellowCount = c.getCubesByDisease(yellowDiseaseFrontEnd.getDisease());
+			int blackCount = c.getCubesByDisease(blackDiseaseFrontEnd.getDisease());
+			int redCount = c.getCubesByDisease(redDiseaseFrontEnd.getDisease());
+			int xoffset = 0;
+			
+			if (blueCount > 0) {
+				paintCityInfections(gr, c, blueCount, blueDiseaseFrontEnd.getColor(), xoffset);
+				xoffset += DELTA;
+			}
+			
+			if (yellowCount > 0) {
+				paintCityInfections(gr, c, yellowCount, yellowDiseaseFrontEnd.getColor(), xoffset);
+				xoffset += DELTA;
+			}
+			
+			if (blackCount > 0) {
+				paintCityInfections(gr, c, blackCount, blackDiseaseFrontEnd.getColor(), xoffset);
+				xoffset += DELTA;
+			}
+			
+			if (redCount > 0) {
+				paintCityInfections(gr, c, redCount, redDiseaseFrontEnd.getColor(), xoffset);
+				xoffset += DELTA;
+			}
+		}
+	}
+	
+	private void paintCityInfections(Graphics gr, CityModel city, int count, Color color, int xoffset) {
+		CityFrontEndModel cityFrontEnd = this.cities.getCityToDraw(city.getName());
+		int xloc = cityFrontEnd.getX() + CITY_RADIUS + OFFSET_2 + xoffset;
+		int yloc = cityFrontEnd.getY() - DELTA;
+		int size = DELTA - OFFSET_2;
+		
+		gr.setColor(color);
+		
+		for (int i = 0; i < count; i++) {
+			int yoffset = yloc + (i * DELTA);
+			gr.fillRect(xloc, yoffset, size, size);
+		}
 	}
 	
 	private void paintPlayerLocations(Graphics gr) {
@@ -380,9 +442,9 @@ public class GameView extends JFrame implements ActionListener {
 		int blackDisease = diseaseController.getBlackDisease().getCubesLeft();
 		int redDisease = diseaseController.getRedDisease().getCubesLeft();
 		Color blueTextColor = checkLowCount(blueDisease);
-		Color yellowTextColor = checkLowCount(blueDisease);
-		Color blackTextColor = checkLowCount(blueDisease);
-		Color redTextColor = checkLowCount(blueDisease);
+		Color yellowTextColor = checkLowCount(yellowDisease);
+		Color blackTextColor = checkLowCount(blackDisease);
+		Color redTextColor = checkLowCount(redDisease);
 		
 		gr2D.setColor(blueTextColor);
 		gr2D.drawString(blueDisease + "", BLUE_COUNTER_X, TOP_PANEL_TEXT_Y);
@@ -436,7 +498,7 @@ public class GameView extends JFrame implements ActionListener {
 	}
 	
 	private void paintNumResearchStation(Graphics2D gr2D) {
-		int numStations = this.controller.getCityController().getResearchStationCounter();
+		int numStations = 6 - this.controller.getCityController().getResearchStationCounter();
 		
 		gr2D.setColor(CUSTOM_GRAY_2);
 		gr2D.drawString(numStations + "", RESEARCH_COUNT_X, TOP_PANEL_TEXT_Y);
@@ -449,12 +511,15 @@ public class GameView extends JFrame implements ActionListener {
 		gr2D.drawString(numOutbreaks + "", OUTBREAK_COUNT_X, TOP_PANEL_TEXT_Y);
 	}
 	
-	private void paintInfectionRate(Graphics2D gr2D) {	
-		gr2D.setColor(CUSTOM_GRAY_2);
-		gr2D.drawString("2", INFECTION_RATE_X, TOP_PANEL_TEXT_Y);
-		gr2D.setColor(CUSTOM_GRAY_3);
-		gr2D.drawString("2 2 3 3 4 4", INFECTION_RATE_X + OFFSET_10, TOP_PANEL_TEXT_Y);
-
+	private void paintInfectionRate(Graphics2D gr2D) {
+		for(int i = 0; i < this.controller.getGameModel().getInfectionRates().length; i++){
+			if(i == this.controller.getGameModel().getInfectionRateIndex()){
+				gr2D.setColor(CUSTOM_GRAY_2);
+			} else {
+				gr2D.setColor(CUSTOM_GRAY_3);
+			}
+			gr2D.drawString(this.controller.getGameModel().getInfectionRates()[i] + "", INFECTION_RATE_X + (OFFSET_10 * i), TOP_PANEL_TEXT_Y);
+		}
 	}
 	
 	private void paintDecks(Graphics2D gr2D) {
