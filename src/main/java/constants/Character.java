@@ -10,10 +10,10 @@ public class Character {
 	public final static int PLAYER_ONE_Y = 180;
 	
 	public final static int PLAYER_TWO_TWO_PLAYERS_Y = 607;
-	public final static int PLAYER_TWO_THREE_PLAYERS_Y = 460;
+	public final static int PLAYER_TWO_THREE_PLAYERS_Y = 464;
 	public final static int PLAYER_TWO_FOUR_PLAYERS_Y = 393;
 	
-	public final static int PLAYER_THREE_THREE_PLAYERS_Y = 745;
+	public final static int PLAYER_THREE_THREE_PLAYERS_Y = 748;
 	public final static int PLAYER_THREE_FOUR_PLAYERS_Y = 607;
 	
 	public final static int PLAYER_FOUR_PLAYERS_Y = 820;

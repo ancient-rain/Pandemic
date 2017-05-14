@@ -164,11 +164,13 @@ public class GameController {
 		CardModel drawnCard2 = this.playerDeckController.draw();
 		if(drawnCard1.getName().equals("Epidemic")){
 			this.handleEpidemic();
+			this.playerDeckController.discard(drawnCard1);
 		} else {
 			this.getCurrentPlayer().addCardToHandOfCards(drawnCard1);
 		}
 		if(drawnCard2.getName().equals("Epidemic")){
 			this.handleEpidemic();
+			this.playerDeckController.discard(drawnCard2);
 		} else {
 			this.getCurrentPlayer().addCardToHandOfCards(drawnCard2);
 		}

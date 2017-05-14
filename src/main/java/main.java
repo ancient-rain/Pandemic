@@ -26,13 +26,16 @@ public class main {
 		// This will be retrieved from our other menus
 		CityModel atlanta = cityController.getCityByName("Atlanta");
 		CharacterModel medic = new CharacterModel("Medic", atlanta);
+		CharacterModel operations = new CharacterModel("Operations Expert", atlanta);
 		CharacterModel scientist = new CharacterModel("Scientist", atlanta);
 		List<CharacterModel> characters = new ArrayList<>();
 		
 		medic.setName("Ralph");
 		scientist.setName("Bob");
+		operations.setName("Nagger");
 		
 		characters.add(medic);
+		characters.add(operations);
 		characters.add(scientist);
 		
 		gameModel.setNumberOfStartingCards(4);
