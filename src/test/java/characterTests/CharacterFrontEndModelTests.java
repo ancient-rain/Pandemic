@@ -124,6 +124,6 @@ public class CharacterFrontEndModelTests {
 		assertEquals(QUARANTINE_SPECIALIST_ICON, frontEndModel.getImgPath());
 	}
 	
-	
+	// how do you test all of these elements of the switch statement
 
 }

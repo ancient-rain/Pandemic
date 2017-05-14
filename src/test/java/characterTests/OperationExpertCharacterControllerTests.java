@@ -15,6 +15,7 @@ import cards.CardModel;
 import cards.InfectionDeckCardController;
 import cards.PlayerDeckCardController;
 import characters.CharacterModel;
+import characters.CharacterModel.CharacterRole;
 import characters.OperationsExpertCharacterController;
 import city.CityController;
 import city.CityModel;
@@ -35,6 +36,7 @@ public class OperationExpertCharacterControllerTests {
 	AbstractDeckCardController infectionDeckController;
 	CityController cityController;
 	List<CityModel> listOfCities;
+	CharacterModel characterModel;
 
 	@Before
 	public void init() {
@@ -57,7 +59,8 @@ public class OperationExpertCharacterControllerTests {
 		DiseaseModel diseaseModel = new DiseaseModel();
 		//CityModel cityModel = new CityModel(cityName, diseaseModel);
 		CityModel cityModel = this.listOfCities.get(0);
-		CharacterModel characterModel = new CharacterModel(characterName, cityModel);
+		this.characterModel = new CharacterModel(characterName, cityModel);
+		
 		this.operSpecialist = new OperationsExpertCharacterController(characterModel);
 		this.blueDisease = diseaseController.getBlueDisease();
 
@@ -98,6 +101,67 @@ public class OperationExpertCharacterControllerTests {
 		operSpecialist.build(this.cityController);
 		this.cityController.setResearchStationCounter(6);
 		assertFalse(operSpecialist.verifyBuild(this.cityController));
+	}
+	
+	// ask how to test this method to double check
+	@Test
+	public void testMoveWithCardIsAtResearchStation(){
+		operSpecialist.getCharactersCurrentCity().setHasResearchStation(true);
+		CityModel cityToMoveTo = listOfCities.get(1);
+		CardModel cardToMoveWith = this.cityToCardMap.get(cityToMoveTo);
+		this.operSpecialist.moveWithCard(cityToMoveTo, cardToMoveWith);
+	}
+	
+	@Test
+	public void testMoveWithCardIsAtResearchStationNoShares(){
+		operSpecialist.getCharactersCurrentCity().setHasResearchStation(true);
+		CityModel cityToMoveTo = listOfCities.get(0);
+		CityModel cityToMoveToNotCharacter = listOfCities.get(1);
+		CardModel cardToMoveWith = this.cityToCardMap.get(cityToMoveTo);
+		this.operSpecialist.moveWithCard(cityToMoveToNotCharacter, cardToMoveWith);
+	}
+	
+	@Test
+	public void testMoveWithCardAllFalse(){
+		operSpecialist.getCharactersCurrentCity().setHasResearchStation(false);
+		CityModel cityToMoveTo = listOfCities.get(0);
+		CityModel cityToMoveToNotCharacter = listOfCities.get(1);
+		operSpecialist.moveWithCard(listOfCities.get(10), this.cityToCardMap.get(cityToMoveTo));
+		CardModel cardToMoveWith = this.cityToCardMap.get(cityToMoveTo);
+		this.operSpecialist.moveWithCard(cityToMoveTo, cardToMoveWith);
+	}
+	
+	// verify move with card ask how to check again
+	@Test
+	public void testVerifyMoveWithCardHasCurrentCityCard(){
+		operSpecialist.getCharactersCurrentCity().setHasResearchStation(false);
+		CardModel cardToAdd = this.cityToCardMap.get(operSpecialist.getCharactersCurrentCity());
+		operSpecialist.addCardToHandOfCards(cardToAdd);
+		assertTrue(operSpecialist.verifyMoveWithCard(operSpecialist.getCharactersCurrentCity(), cardToAdd));
+	}
+	
+	@Test
+	public void testVerifyMoveWithCardSharesName(){
+		operSpecialist.getCharactersCurrentCity().setHasResearchStation(false);
+		CityModel cityToMoveTo = operSpecialist.getCharactersCurrentCity();
+		CardModel cardToAdd = this.cityToCardMap.get(operSpecialist.getCharactersCurrentCity());
+		assertTrue(operSpecialist.verifyMoveWithCard(cityToMoveTo, cardToAdd));
+	}
+	
+	@Test
+	public void testVerifyMoveWithCardMovedFromResearch(){
+		CityModel cityToMoveTo = operSpecialist.getCharactersCurrentCity();
+		CardModel cardToAdd = this.cityToCardMap.get(listOfCities.get(12));
+		operSpecialist.getCharactersCurrentCity().setHasResearchStation(true);
+		assertTrue(operSpecialist.verifyMoveWithCard(cityToMoveTo, cardToAdd));
+	}
+	
+	@Test
+	public void testVerifyMoveWithCardAllFalse(){
+		CityModel cityToMoveTo = listOfCities.get(1);
+		CardModel cardToAdd = this.cityToCardMap.get(listOfCities.get(20));
+		operSpecialist.getCharactersCurrentCity().setHasResearchStation(false);
+		assertFalse(operSpecialist.verifyMoveWithCard(cityToMoveTo, cardToAdd));
 	}
 
 }

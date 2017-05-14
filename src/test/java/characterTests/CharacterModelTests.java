@@ -16,6 +16,7 @@ import cards.CardModel;
 import cards.InfectionDeckCardController;
 import cards.PlayerDeckCardController;
 import characters.CharacterModel;
+import characters.CharacterModel.CharacterRole;
 import characters.ScientistCharacterController;
 import city.CityController;
 import city.CityModel;
@@ -88,6 +89,42 @@ public class CharacterModelTests {
 	@Test
 	public void testIsCurrentCityQuarentined(){
 		assertFalse(this.characterModel.isCurrentCityQuarentined());
+	}
+	
+	// How do I finish tsting Character Role
+	@Test
+	public void testEnumContingencyPlanner(){
+		assertEquals("CONTINGENCY_PLANNER", CharacterRole.CONTINGENCY_PLANNER.name());
+	}
+	
+	@Test
+	public void testEnumDispatcher(){
+		assertEquals("DISPATCHER", CharacterRole.DISPATCHER.name());
+	}
+	
+	@Test
+	public void testEnumMedic(){
+		assertEquals("MEDIC", CharacterRole.MEDIC.name());
+	}
+	
+	@Test
+	public void testEnumOperations(){
+		assertEquals("OPERATIONS_EXPERT", CharacterRole.OPERATIONS_EXPERT.name());
+	}
+	
+	@Test
+	public void testEnumQuarentine(){
+		assertEquals("QUARENTINE_SPECIALIST", CharacterRole.QUARENTINE_SPECIALIST.name());
+	}
+	
+	@Test
+	public void testEnumResearcher(){
+		assertEquals("RESEARCHER", CharacterRole.RESEARCHER.name());
+	}
+	
+	@Test
+	public void testEnumScientist(){
+		assertEquals("SCIENTIST", CharacterRole.SCIENTIST.name());
 	}
 
 }
