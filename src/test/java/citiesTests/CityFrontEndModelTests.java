@@ -32,9 +32,28 @@ public class CityFrontEndModelTests {
 	}
 	
 	@Test
-	public void setAndGetColor(){
+	public void testSetAndGetColor(){
 		cityFrontEndModel.setColor(Color.BLUE);
 		assertEquals(Color.BLUE, cityFrontEndModel.getColor());
 	}
+	
+	@Test
+	public void testCityFrontEndModelPoint(){
+		CityFrontEndModel testCity = new CityFrontEndModel(0,0);
+		assertEquals(null, testCity.getColor());
+		assertEquals(null, testCity.getCityModel());
+	}
+	
+	@Test
+	public void testSetLocationZeros(){
+		cityFrontEndModel.setLocation(0, 0);
+		assertEquals(0, cityFrontEndModel.getX());
+		assertEquals(0, cityFrontEndModel.getY());
+	}
+	
+	/*@Test
+	public void testGetCityModel(){
+		assertEquals(this.listOfCities.get(2), cityFrontEndModel.getCityModel());
+	}*/
 
 }
