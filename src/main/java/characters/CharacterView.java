@@ -1,7 +1,7 @@
 package characters;
 
-import static constants.Constants.PLAYER_HEADER_SIZE;
-import static constants.Constants.OFFSET_5;
+import static constants.Game.PLAYER_HEADER_SIZE;
+import static constants.Game.OFFSET_5;
 
 import java.awt.Color;
 import java.awt.FlowLayout;

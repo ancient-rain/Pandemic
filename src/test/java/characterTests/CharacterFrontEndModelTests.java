@@ -23,7 +23,7 @@ import diseases.DiseaseModel;
 import game.GameController;
 import game.GameModel;
 
-import static constants.Constants.*;
+import static constants.Character.*;
 
 public class CharacterFrontEndModelTests {
 	DiseaseController diseaseController;
@@ -124,6 +124,6 @@ public class CharacterFrontEndModelTests {
 		assertEquals(QUARANTINE_SPECIALIST_ICON, frontEndModel.getImgPath());
 	}
 	
-	// how do you test all of these elements of the switch statement
+	
 
-}
+}

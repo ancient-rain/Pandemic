@@ -164,15 +164,22 @@ public class GameController {
 		CardModel drawnCard2 = this.playerDeckController.draw();
 		if(drawnCard1.getName().equals("Epidemic")){
 			this.handleEpidemic();
+			this.playerDeckController.discard(drawnCard1);
 		} else {
 			this.getCurrentPlayer().addCardToHandOfCards(drawnCard1);
 		}
-		if(drawnCard1.getName().equals("Epidemic")){
+		if(drawnCard2.getName().equals("Epidemic")){
 			this.handleEpidemic();
+			this.playerDeckController.discard(drawnCard2);
 		} else {
 			this.getCurrentPlayer().addCardToHandOfCards(drawnCard2);
 		}
-		int numberOfInfections = this.gameModel.getInfectionRates()[this.gameModel.getInfectionRateIndex()];
+		int numberOfInfections = 0;
+		if (this.gameModel.getInfectionRateIndex() < 7) {
+			numberOfInfections = this.gameModel.getInfectionRates()[this.gameModel.getInfectionRateIndex()];
+		} else {
+			numberOfInfections = 4;
+		}
 		if(this.gameModel.getQuietNightsLeft() > 0){
 			numberOfInfections = 1;
 		}
@@ -184,6 +191,7 @@ public class GameController {
 		this.cityController.clearOutbrokenCities();
 		this.gameModel.setQuietNightsLeft(this.gameModel.getQuietNightsLeft() - 1);
 		this.getCurrentPlayer().endTurn();
+		this.gameModel.setActionsLeft(4);
 		this.gameModel.setTurnCounter(this.gameModel.getTurnCounter() + 1);
 	}
 	
@@ -199,7 +207,6 @@ public class GameController {
 		this.infectionDeckController.discard(bottom);
 		
 		this.infectionDeckController.specialShuffle(0);
-		this.gameModel.setInfectionRateIndex(this.gameModel.getInfectionRateIndex() + 1);
 	}
 	
 	private void infect(CityModel cityToInfect, DiseaseModel diseaseInfecting){

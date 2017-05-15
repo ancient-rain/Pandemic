@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import org.junit.Before;
@@ -17,8 +16,6 @@ import cards.PlayerDeckCardController;
 import characters.AbstractCharacterController;
 import characters.CharacterControllerFactory;
 import characters.CharacterModel;
-import characters.ResearcherCharacterController;
-import characters.ScientistCharacterController;
 import city.CityController;
 import city.CityModel;
 import diseases.DiseaseController;
@@ -95,7 +92,7 @@ public class GameControllerTests {
 	public void testCharterFlight() {
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		CityModel nextCity = this.cityController.getCityByName("Madrid");
-		CardModel card = new CardModel(currentCity.getName());
+		CardModel card = new CardModel(currentCity.getName(), CardModel.CardType.PLAYER);
 		
 		this.playerController.getCharacterModel().getHandOfCards().add(card);
 		
@@ -108,7 +105,7 @@ public class GameControllerTests {
 	public void testDirectFlight() {
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		CityModel nextCity = this.cityController.getCityByName("Madrid");
-		CardModel card = new CardModel(nextCity.getName());
+		CardModel card = new CardModel(nextCity.getName(), CardModel.CardType.PLAYER);
 		
 		this.playerController.getCharacterModel().getHandOfCards().add(card);
 		
@@ -121,7 +118,7 @@ public class GameControllerTests {
 	public void testInvalidFlight() {
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		CityModel nextCity = this.cityController.getCityByName("Madrid");
-		CardModel card = new CardModel("Washington");
+		CardModel card = new CardModel("Washington", CardModel.CardType.PLAYER);
 		
 		this.playerController.getCharacterModel().getHandOfCards().add(card);
 		
@@ -162,16 +159,7 @@ public class GameControllerTests {
 		this.controller.treatCity(currentDisease);
 		
 		int afterTreat = currentCity.getCubesByDisease(currentDisease);
-		
 		assertTrue(beforeTreat == afterTreat + 1);
-	}
-	
-	@Test
-	public void testInvalidTreat() {
-		CityModel currentCity = this.playerController.getCharactersCurrentCity();
-		DiseaseModel currentDisease = this.diseaseController.getBlackDisease();
-		
-		assertFalse(this.controller.treatCity(currentDisease));
 	}
 	
 	@Test
@@ -179,7 +167,7 @@ public class GameControllerTests {
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		Iterator<CityModel> iter = currentCity.getNeighbors().iterator();
 		CityModel nextCity = iter.next();
-		CardModel card = new CardModel(nextCity.getName());
+		CardModel card = new CardModel(nextCity.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card);
 		
 		this.controller.moveCharacter(playerController, nextCity);
@@ -211,11 +199,11 @@ public class GameControllerTests {
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		Iterator<CityModel> iter = currentCity.getNeighbors().iterator();
 		CityModel nextCity = iter.next();
-		CardModel card = new CardModel(nextCity.getName());
+		CardModel card = new CardModel(nextCity.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card);
-		this.controller.shareKnowledge(this.controller.getPlayers().get(1), card);
+		this.controller.shareKnowledge(this.controller.getPlayers().get(0), card);
 		
-		assertTrue(this.controller.getPlayers().get(1).getCharacterModel().isInHand(card));
+		assertTrue(this.controller.getPlayers().get(0).getCharacterModel().isInHand(card));
 		assertFalse(this.playerController.getCharacterModel().isInHand(card));
 	}
 	
@@ -224,7 +212,7 @@ public class GameControllerTests {
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		Iterator<CityModel> iter = currentCity.getNeighbors().iterator();
 		CityModel nextCity = iter.next();
-		CardModel card = new CardModel(nextCity.getName());
+		CardModel card = new CardModel(nextCity.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card);
 		
 		this.controller.moveCharacter(playerController, nextCity);
@@ -251,11 +239,11 @@ public class GameControllerTests {
 		this.playerController = this.controller.getCurrentPlayer();
 		
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
-		CardModel card = new CardModel(currentCity.getName());
+		CardModel card = new CardModel(currentCity.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card);
-		this.controller.shareKnowledge(this.controller.getPlayers().get(1), card);
+		this.controller.shareKnowledge(this.controller.getPlayers().get(0), card);
 		
-		assertTrue(this.controller.getPlayers().get(1).getCharacterModel().isInHand(card));
+		assertTrue(this.controller.getPlayers().get(0).getCharacterModel().isInHand(card));
 		assertFalse(this.playerController.getCharacterModel().isInHand(card));
 	}
 	
@@ -273,7 +261,7 @@ public class GameControllerTests {
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		Iterator<CityModel> iter = currentCity.getNeighbors().iterator();
 		CityModel nextCity = iter.next();
-		CardModel card = new CardModel(currentCity.getName());
+		CardModel card = new CardModel(currentCity.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card);
 		
 		this.controller.moveCharacter(playerController, nextCity);
@@ -302,7 +290,7 @@ public class GameControllerTests {
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		Iterator<CityModel> iter = currentCity.getNeighbors().iterator();
 		CityModel nextCity = iter.next();
-		CardModel card = new CardModel(nextCity.getName());
+		CardModel card = new CardModel(nextCity.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card);
 		
 		this.controller.moveCharacter(playerController, nextCity);
@@ -321,15 +309,15 @@ public class GameControllerTests {
 	public void testNormalCure(){
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		DiseaseModel diseaseToCure = currentCity.getPrimaryDisease();
-		CardModel card1 = new CardModel(currentCity.getName());
+		CardModel card1 = new CardModel(currentCity.getName(), CardModel.CardType.PLAYER);
 		CityModel city1 = this.cityController.getCityByName("Chicago");
 		CityModel city2 = this.cityController.getCityByName("Paris");
 		CityModel city3 = this.cityController.getCityByName("Montreal");
 		CityModel city4 = this.cityController.getCityByName("Washington");
-		CardModel card2 = new CardModel(city1.getName());
-		CardModel card3 = new CardModel(city2.getName());
-		CardModel card4 = new CardModel(city3.getName());
-		CardModel card5 = new CardModel(city4.getName());
+		CardModel card2 = new CardModel(city1.getName(), CardModel.CardType.PLAYER);
+		CardModel card3 = new CardModel(city2.getName(), CardModel.CardType.PLAYER);
+		CardModel card4 = new CardModel(city3.getName(), CardModel.CardType.PLAYER);
+		CardModel card5 = new CardModel(city4.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card1);
 		this.playerController.addCardToHandOfCards(card2);
 		this.playerController.addCardToHandOfCards(card3);
@@ -363,13 +351,13 @@ public class GameControllerTests {
 		
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		DiseaseModel diseaseToCure = currentCity.getPrimaryDisease();
-		CardModel card1 = new CardModel(currentCity.getName());
+		CardModel card1 = new CardModel(currentCity.getName(), CardModel.CardType.PLAYER);
 		CityModel city1 = this.cityController.getCityByName("Chicago");
 		CityModel city2 = this.cityController.getCityByName("Paris");
 		CityModel city3 = this.cityController.getCityByName("Montreal");
-		CardModel card2 = new CardModel(city1.getName());
-		CardModel card3 = new CardModel(city2.getName());
-		CardModel card4 = new CardModel(city3.getName());
+		CardModel card2 = new CardModel(city1.getName(), CardModel.CardType.PLAYER);
+		CardModel card3 = new CardModel(city2.getName(), CardModel.CardType.PLAYER);
+		CardModel card4 = new CardModel(city3.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card1);
 		this.playerController.addCardToHandOfCards(card2);
 		this.playerController.addCardToHandOfCards(card3);
@@ -392,13 +380,13 @@ public class GameControllerTests {
 	public void testNormalCureFourCards(){
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		DiseaseModel diseaseToCure = currentCity.getPrimaryDisease();
-		CardModel card1 = new CardModel(currentCity.getName());
+		CardModel card1 = new CardModel(currentCity.getName(), CardModel.CardType.PLAYER);
 		CityModel city1 = this.cityController.getCityByName("Chicago");
 		CityModel city2 = this.cityController.getCityByName("Paris");
 		CityModel city3 = this.cityController.getCityByName("Montreal");
-		CardModel card2 = new CardModel(city1.getName());
-		CardModel card3 = new CardModel(city2.getName());
-		CardModel card4 = new CardModel(city3.getName());
+		CardModel card2 = new CardModel(city1.getName(), CardModel.CardType.PLAYER);
+		CardModel card3 = new CardModel(city2.getName(), CardModel.CardType.PLAYER);
+		CardModel card4 = new CardModel(city3.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card1);
 		this.playerController.addCardToHandOfCards(card2);
 		this.playerController.addCardToHandOfCards(card3);
@@ -421,15 +409,15 @@ public class GameControllerTests {
 	public void testCureWins(){
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		DiseaseModel diseaseToCure = currentCity.getPrimaryDisease();
-		CardModel card1 = new CardModel(currentCity.getName());
+		CardModel card1 = new CardModel(currentCity.getName(), CardModel.CardType.PLAYER);
 		CityModel city1 = this.cityController.getCityByName("Chicago");
 		CityModel city2 = this.cityController.getCityByName("Paris");
 		CityModel city3 = this.cityController.getCityByName("Montreal");
 		CityModel city4 = this.cityController.getCityByName("Washington");
-		CardModel card2 = new CardModel(city1.getName());
-		CardModel card3 = new CardModel(city2.getName());
-		CardModel card4 = new CardModel(city3.getName());
-		CardModel card5 = new CardModel(city4.getName());
+		CardModel card2 = new CardModel(city1.getName(), CardModel.CardType.PLAYER);
+		CardModel card3 = new CardModel(city2.getName(), CardModel.CardType.PLAYER);
+		CardModel card4 = new CardModel(city3.getName(), CardModel.CardType.PLAYER);
+		CardModel card5 = new CardModel(city4.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card1);
 		this.playerController.addCardToHandOfCards(card2);
 		this.playerController.addCardToHandOfCards(card3);
@@ -461,7 +449,7 @@ public class GameControllerTests {
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		Iterator<CityModel> iter = currentCity.getNeighbors().iterator();
 		CityModel nextCity = iter.next();
-		CardModel card = new CardModel("Airlift");
+		CardModel card = new CardModel("Airlift", CardModel.CardType.EVENT);
 		
 		this.controller.getGameModel().setCharacterToBeAirlifted(playerController);
 		this.controller.getGameModel().setCityForEvent(nextCity);
@@ -476,7 +464,7 @@ public class GameControllerTests {
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		Iterator<CityModel> iter = currentCity.getNeighbors().iterator();
 		CityModel nextCity = iter.next();
-		CardModel card = new CardModel("Government Grant");
+		CardModel card = new CardModel("Government Grant", CardModel.CardType.EVENT);
 		
 		this.controller.getGameModel().setCityForEvent(nextCity);
 		
@@ -485,23 +473,5 @@ public class GameControllerTests {
 		this.controller.playEventCard(card);
 		
 		assertTrue(this.controller.getCityController().getCityByName(nextCity.getName()).hasResearchStation());
-	}
-	
-	@Test
-	public void testResiliantPop() {
-		CityModel currentCity = this.playerController.getCharactersCurrentCity();
-		Iterator<CityModel> iter = currentCity.getNeighbors().iterator();
-		CityModel nextCity = iter.next();
-		CardModel card = new CardModel("Resilient Population");
-		CardModel cityCard = new CardModel(nextCity.getName());
-		
-		this.controller.getGameModel().setCardToRemoveFromInfectionDeck(cityCard);
-		this.controller.getInfectionDeckController().discard(cityCard);
-		
-		assertTrue(this.controller.getInfectionDeckController().getDiscardedCards().contains(cityCard));
-		
-		this.controller.playEventCard(card);
-		
-		assertFalse(this.controller.getInfectionDeckController().getDiscardedCards().contains(cityCard));
 	}
 }

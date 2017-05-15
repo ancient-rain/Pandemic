@@ -1,16 +1,12 @@
 package diseases;
 
-import static constants.Constants.BLACK_OUTLINE;
-import static constants.Constants.BLUE_OUTLINE;
-import static constants.Constants.RED_OUTLINE;
-import static constants.Constants.YELLOW_OUTLINE;
-import static constants.Constants.OFFSET_30;
+import static constants.Disease.*;
+import static constants.Game.OFFSET_30;
 
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
