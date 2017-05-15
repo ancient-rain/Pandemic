@@ -34,21 +34,24 @@ public class CharacterControllerFactoryTests {
 	public void testCreateContingencyPlanner(){
 		String characterName = "Contingency Planner";
 		this.characterModel = new CharacterModel(characterName, cityModel);
-		assertEquals(ContingencyPlannerCharacterController.class, this.characterFactory.createCharacterController(this.characterModel).getClass());
+		assertEquals(ContingencyPlannerCharacterController.class, this.characterFactory
+				.createCharacterController(this.characterModel).getClass());
 	}
 	
 	@Test
 	public void testCreateOperationsExpert(){
 		String characterName = "Operations Expert";
 		this.characterModel = new CharacterModel(characterName, cityModel);
-		assertEquals(OperationsExpertCharacterController.class, this.characterFactory.createCharacterController(this.characterModel).getClass());
+		assertEquals(OperationsExpertCharacterController.class, this.characterFactory
+				.createCharacterController(this.characterModel).getClass());
 	}
 	
 	@Test
 	public void testCreateQuarentineSpecialist(){
 		String characterName = "Quarentine Specialist";
 		this.characterModel = new CharacterModel(characterName, cityModel);
-		assertEquals(QuarentineSpecialistCharacterController.class, this.characterFactory.createCharacterController(this.characterModel).getClass());
+		assertEquals(QuarentineSpecialistCharacterController.class, this.characterFactory
+				.createCharacterController(this.characterModel).getClass());
 	}
 
 }

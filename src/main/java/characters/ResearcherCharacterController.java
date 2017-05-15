@@ -11,8 +11,8 @@ public class ResearcherCharacterController extends AbstractCharacterController{
 	}
 
 	@Override 
-	public boolean verifyShareKnowledge(AbstractCharacterController characterToShareWith, boolean checkedOneDirection){
-		return this.character.getCurrentCity().equals(characterToShareWith.getCharacterModel().getCurrentCity());
+	public boolean verifyShareKnowledge(AbstractCharacterController otherChar, boolean doneOtherDir){
+		return this.character.getCurrentCity().equals(otherChar.getCharacterModel().getCurrentCity());
 	}
 	
 	@Override

@@ -14,7 +14,7 @@ import game.GameController;
 import game.GameModel;
 import game.GameView;
 
-public class main {
+public class Main {
 	
 	public static void main(String [] args) {
 		GameModel gameModel = new GameModel();
@@ -42,7 +42,8 @@ public class main {
 		gameModel.setCharacters(characters);
 		gameModel.setDifficulty(4);
 		
-		GameController controller = new GameController(gameModel, diseaseController, cityController, playerDeckController, infectionDeckController);
+		GameController controller = new GameController(gameModel, 
+				diseaseController, cityController, playerDeckController, infectionDeckController);
 		GameView view = new GameView(controller);
 		
 		view.setTitle("Pandemic at Noob Difficulty with 2 Players");

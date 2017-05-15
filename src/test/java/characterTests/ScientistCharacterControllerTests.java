@@ -105,12 +105,12 @@ public class ScientistCharacterControllerTests {
 		assertFalse(scientist.verifyCure(cardsToCure, this.blueDisease));
 	}
 	
-	private Set<CardModel> developCardSet(int n) {
+	private Set<CardModel> developCardSet(int numCards) {
 		Set<CityModel> setOfCities = cityController.getCities();
 		this.listOfCities = new ArrayList<CityModel>(setOfCities);
 		
 		Set<CardModel> cardsToCure = new HashSet<CardModel>();
-		for(int i = 0; i < n; i++){
+		for(int i = 0; i < numCards; i++){
 			CityModel cityToAdd = listOfCities.get(i);
 			this.scientist.addCardToHandOfCards(this.cityToCardMap.get(cityToAdd));
 			cardsToCure.add(this.cityToCardMap.get(cityToAdd));
@@ -119,12 +119,12 @@ public class ScientistCharacterControllerTests {
 		return cardsToCure;
 	}
 	
-	private Set<CardModel> developCardSetNoHandAdd(int n) {
+	private Set<CardModel> developCardSetNoHandAdd(int numCards) {
 		Set<CityModel> setOfCities = cityController.getCities();
 		this.listOfCities = new ArrayList<CityModel>(setOfCities);
 		
 		Set<CardModel> cardsToCure = new HashSet<CardModel>();
-		for(int i = 0; i < n; i++){
+		for(int i = 0; i < numCards; i++){
 			CityModel cityToAdd = listOfCities.get(i);
 			cardsToCure.add(this.cityToCardMap.get(cityToAdd));
 		}

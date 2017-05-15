@@ -36,6 +36,9 @@ public class DiseaseController {
 //	}
 	
 	public boolean areAllDiseasesCured(){
-		return this.blueDisease.isCured() && this.blackDisease.isCured() && this.redDisease.isCured() && this.yellowDisease.isCured();
+		return this.blueDisease.isCured() 
+				&& this.blackDisease.isCured() 
+				&& this.redDisease.isCured() 
+				&& this.yellowDisease.isCured();
 	}
 }

@@ -178,7 +178,8 @@ public class CityController {
 		bangkok.setNeighbors(new HashSet<CityModel>(Arrays.asList(kolkata, chenn, jakarta, hoChi, hongKong)));
 		jakarta.setNeighbors(new HashSet<CityModel>(Arrays.asList(chenn, bangkok, hoChi, sydney)));
 		hoChi.setNeighbors(new HashSet<CityModel>(Arrays.asList(jakarta, bangkok, hongKong, manila)));
-		hongKong.setNeighbors(new HashSet<CityModel>(Arrays.asList(kolkata, bangkok, hoChi, shang, taipei, manila)));
+		hongKong.setNeighbors(new HashSet<CityModel>(Arrays.asList(kolkata, 
+				bangkok, hoChi, shang, taipei, manila)));
 		beijing.setNeighbors(new HashSet<CityModel>(Arrays.asList(shang, seoul)));
 		seoul.setNeighbors(new HashSet<CityModel>(Arrays.asList(shang, tokyo, beijing)));
 		taipei.setNeighbors(new HashSet<CityModel>(Arrays.asList(hongKong, shang, osaka, manila)));
@@ -262,4 +263,4 @@ public class CityController {
 			c.setCubesByDisease(diseaseController.getYellowDisease(), 0);
 		}
 	}
-}
+}
