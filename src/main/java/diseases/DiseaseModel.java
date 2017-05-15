@@ -25,7 +25,7 @@ public class DiseaseModel {
 	}
 	
 	public void removeFromCubesLeft(int cubesLeft) {
-		
+		this.cubesLeft -= cubesLeft;
 	}
 
 	public boolean isCured() {

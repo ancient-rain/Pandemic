@@ -1,13 +1,13 @@
 package game;
 
-import static constants.Constants.BIOHAZARD_IMG;
-import static constants.Constants.CUSTOM_GRAY_1;
-import static constants.Constants.INITIAL_NUM_RESEARCH_STATIONS;
-import static constants.Constants.INFECTION_RATE_TEXT;
-import static constants.Constants.INITIAL_NUM_OUTBREAKS;
-import static constants.Constants.OUTBREAK_IMG;
-import static constants.Constants.RESEARCH_STATION_IMG;
-import static constants.Constants.OFFSET_10;
+import static constants.Game.BIOHAZARD_IMG;
+import static constants.Game.CUSTOM_GRAY_1;
+import static constants.Game.INITIAL_NUM_RESEARCH_STATIONS;
+import static constants.Game.INFECTION_RATE_TEXT;
+import static constants.Game.INITIAL_NUM_OUTBREAKS;
+import static constants.Game.OUTBREAK_IMG;
+import static constants.Game.RESEARCH_STATION_IMG;
+import static constants.Game.OFFSET_10;
 
 import java.awt.FlowLayout;
 import java.awt.Image;

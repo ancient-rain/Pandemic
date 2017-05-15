@@ -2,20 +2,7 @@ package characters;
 
 import java.awt.Color;
 
-import static constants.Constants.CONTINGENCY_PLANNER_ICON;
-import static constants.Constants.DISPATCHER_ICON;
-import static constants.Constants.MEDIC_ICON;
-import static constants.Constants.OPERATIONS_EXPERT_ICON;
-import static constants.Constants.QUARANTINE_SPECIALIST_ICON;
-import static constants.Constants.RESEARCHER_ICON;
-import static constants.Constants.SCIENTIST_ICON;
-import static constants.Constants.CONTINGENCY_PLANNER_COLOR;
-import static constants.Constants.DISPATCHER_COLOR;
-import static constants.Constants.MEDIC_COLOR;
-import static constants.Constants.OPERATIONS_EXPERT_COLOR;
-import static constants.Constants.QUARANTINE_SPECIALIST_COLOR;
-import static constants.Constants.RESEARCHER_COLOR;
-import static constants.Constants.SCIENTIST_COLOR;
+import static constants.Character.*;
 
 public class CharacterFrontEndModel {
 	CharacterModel model;

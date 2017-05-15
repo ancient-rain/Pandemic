@@ -53,7 +53,7 @@ public abstract class AbstractDeckCardController {
 	
 	protected void initializeDeck(CityController cityController){
 		for(CityModel c : cityController.getCities()){
-			CardModel cardToAdd = new CardModel(c.getName());
+			CardModel cardToAdd = new CardModel(c.getName(), CardModel.CardType.PLAYER);
 			this.deckCards.add(cardToAdd);
 			this.cityToCardMap.put(c, cardToAdd);
 		}

@@ -57,6 +57,10 @@ public class GameModel {
 		this.turnCounter = turnCounter;
 	}
 	
+	public void setNumberOfStartingCards(int numCards) {
+		this.numberOfStartingCards = numCards;
+	}
+	
 	public int getNumberOfStartingCards(){
 		return this.numberOfStartingCards;
 	}

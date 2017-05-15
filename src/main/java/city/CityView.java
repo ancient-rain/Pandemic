@@ -7,17 +7,22 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static constants.Constants.*;
+import static constants.City.*;
+import static constants.Game.OFFSET_1;
+import static constants.Game.OFFSET_2;
+import static constants.Game.OFFSET_40;
 
 public class CityView {
 	CityController controller;
-	Set<CityModel> cities;
 	Map<String, CityFrontEndModel> citiesToDraw;
 	
 	public CityView(CityController controller) {
 		this.controller = controller;
-		this.cities = controller.getCities();
 		this.citiesToDraw = new HashMap<>();
+	}
+	
+	public CityFrontEndModel getCityToDraw(String cityName){
+		return this.citiesToDraw.get(cityName);
 	}
 	
 	public void paintCities(Graphics gr) {
@@ -27,7 +32,7 @@ public class CityView {
 	}
 	
 	private void updateCitiesToDraw() {	
-		for (CityModel c : this.cities) {
+		for (CityModel c : this.controller.getCities()) {
 			CityFrontEndModel city = new CityFrontEndModel(c);
 			String name = c.getName();
 			
@@ -262,7 +267,7 @@ public class CityView {
 		this.citiesToDraw.get(OSAKA).setColor(color);
 		this.citiesToDraw.get(OSAKA).setLocation(1690, 430);
 		this.citiesToDraw.get(SYDNEY).setColor(color);
-		this.citiesToDraw.get(SYDNEY).setLocation(1700, 810);
+		this.citiesToDraw.get(SYDNEY).setLocation(1715, 810);
 	}
 
 }
