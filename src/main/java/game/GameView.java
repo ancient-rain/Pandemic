@@ -147,10 +147,13 @@ public class GameView extends JFrame implements ActionListener {
 			Object button = event.getSource();
 			
 			if (button == this.moveButton) {
-				if(this.controller.getCurrentPlayer().getCharactersCurrentCity().getName().equals("Atlanta")){
-					this.controller.moveCharacter(this.controller.getCurrentPlayer(), this.controller.getCityController().getCityByName("Chicago"));
+				if(this.controller.getCurrentPlayer().getCharactersCurrentCity()
+						.getName().equals("Atlanta")){
+					this.controller.moveCharacter(this.controller.getCurrentPlayer(), 
+							this.controller.getCityController().getCityByName("Chicago"));
 				}else {
-					this.controller.moveCharacter(this.controller.getCurrentPlayer(), this.controller.getCityController().getCityByName("Atlanta"));
+					this.controller.moveCharacter(this.controller.getCurrentPlayer(), 
+							this.controller.getCityController().getCityByName("Atlanta"));
 				}
 			} else if (button == this.treatButton) {
 				
@@ -518,7 +521,8 @@ public class GameView extends JFrame implements ActionListener {
 			} else {
 				gr2D.setColor(CUSTOM_GRAY_3);
 			}
-			gr2D.drawString(this.controller.getGameModel().getInfectionRates()[i] + "", INFECTION_RATE_X + (OFFSET_10 * i), TOP_PANEL_TEXT_Y);
+			gr2D.drawString(this.controller.getGameModel().getInfectionRates()[i] + "", 
+					INFECTION_RATE_X + (OFFSET_10 * i), TOP_PANEL_TEXT_Y);
 		}
 	}
 	

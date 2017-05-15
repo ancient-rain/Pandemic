@@ -9,8 +9,8 @@ public class CityFrontEndModel {
 	Point point;
 	// Might need something for diseases
 
-	public CityFrontEndModel(int x, int y) {
-		this.point = new Point(x, y);
+	public CityFrontEndModel(int xlocation, int ylocation) {
+		this.point = new Point(xlocation, ylocation);
 	}
 	
 	public CityFrontEndModel(CityModel city) {
@@ -27,8 +27,8 @@ public class CityFrontEndModel {
 		return this.color;
 	}
 	
-	public void setLocation(int x, int y) {
-		this.point.setLocation(new Point(x, y));
+	public void setLocation(int xlocation, int ylocation) {
+		this.point.setLocation(new Point(xlocation, ylocation));
 	}
 	
 	public int getX() {

@@ -83,7 +83,9 @@ public abstract class AbstractCharacterController {
 	}
 	
 	public boolean verifyBuild(CityController cityController){
-		return this.hasCardForCurrentCity() && !this.character.isAtResearchStation() && cityController.getResearchStationCounter() < 6;
+		return this.hasCardForCurrentCity() 
+				&& !this.character.isAtResearchStation() 
+				&& cityController.getResearchStationCounter() < 6;
 	}
 	
 	public void build(CityController cityController){
@@ -97,8 +99,10 @@ public abstract class AbstractCharacterController {
 		cityController.setResearchStationCounter(cityController.getResearchStationCounter() + 1);
 	}
 	
-	public boolean verifyShareKnowledge(AbstractCharacterController characterToShareWith, boolean checkedOneDirection){
-		return (this.hasCardForCurrentCity() && characterToShareWith.getCharactersCurrentCity().equals(this.character.getCurrentCity())) || (!checkedOneDirection && characterToShareWith.verifyShareKnowledge(this, true));
+	public boolean verifyShareKnowledge(AbstractCharacterController otherChar, boolean doneOneDir){
+		return (this.hasCardForCurrentCity() 
+				&& otherChar.getCharactersCurrentCity().equals(this.character.getCurrentCity()))
+				|| (!doneOneDir && otherChar.verifyShareKnowledge(this, true));
 	}
 	
 	public void shareKnowledge(CharacterModel characterToShareWith, CardModel cardToShare){

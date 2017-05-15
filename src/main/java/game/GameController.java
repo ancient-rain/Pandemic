@@ -49,7 +49,8 @@ public class GameController {
 		for(int i = 0; i < 3; i++){
 			for(int j = 0; j < 3; j++){
 				//TODO: fix this to discard cards
-				CityModel cityToInfect = this.cityController.getCityByName(this.infectionDeckController.draw().getName());
+				CityModel cityToInfect = this.cityController.getCityByName(
+						this.infectionDeckController.draw().getName());
 				for(int k = j; k < 3; k++){
 					this.cityController.infect(cityToInfect, cityToInfect.getPrimaryDisease());
 				}
@@ -185,7 +186,8 @@ public class GameController {
 		}
 		for(int i = 0; i < numberOfInfections; i++){
 			CardModel infectionCard = this.infectionDeckController.draw();
-			this.infect(this.cityController.getCityByName(infectionCard.getName()), this.cityController.getCityByName(infectionCard.getName()).getPrimaryDisease());
+			this.infect(this.cityController.getCityByName(infectionCard.getName()), 
+					this.cityController.getCityByName(infectionCard.getName()).getPrimaryDisease());
 			this.infectionDeckController.discard(infectionCard);
 		}
 		this.cityController.clearOutbrokenCities();
@@ -201,9 +203,12 @@ public class GameController {
 			this.gameModel.setInfectionRateIndex(this.gameModel.getInfectionRateIndex() + 1);
 		}
 		CardModel bottom = ((InfectionDeckCardController)this.infectionDeckController).drawBottomCard();
-		this.infect(this.cityController.getCityByName(bottom.getName()), this.cityController.getCityByName(bottom.getName()).getPrimaryDisease());
-		this.infect(this.cityController.getCityByName(bottom.getName()), this.cityController.getCityByName(bottom.getName()).getPrimaryDisease());
-		this.infect(this.cityController.getCityByName(bottom.getName()), this.cityController.getCityByName(bottom.getName()).getPrimaryDisease());
+		this.infect(this.cityController.getCityByName(bottom.getName()), 
+				this.cityController.getCityByName(bottom.getName()).getPrimaryDisease());
+		this.infect(this.cityController.getCityByName(bottom.getName()), 
+				this.cityController.getCityByName(bottom.getName()).getPrimaryDisease());
+		this.infect(this.cityController.getCityByName(bottom.getName()), 
+				this.cityController.getCityByName(bottom.getName()).getPrimaryDisease());
 		this.infectionDeckController.discard(bottom);
 		
 		this.infectionDeckController.specialShuffle(0);
@@ -222,7 +227,8 @@ public class GameController {
 	public boolean playEventCard(CardModel eventCardToPlay){
 		switch(eventCardToPlay.getName()){
 		case "Airlift":
-			return this.playAirlift(this.gameModel.getCharacterToBeAirlifted(), this.gameModel.getCityForEvent());
+			return this.playAirlift(this.gameModel.getCharacterToBeAirlifted(), 
+					this.gameModel.getCityForEvent());
 		case "Forecast":
 			return this.playForecast();
 		case "Government Grant":
@@ -261,7 +267,8 @@ public class GameController {
 	}
 	
 	private boolean playGovernmentGrant(CityModel cityToAddResearchStation){
-		if(this.cityController.getResearchStationCounter() < 6 && !cityToAddResearchStation.hasResearchStation()){
+		if(this.cityController.getResearchStationCounter() < 6 
+				&& !cityToAddResearchStation.hasResearchStation()){
 			cityToAddResearchStation.setHasResearchStation(true);
 			return true;
 		}
