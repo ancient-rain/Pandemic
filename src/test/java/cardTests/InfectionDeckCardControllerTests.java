@@ -56,6 +56,10 @@ public class InfectionDeckCardControllerTests {
 		int numberToUseInShuffle = 3;
 		this.infectionDeckController.specialShuffle(numberToUseInShuffle);
 		assertEquals(0, this.infectionDeckController.getNumberOfCardsInDiscard());
+		CardModel cardToDiscard = this.infectionDeckController.draw();
+		this.infectionDeckController.discard(cardToDiscard);
+		this.infectionDeckController.specialShuffle(0);
+		assertEquals(0, this.infectionDeckController.getDiscardedCards().size());
 	}
 	
 	@Test
@@ -73,5 +77,13 @@ public class InfectionDeckCardControllerTests {
 		infectionDeckController.addToTop(cardToPutOnTop);
 		assertEquals(48, infectionDeckController.getNumberOfCardsInDeck());	
 	}
+	
+	/*@Test
+	public void testDrawBottomCardThrowException() {
+		for(int i = 0; i < 48; i++){
+			this.infectionDeckController.drawBottomCard();
+		}
+		assertEquals(null, infectionDeckController.drawBottomCard());
+	}*/
 
 }
