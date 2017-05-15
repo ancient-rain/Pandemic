@@ -56,10 +56,6 @@ public class QuarentineSpecialistCharacterControllerTests {
 		this.characterName = "CharacterName";
 		this.diseaseModel = new DiseaseModel();
 		
-//		CityModel cityModel = new CityModel(cityName, diseaseModel);
-//		CharacterModel characterModel = new CharacterModel(characterName, cityModel);
-//		this.quarentineSpec = new QuarentineSpecialistCharacterController(characterModel);
-		
 		Set<CityModel> setOfCities = cityController.getCities();
 		this.listOfCities = new ArrayList<CityModel>(setOfCities);
 		
@@ -93,20 +89,4 @@ public class QuarentineSpecialistCharacterControllerTests {
 		CityModel cityToMoveTo = listOfCities.get(1);
 		quarentineSpec.moveWithoutCard(cityToMoveTo);
 	}
-	
-	/*@Test
-	public void testConstructorWithNeighbors(){
-		// no neighbors
-		CityModel cityModel = new CityModel(cityName, diseaseModel);
-		CharacterModel characterModel = new CharacterModel(characterName, cityModel);
-		this.quarentineSpec = new QuarentineSpecialistCharacterController(characterModel);
-		
-		// with neighbors
-		CityModel testCity = listOfCities.get(0);
-		CharacterModel characterModel = new CharacterModel("random", testCity);
-		QuarentineSpecialistCharacterController randomConstructor = new QuarentineSpecialistCharacterController(characterModel);
-	}*/
-	
-	
-
 }
