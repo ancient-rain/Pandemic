@@ -79,7 +79,6 @@ public class GameModel {
 	
 	public int getInfectionRateIndex(){
 		return this.infectionRateIndex;
-
 	}
 	
 	public void setInfectionRateIndex(int infectionRateIndex){

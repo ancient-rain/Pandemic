@@ -201,60 +201,7 @@ public class CityController {
 		kinsha.setNeighbors(new HashSet<CityModel>(Arrays.asList(lago, khar, johann)));
 		johann.setNeighbors(new HashSet<CityModel>(Arrays.asList(kinsha, khar)));
 		khar.setNeighbors(new HashSet<CityModel>(Arrays.asList(lago, kinsha, johann, cairo)));
-		
-		sanFran.setNeighbors(new HashSet<CityModel>(Arrays.asList(chicago, la, manila, tokyo)));
-		chicago.setNeighbors(new HashSet<CityModel>(Arrays.asList(sanFran, atlanta, la, mexicoCity, mont)));
-		atlanta.setNeighbors(new HashSet<CityModel>(Arrays.asList(wash, chicago, miami)));
-		mont.setNeighbors(new HashSet<CityModel>(Arrays.asList(nyc, wash, chicago)));
-		wash.setNeighbors(new HashSet<CityModel>(Arrays.asList(nyc, mont, miami, atlanta)));
-		nyc.setNeighbors(new HashSet<CityModel>(Arrays.asList(madrid, london, wash, mont)));
-		london.setNeighbors(new HashSet<CityModel>(Arrays.asList(nyc, madrid, paris, essen)));
-		madrid.setNeighbors(new HashSet<CityModel>(Arrays.asList(nyc, london, paris, algi, saoPalo)));
-		paris.setNeighbors(new HashSet<CityModel>(Arrays.asList(milan, essen, london, madrid, algi)));
-		essen.setNeighbors(new HashSet<CityModel>(Arrays.asList(london, paris, milan, stPete)));
-		milan.setNeighbors(new HashSet<CityModel>(Arrays.asList(paris, essen, istan)));
-		stPete.setNeighbors(new HashSet<CityModel>(Arrays.asList(essen, istan, moscow)));
-		
-		algi.setNeighbors(new HashSet<CityModel>(Arrays.asList(madrid, paris, istan, cairo)));
-		cairo.setNeighbors(new HashSet<CityModel>(Arrays.asList(algi, baghdad, istan, ridya, khar)));
-		istan.setNeighbors(new HashSet<CityModel>(Arrays.asList(milan, stPete, algi, cairo, baghdad, moscow)));
-		moscow.setNeighbors(new HashSet<CityModel>(Arrays.asList(stPete, istan, tehran)));
-		baghdad.setNeighbors(new HashSet<CityModel>(Arrays.asList(tehran, istan, cairo, ridya, karachi)));
-		ridya.setNeighbors(new HashSet<CityModel>(Arrays.asList(cairo, baghdad, karachi)));
-		tehran.setNeighbors(new HashSet<CityModel>(Arrays.asList(moscow, baghdad, karachi, delhi)));
-		karachi.setNeighbors(new HashSet<CityModel>(Arrays.asList(ridya, baghdad, delhi, mumbai, tehran)));
-		mumbai.setNeighbors(new HashSet<CityModel>(Arrays.asList(karachi, delhi, chenn)));
-		delhi.setNeighbors(new HashSet<CityModel>(Arrays.asList(tehran, karachi, mumbai, chenn, kolkata)));
-		chenn.setNeighbors(new HashSet<CityModel>(Arrays.asList(mumbai, delhi, kolkata, bangkok, jakarta)));
-		kolkata.setNeighbors(new HashSet<CityModel>(Arrays.asList(delhi, chenn, bangkok, hongKong)));
-		
-		bangkok.setNeighbors(new HashSet<CityModel>(Arrays.asList(kolkata, chenn, jakarta, hoChi, hongKong)));
-		jakarta.setNeighbors(new HashSet<CityModel>(Arrays.asList(chenn, bangkok, hoChi, sydney)));
-		hoChi.setNeighbors(new HashSet<CityModel>(Arrays.asList(jakarta, bangkok, hongKong, manila)));
-		hongKong.setNeighbors(new HashSet<CityModel>(Arrays.asList(kolkata, 
-				bangkok, hoChi, shang, taipei, manila)));
-		beijing.setNeighbors(new HashSet<CityModel>(Arrays.asList(shang, seoul)));
-		seoul.setNeighbors(new HashSet<CityModel>(Arrays.asList(shang, tokyo, beijing)));
-		taipei.setNeighbors(new HashSet<CityModel>(Arrays.asList(hongKong, shang, osaka, manila)));
-		manila.setNeighbors(new HashSet<CityModel>(Arrays.asList(sanFran, taipei, hongKong, hoChi, sydney)));
-		tokyo.setNeighbors(new HashSet<CityModel>(Arrays.asList(sanFran, seoul, osaka, shang)));
-		osaka.setNeighbors(new HashSet<CityModel>(Arrays.asList(tokyo, taipei)));
-		sydney.setNeighbors(new HashSet<CityModel>(Arrays.asList(manila, jakarta, la)));
-		shang.setNeighbors(new HashSet<CityModel>(Arrays.asList(beijing, seoul, tokyo, taipei, hongKong)));
-		
-		la.setNeighbors(new HashSet<CityModel>(Arrays.asList(sanFran, chicago, sydney, mexicoCity)));
-		mexicoCity.setNeighbors(new HashSet<CityModel>(Arrays.asList(la, chicago, miami, bogata, lima)));
-		miami.setNeighbors(new HashSet<CityModel>(Arrays.asList(bogata, mexicoCity, atlanta, wash)));
-		bogata.setNeighbors(new HashSet<CityModel>(Arrays.asList(lima, mexicoCity, miami, saoPalo, bueno)));
-		lima.setNeighbors(new HashSet<CityModel>(Arrays.asList(bogata, mexicoCity, santi)));
-		santi.setNeighbors(new HashSet<CityModel>(Arrays.asList(lima)));
-		bueno.setNeighbors(new HashSet<CityModel>(Arrays.asList(bogata, saoPalo)));
-		saoPalo.setNeighbors(new HashSet<CityModel>(Arrays.asList(bogata, bueno, madrid, lago)));
-		lago.setNeighbors(new HashSet<CityModel>(Arrays.asList(saoPalo, kinsha, khar)));
-		kinsha.setNeighbors(new HashSet<CityModel>(Arrays.asList(lago, khar, johann)));
-		johann.setNeighbors(new HashSet<CityModel>(Arrays.asList(kinsha, khar)));
-		khar.setNeighbors(new HashSet<CityModel>(Arrays.asList(lago, kinsha, johann, cairo)));
-		
+			
 		cities.put(sanFran.getName(), sanFran);
 		cities.put(chicago.getName(), chicago);
 		cities.put(atlanta.getName(), atlanta);
@@ -316,4 +263,4 @@ public class CityController {
 			c.setCubesByDisease(diseaseController.getYellowDisease(), 0);
 		}
 	}
-}
+}

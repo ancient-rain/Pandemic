@@ -132,4 +132,9 @@ public class CityControllerTests {
 		
 		assertTrue(beforeOutbreak == afterOutbreak);
 	}
+	
+	@Test
+	public void testGetOutBrokenCities(){
+		assertEquals(new HashSet<>(), this.controller.getOutbrokenCities());
+	}
 }
