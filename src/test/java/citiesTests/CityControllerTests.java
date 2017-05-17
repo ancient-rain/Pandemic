@@ -1,7 +1,6 @@
 package citiesTests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,7 +58,9 @@ public class CityControllerTests {
 		
 		int afterInfect = cityToInfect.getCubesByDisease(diseaseModel);
 		
-		assertTrue(beforeInfect == afterInfect - 1);
+		boolean comparison = (beforeInfect == afterInfect - 1);
+		
+		assertTrue(comparison);
 	}
 	
 	@Test
@@ -85,7 +86,9 @@ public class CityControllerTests {
 		
 		int numNeighbors = cityToInfect.getNeighbors().size();
 		
-		assertTrue(beforeOutbreak == afterOutbreak - numNeighbors);
+		boolean comparison = (beforeOutbreak == afterOutbreak - numNeighbors);
+		
+		assertTrue(comparison);
 	}
 	
 	@Test
@@ -100,7 +103,9 @@ public class CityControllerTests {
 		
 		int afterInfect = cityToInfect.getCubesByDisease(diseaseModel);
 		
-		assertTrue(beforeInfect == afterInfect);
+		boolean comparison = (beforeInfect == afterInfect);
+		
+		assertTrue(comparison);
 	}
 	
 	@Test
@@ -135,7 +140,24 @@ public class CityControllerTests {
 		int numQuarentined = 1;
 		afterOutbreak -= (numNeighbors - numQuarentined);
 		
-		assertTrue(beforeOutbreak == afterOutbreak);
+		boolean comparison = (beforeOutbreak == afterOutbreak);
+		
+		assertTrue(comparison);
+	}
+	
+	@Test
+	public void testRemoveInfectedCity(){
+		CityModel cityToInfect = this.controller.getCityByName(cityName);
+		DiseaseModel diseaseModel = this.diseaseController.getBlueDisease();
+		this.controller.infect(cityToInfect, diseaseModel);
+		
+		Set<CityModel> infectedCities = this.controller.getInfectedCities();
+		List<CityModel> listOfInfectedCities = new ArrayList<CityModel>(infectedCities);
+		assertEquals(1, infectedCities.size());
+		//CityModel cityToRemove = listOfInfectedCities.get(0);
+		assertTrue(infectedCities.contains(cityToInfect));
+		this.controller.removeInfectedCity(cityToInfect);
+		assertFalse(infectedCities.contains(cityToInfect));
 	}
 	
 	@Test
