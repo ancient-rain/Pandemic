@@ -86,6 +86,7 @@ public class OperationExpertCharacterControllerTests {
 	public void testBuild(){
 		operSpecialist.build(this.cityController);
 		assertEquals(2, this.cityController.getResearchStationCounter());
+		assertTrue(operSpecialist.getCharactersCurrentCity().hasResearchStation());
 	}
 	
 	@Test
@@ -106,6 +107,13 @@ public class OperationExpertCharacterControllerTests {
 	public void testVerifyBuildFalse(){
 		operSpecialist.build(this.cityController);
 		this.cityController.setResearchStationCounter(6);
+		assertFalse(operSpecialist.verifyBuild(this.cityController));
+	}
+	
+	@Test
+	public void testVerifyBuildFalseTooLargeOfNumber(){
+		this.cityController.setResearchStationCounter(7);
+		operSpecialist.getCharactersCurrentCity().setHasResearchStation(false);
 		assertFalse(operSpecialist.verifyBuild(this.cityController));
 	}
 	
@@ -154,7 +162,10 @@ public class OperationExpertCharacterControllerTests {
 		CityModel cityToMoveTo = listOfCities.get(0);
 		CityModel cityToMoveToNotCharacter = listOfCities.get(1);
 		CardModel cardToMoveWith = this.cityToCardMap.get(cityToMoveTo);
+		this.operSpecialist.addCardToHandOfCards(cardToMoveWith);
+		assertEquals(1, this.operSpecialist.getCharacterModel().getHandSize());
 		this.operSpecialist.moveWithCard(cityToMoveToNotCharacter, cardToMoveWith);
+		assertEquals(0, this.operSpecialist.getCharacterModel().getHandSize());
 		assertTrue(this.operSpecialist.getMovedFromResearchStationWithcard());
 		assertFalse(operSpecialist.verifyMoveWithCard(cityToMoveToNotCharacter, cardToMoveWith));
 	}

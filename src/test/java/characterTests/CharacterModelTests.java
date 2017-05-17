@@ -125,5 +125,11 @@ public class CharacterModelTests {
 	public void testEnumScientist(){
 		assertEquals("SCIENTIST", CharacterRole.SCIENTIST.name());
 	}
+	
+	@Test
+	public void testSetCurrentCityQuarentined(){
+		this.characterModel.setCurrentCityQuarentined(true);
+		assertTrue(this.characterModel.getCurrentCity().isQuarentined());
+	}
 
 }

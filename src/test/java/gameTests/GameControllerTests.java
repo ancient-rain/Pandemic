@@ -227,6 +227,7 @@ public class GameControllerTests {
 		assertFalse(this.playerController.getCharacterModel().isInHand(card));
 	}
 	
+	
 	/*@Test
 	public void testNormalTakeShare() {
 		this.controller.getPlayers().clear();

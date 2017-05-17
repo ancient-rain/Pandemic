@@ -20,20 +20,16 @@ public class OperationsExpertCharacterController extends AbstractCharacterContro
 
 	public boolean verifyMoveWithCard(CityModel cityToMoveTo, CardModel cardToMoveWith){
 		if(this.hasCardForCurrentCity()){
-			System.out.println("first");
 			return true;
 		} else if(cardToMoveWith.sharesName(cityToMoveTo)){
-			System.out.println("second");
 			return true;
 		} else if(!this.movedFromResearchStationWithCard) {
-			System.out.println("third");
 			if(this.character.isAtResearchStation()){
 				return true;
 			} else {
 				return false;
 			}
 		} else {
-			System.out.println("last");
 			return false;
 		}
 	}
@@ -60,12 +56,9 @@ public class OperationsExpertCharacterController extends AbstractCharacterContro
 			if(!this.character.isAtResearchStation()){
 				return true;
 			}
-			else {
-				return false;
-			}
-		} else {
-			return false;
 		}
+		return false;
+		
 	}
 	
 	@Override

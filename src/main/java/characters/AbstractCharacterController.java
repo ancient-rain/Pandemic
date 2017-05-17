@@ -28,20 +28,16 @@ public abstract class AbstractCharacterController {
 	public boolean verifyMoveWithoutCard(CityModel cityToMoveTo){
 		// this method has complete coverage whenever there println lines are in the code
 		// but if they are not there then it doesnt.
-		//System.err.println("city: " + cityToMoveTo.hasResearchStation());
-		//System.err.println("character: " + this.character.isAtResearchStation());
 		if(this.character.getCurrentNeighbors().contains(cityToMoveTo)){
 			return true;
 		}
 		if(this.character.isAtResearchStation()){
 			if(cityToMoveTo.hasResearchStation()){
-				System.out.println("here");
+				//System.out.println("here");
 				return true;
 			}
 		}
 		return false;
-		//return this.character.getCurrentNeighbors().contains(cityToMoveTo) 
-		//		|| (this.character.isAtResearchStation() && cityToMoveTo.hasResearchStation());
 	}
 	
 	public void moveWithoutCard(CityModel cityToMoveTo){

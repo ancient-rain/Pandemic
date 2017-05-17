@@ -124,6 +124,60 @@ public class CharacterFrontEndModelTests {
 		assertEquals(QUARANTINE_SPECIALIST_ICON, frontEndModel.getImgPath());
 	}
 	
+	@Test
+	public void testGetImgEmpty(){
+		String characterName = "";
+		CharacterModel characterModel = new CharacterModel(characterName, cityModel);
+		CharacterFrontEndModel frontEndModel = new CharacterFrontEndModel(characterModel);
+	
+		assertEquals(SCIENTIST_ICON, frontEndModel.getImgPath());
+	}
+	
+	@Test
+	public void testGetImgContingency(){
+		String characterName = "Contingency Planner";
+		CharacterModel characterModel = new CharacterModel(characterName, cityModel);
+		CharacterFrontEndModel frontEndModel = new CharacterFrontEndModel(characterModel);
+	
+		assertEquals(CONTINGENCY_PLANNER_ICON, frontEndModel.getImgPath());
+	}
+	
+	@Test
+	public void testGetImgDispatcher(){
+		String characterName = "Dispatcher";
+		CharacterModel characterModel = new CharacterModel(characterName, cityModel);
+		CharacterFrontEndModel frontEndModel = new CharacterFrontEndModel(characterModel);
+	
+		assertEquals(DISPATCHER_ICON, frontEndModel.getImgPath());
+	}
+	
+	@Test
+	public void testGetImgMedic(){
+		String characterName = "Medic";
+		CharacterModel characterModel = new CharacterModel(characterName, cityModel);
+		CharacterFrontEndModel frontEndModel = new CharacterFrontEndModel(characterModel);
+	
+		assertEquals(MEDIC_ICON, frontEndModel.getImgPath());
+	}
+	
+	@Test
+	public void testGetImgOperations(){
+		String characterName = "Operations Expert";
+		CharacterModel characterModel = new CharacterModel(characterName, cityModel);
+		CharacterFrontEndModel frontEndModel = new CharacterFrontEndModel(characterModel);
+	
+		assertEquals(OPERATIONS_EXPERT_ICON, frontEndModel.getImgPath());
+	}
+	
+	@Test
+	public void testGetImgResearcher(){
+		String characterName = "Researcher";
+		CharacterModel characterModel = new CharacterModel(characterName, cityModel);
+		CharacterFrontEndModel frontEndModel = new CharacterFrontEndModel(characterModel);
+	
+		assertEquals(RESEARCHER_ICON, frontEndModel.getImgPath());
+	}
+	
 	
 
 }
