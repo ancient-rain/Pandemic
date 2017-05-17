@@ -26,18 +26,13 @@ public class OperationsExpertCharacterController extends AbstractCharacterContro
 		} else if(!this.movedFromResearchStationWithCard) {
 			if(this.character.isAtResearchStation()){
 				return true;
-			} else {
-				return false;
 			}
-		} else {
-			return false;
 		}
+		return false;
 	}
 	
 	@Override
 	public void moveWithCard(CityModel cityToMoveTo, CardModel cardToMoveWith){
-		//System.out.println(cardToMoveWith.getName());
-		//System.out.println(this.character.getCurrentCity().getName());
 		if(this.character.isAtResearchStation()){
 			if(!cardToMoveWith.sharesName(cityToMoveTo)){
 				if(cardToMoveWith.sharesName(this.character.getCurrentCity())){
@@ -45,7 +40,6 @@ public class OperationsExpertCharacterController extends AbstractCharacterContro
 				}
 			}
 		}
-		// ask if this should be inside the statements
 		this.character.removeCardFromHandOfCards(cardToMoveWith);
 		this.character.setCurrentCity(cityToMoveTo);
 	}

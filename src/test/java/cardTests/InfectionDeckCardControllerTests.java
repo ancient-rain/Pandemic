@@ -75,15 +75,8 @@ public class InfectionDeckCardControllerTests {
 		CardModel cardToPutOnTop = this.infectionDeckController.drawBottomCard();
 		assertEquals(47, infectionDeckController.getNumberOfCardsInDeck());
 		infectionDeckController.addToTop(cardToPutOnTop);
-		assertEquals(48, infectionDeckController.getNumberOfCardsInDeck());	
+		assertEquals(48, infectionDeckController.getNumberOfCardsInDeck());
+		assertEquals(CardModel.CardType.PLAYER, cardToPutOnTop.getType());
 	}
-	
-	/*@Test
-	public void testDrawBottomCardThrowException() {
-		for(int i = 0; i < 48; i++){
-			this.infectionDeckController.drawBottomCard();
-		}
-		assertEquals(null, infectionDeckController.drawBottomCard());
-	}*/
 
 }
