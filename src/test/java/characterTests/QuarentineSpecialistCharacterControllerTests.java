@@ -114,6 +114,7 @@ public class QuarentineSpecialistCharacterControllerTests {
 		
 		CityModel currentCity = this.quarentineSpec.getCharactersCurrentCity();
 		Set<CityModel> neighboringCities = currentCity.getNeighbors();
+		assertTrue(currentCity.isQuarentined());
 		ArrayList<CityModel> neighboringCitiesList = new ArrayList<CityModel>(neighboringCities);
 		for(int i = 0; i < neighboringCitiesList.size(); i++){
 			assertTrue(neighboringCitiesList.get(i).isQuarentined());
