@@ -13,29 +13,59 @@ public class OperationsExpertCharacterController extends AbstractCharacterContro
 		super(character);
 		this.movedFromResearchStationWithCard = false;
 	}
-
+	
+	public boolean getMovedFromResearchStationWithcard(){
+		return this.movedFromResearchStationWithCard;
+	}
 
 	public boolean verifyMoveWithCard(CityModel cityToMoveTo, CardModel cardToMoveWith){
-		return this.hasCardForCurrentCity() 
-				|| cardToMoveWith.sharesName(cityToMoveTo) 
-				|| (!this.movedFromResearchStationWithCard && this.character.isAtResearchStation());
+		if(this.hasCardForCurrentCity()){
+			System.out.println("first");
+			return true;
+		} else if(cardToMoveWith.sharesName(cityToMoveTo)){
+			System.out.println("second");
+			return true;
+		} else if(!this.movedFromResearchStationWithCard) {
+			System.out.println("third");
+			if(this.character.isAtResearchStation()){
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			System.out.println("last");
+			return false;
+		}
 	}
 	
 	@Override
 	public void moveWithCard(CityModel cityToMoveTo, CardModel cardToMoveWith){
-		if(this.character.isAtResearchStation() 
-				&& !cardToMoveWith.sharesName(cityToMoveTo) 
-				&& cardToMoveWith.sharesName(this.character.getCurrentCity())){
-			this.movedFromResearchStationWithCard = true;
+		//System.out.println(cardToMoveWith.getName());
+		//System.out.println(this.character.getCurrentCity().getName());
+		if(this.character.isAtResearchStation()){
+			if(!cardToMoveWith.sharesName(cityToMoveTo)){
+				if(cardToMoveWith.sharesName(this.character.getCurrentCity())){
+					this.movedFromResearchStationWithCard = true;
+				}
+			}
 		}
+		// ask if this should be inside the statements
 		this.character.removeCardFromHandOfCards(cardToMoveWith);
 		this.character.setCurrentCity(cityToMoveTo);
 	}
 	
 	@Override
 	public boolean verifyBuild(CityController cityController){
-		return cityController.getResearchStationCounter() < 6 
-				&& !this.character.isAtResearchStation();
+		if(cityController.getResearchStationCounter() < 6){
+			if(!this.character.isAtResearchStation()){
+				return true;
+			}
+			else {
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 	
 	@Override

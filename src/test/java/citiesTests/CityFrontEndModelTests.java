@@ -51,9 +51,11 @@ public class CityFrontEndModelTests {
 		assertEquals(0, cityFrontEndModel.getY());
 	}
 	
-	/*@Test
-	public void testGetCityModel(){
-		assertEquals(this.listOfCities.get(2), cityFrontEndModel.getCityModel());
-	}*/
+	@Test
+	public void testSetLocationLarge(){
+		cityFrontEndModel.setLocation(2000, 2000);
+		assertEquals(2000, cityFrontEndModel.getX());
+		assertEquals(2000, cityFrontEndModel.getY());
+	}
 
 }

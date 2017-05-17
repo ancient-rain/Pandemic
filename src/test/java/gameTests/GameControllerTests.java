@@ -194,7 +194,7 @@ public class GameControllerTests {
 		assertFalse(nextCity.hasResearchStation());
 	}
 	
-	@Test
+	/*@Test
 	public void testResearcherTakeShare() {
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		Iterator<CityModel> iter = currentCity.getNeighbors().iterator();
@@ -205,7 +205,7 @@ public class GameControllerTests {
 		
 		assertTrue(this.controller.getPlayers().get(0).getCharacterModel().isInHand(card));
 		assertFalse(this.playerController.getCharacterModel().isInHand(card));
-	}
+	}*/
 	
 	@Test
 	public void testResearcherGiveShare() {
@@ -227,7 +227,7 @@ public class GameControllerTests {
 		assertFalse(this.playerController.getCharacterModel().isInHand(card));
 	}
 	
-	@Test
+	/*@Test
 	public void testNormalTakeShare() {
 		this.controller.getPlayers().clear();
 		CityModel startingCity = this.cityController.getCityByName("Atlanta");
@@ -245,7 +245,7 @@ public class GameControllerTests {
 		
 		assertTrue(this.controller.getPlayers().get(0).getCharacterModel().isInHand(card));
 		assertFalse(this.playerController.getCharacterModel().isInHand(card));
-	}
+	}*/
 	
 	@Test
 	public void testNormalGiveShare() {

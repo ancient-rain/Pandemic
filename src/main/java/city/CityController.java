@@ -17,6 +17,7 @@ public class CityController {
 	private Set<CityModel> infectedCities;
 	private int researchStationCounter;
 	private int outbreakCounter;
+	private Map<String, Integer> cityNameToNeighborsSize;
 	
 	public CityController(DiseaseController diseaseController){
 		this.cities = new HashMap<String, CityModel>();
@@ -84,8 +85,10 @@ public class CityController {
 	
 	public void outbreak(CityModel cityToOutbreak, DiseaseModel diseaseOutbreaking){
 		for(CityModel c : cityToOutbreak.getNeighbors()){
-			if(!this.outbrokenCities.contains(c) && !c.isQuarentined()){
-				this.infect(c, diseaseOutbreaking);
+			if(!this.outbrokenCities.contains(c)){
+				if(!c.isQuarentined()){
+					this.infect(c, diseaseOutbreaking);
+				}
 			}
 		}
 		this.outbreakCounter++;
@@ -253,6 +256,63 @@ public class CityController {
 		cities.put(kinsha.getName(), kinsha);
 		cities.put(johann.getName(), johann);
 		cities.put(khar.getName(), khar);
+		
+		this.cityNameToNeighborsSize = new HashMap<String, Integer>();
+		this.cityNameToNeighborsSize.put(sanFran.getName(), 4);
+		this.cityNameToNeighborsSize.put(chicago.getName(), 5);
+		this.cityNameToNeighborsSize.put(atlanta.getName(), 3);
+		this.cityNameToNeighborsSize.put(mont.getName(), 3);
+		this.cityNameToNeighborsSize.put(wash.getName(), 4);
+		this.cityNameToNeighborsSize.put(nyc.getName(), 4);
+		this.cityNameToNeighborsSize.put(london.getName(), 4);
+		this.cityNameToNeighborsSize.put(madrid.getName(), 5);
+		this.cityNameToNeighborsSize.put(paris.getName(), 5);
+		this.cityNameToNeighborsSize.put(essen.getName(), 4);
+		this.cityNameToNeighborsSize.put(milan.getName(), 3);
+		this.cityNameToNeighborsSize.put(stPete.getName(), 3);
+		
+		this.cityNameToNeighborsSize.put(algi.getName(), 4);
+		this.cityNameToNeighborsSize.put(cairo.getName(), 5);
+		this.cityNameToNeighborsSize.put(istan.getName(), 6);
+		this.cityNameToNeighborsSize.put(moscow.getName(), 3);
+		this.cityNameToNeighborsSize.put(baghdad.getName(), 5);
+		this.cityNameToNeighborsSize.put(ridya.getName(), 3);
+		this.cityNameToNeighborsSize.put(tehran.getName(), 4);
+		this.cityNameToNeighborsSize.put(karachi.getName(), 5);
+		this.cityNameToNeighborsSize.put(mumbai.getName(), 3);
+		this.cityNameToNeighborsSize.put(delhi.getName(), 5);
+		this.cityNameToNeighborsSize.put(chenn.getName(), 5);
+		this.cityNameToNeighborsSize.put(kolkata.getName(), 4);
+		
+		this.cityNameToNeighborsSize.put(bangkok.getName(), 5);
+		this.cityNameToNeighborsSize.put(jakarta.getName(), 4);
+		this.cityNameToNeighborsSize.put(hoChi.getName(), 4);
+		this.cityNameToNeighborsSize.put(hongKong.getName(), 6);
+		this.cityNameToNeighborsSize.put(beijing.getName(), 2);
+		this.cityNameToNeighborsSize.put(seoul.getName(), 3);
+		this.cityNameToNeighborsSize.put(taipei.getName(), 4);
+		this.cityNameToNeighborsSize.put(manila.getName(), 5);
+		this.cityNameToNeighborsSize.put(tokyo.getName(), 4);
+		this.cityNameToNeighborsSize.put(osaka.getName(), 2);
+		this.cityNameToNeighborsSize.put(sydney.getName(), 3);
+		this.cityNameToNeighborsSize.put(shang.getName(), 5);
+		
+		this.cityNameToNeighborsSize.put(la.getName(), 4);
+		this.cityNameToNeighborsSize.put(mexicoCity.getName(), 5);
+		this.cityNameToNeighborsSize.put(miami.getName(), 4);
+		this.cityNameToNeighborsSize.put(bogata.getName(), 5);
+		this.cityNameToNeighborsSize.put(lima.getName(), 3);
+		this.cityNameToNeighborsSize.put(santi.getName(), 1);
+		this.cityNameToNeighborsSize.put(bueno.getName(), 2);
+		this.cityNameToNeighborsSize.put(saoPalo.getName(), 4);
+		this.cityNameToNeighborsSize.put(lago.getName(), 3);
+		this.cityNameToNeighborsSize.put(kinsha.getName(), 3);
+		this.cityNameToNeighborsSize.put(johann.getName(), 2);
+		this.cityNameToNeighborsSize.put(khar.getName(), 4);
+	}
+	
+	public Map<String, Integer> getCityNameToNeighborsSize(){
+		return this.cityNameToNeighborsSize;
 	}
 	
 	private void initializeCityDiseases(DiseaseController diseaseController){

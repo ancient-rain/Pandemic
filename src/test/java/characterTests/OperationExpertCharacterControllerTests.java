@@ -57,7 +57,6 @@ public class OperationExpertCharacterControllerTests {
 		
 		String characterName = "CharacterName";
 		DiseaseModel diseaseModel = new DiseaseModel();
-		//CityModel cityModel = new CityModel(cityName, diseaseModel);
 		CityModel cityModel = this.listOfCities.get(0);
 		this.characterModel = new CharacterModel(characterName, cityModel);
 		
@@ -91,9 +90,16 @@ public class OperationExpertCharacterControllerTests {
 	
 	@Test
 	public void testVerifyBuildTrue(){
-		operSpecialist.build(this.cityController);
 		this.cityController.setResearchStationCounter(1);
+		operSpecialist.getCharactersCurrentCity().setHasResearchStation(false);
 		assertTrue(operSpecialist.verifyBuild(this.cityController));
+	}
+	
+	@Test
+	public void testVerifyBuildAtResearchStation(){
+		this.cityController.setResearchStationCounter(1);
+		operSpecialist.getCharactersCurrentCity().setHasResearchStation(true);
+		assertFalse(operSpecialist.verifyBuild(this.cityController));
 	}
 	
 	@Test
@@ -110,6 +116,7 @@ public class OperationExpertCharacterControllerTests {
 		CityModel cityToMoveTo = listOfCities.get(1);
 		CardModel cardToMoveWith = this.cityToCardMap.get(cityToMoveTo);
 		this.operSpecialist.moveWithCard(cityToMoveTo, cardToMoveWith);
+		assertFalse(this.operSpecialist.getMovedFromResearchStationWithcard());
 	}
 	
 	@Test
@@ -119,6 +126,37 @@ public class OperationExpertCharacterControllerTests {
 		CityModel cityToMoveToNotCharacter = listOfCities.get(1);
 		CardModel cardToMoveWith = this.cityToCardMap.get(cityToMoveTo);
 		this.operSpecialist.moveWithCard(cityToMoveToNotCharacter, cardToMoveWith);
+		assertTrue(this.operSpecialist.getMovedFromResearchStationWithcard());
+		//System.err.println(operSpecialist.getMovedFromResearchStationWithcard());
+		assertTrue(operSpecialist.verifyMoveWithCard(cityToMoveTo, cardToMoveWith));
+	}
+	
+	@Test
+	public void testMoveWithCardIsAtResearchStationFirstShareFalseSecondShareFalse(){
+		CityModel cityModel = this.listOfCities.get(3);
+		this.characterModel = new CharacterModel("", cityModel);
+		
+		this.operSpecialist = new OperationsExpertCharacterController(characterModel);
+		
+		operSpecialist.getCharactersCurrentCity().setHasResearchStation(true);
+		CityModel cityToMoveTo = listOfCities.get(0);
+		CityModel cityToMoveToNotCharacter = listOfCities.get(1);
+		CardModel cardToMoveWith = this.cityToCardMap.get(cityToMoveTo);
+		this.operSpecialist.moveWithCard(cityToMoveToNotCharacter, cardToMoveWith);
+		assertFalse(this.operSpecialist.getMovedFromResearchStationWithcard());
+		//assertFalse(operSpecialist.verifyMoveWithCard(cityToMoveTo, cardToMoveWith));
+		assertTrue(operSpecialist.getCharactersCurrentCity().equals(cityToMoveToNotCharacter));
+	}
+	
+	@Test
+	public void testVerifyMoveWithCardAllIfsFalse(){
+		operSpecialist.getCharactersCurrentCity().setHasResearchStation(true);
+		CityModel cityToMoveTo = listOfCities.get(0);
+		CityModel cityToMoveToNotCharacter = listOfCities.get(1);
+		CardModel cardToMoveWith = this.cityToCardMap.get(cityToMoveTo);
+		this.operSpecialist.moveWithCard(cityToMoveToNotCharacter, cardToMoveWith);
+		assertTrue(this.operSpecialist.getMovedFromResearchStationWithcard());
+		assertFalse(operSpecialist.verifyMoveWithCard(cityToMoveToNotCharacter, cardToMoveWith));
 	}
 	
 	@Test
@@ -129,6 +167,7 @@ public class OperationExpertCharacterControllerTests {
 		operSpecialist.moveWithCard(listOfCities.get(10), this.cityToCardMap.get(cityToMoveTo));
 		CardModel cardToMoveWith = this.cityToCardMap.get(cityToMoveTo);
 		this.operSpecialist.moveWithCard(cityToMoveTo, cardToMoveWith);
+		assertFalse(this.operSpecialist.getMovedFromResearchStationWithcard());
 	}
 	
 	// verify move with card ask how to check again
@@ -155,6 +194,16 @@ public class OperationExpertCharacterControllerTests {
 		operSpecialist.getCharactersCurrentCity().setHasResearchStation(true);
 		assertTrue(operSpecialist.verifyMoveWithCard(cityToMoveTo, cardToAdd));
 	}
+	
+	/*@Test
+	public void testVerifyMoveWithCardMovedFromResearchWithCard(){
+		operSpecialist.getCharactersCurrentCity().setHasResearchStation(true);
+		CityModel cityToMoveTo = listOfCities.get(0);
+		CityModel cityToMoveToNotCharacter = listOfCities.get(1);
+		CardModel cardToMoveWith = this.cityToCardMap.get(cityToMoveTo);
+		this.operSpecialist.moveWithCard(cityToMoveToNotCharacter, cardToMoveWith);
+		assertTrue(operSpecialist.verifyMoveWithCard(cityToMoveTo, cardToMoveWith));
+	}*/
 	
 	@Test
 	public void testVerifyMoveWithCardAllFalse(){

@@ -29,39 +29,37 @@ public class CharacterFrontEndModel {
 	}
 	
 	private Color setColor() {
-		switch(this.model.getRole()){
-		case "Contingency Planner":
+		if(this.model.getRole().equals("Contingency Planner")){
 			return CONTINGENCY_PLANNER_COLOR;
-		case "Dispatcher":
+		} else if(this.model.getRole().equals("Dispatcher")){
 			return DISPATCHER_COLOR;
-		case "Medic":
+		} else if(this.model.getRole().equals("Medic")){
 			return MEDIC_COLOR;
-		case "Operations Expert":
+		} else if(this.model.getRole().equals("Operations Expert")){
 			return OPERATIONS_EXPERT_COLOR;
-		case "Quarentine Specialist":
+		} else if(this.model.getRole().equals("Quarentine Specialist")){
 			return QUARANTINE_SPECIALIST_COLOR;
-		case "Researcher":
+		} else if(this.model.getRole().equals("Researcher")){
 			return RESEARCHER_COLOR;
-		default:
+		} else {
 			return SCIENTIST_COLOR;
 		}
 	}
 	
 	private String setImgPath() {
-		switch(this.model.getRole()){
-		case "Contingency Planner":
+		if(this.model.getRole().equals("Contingency Planner")){
 			return CONTINGENCY_PLANNER_ICON;
-		case "Dispatcher":
+		} else if(this.model.getRole().equals("Dispatcher")){
 			return DISPATCHER_ICON;
-		case "Medic":
+		} else if(this.model.getRole().equals("Medic")){
 			return MEDIC_ICON;
-		case "Operations Expert":
+		} else if(this.model.getRole().equals("Operations Expert")){
 			return OPERATIONS_EXPERT_ICON;
-		case "Quarentine Specialist":
-			return QUARANTINE_SPECIALIST_ICON;	
-		case "Researcher":
+		} else if(this.model.getRole().equals("Quarentine Specialist")){
+			return QUARANTINE_SPECIALIST_ICON;
+		} else if(this.model.getRole().equals("Researcher")){
 			return RESEARCHER_ICON;
-		default:
+		} else {
 			return SCIENTIST_ICON;
 		}
 	}

@@ -91,7 +91,6 @@ public class CharacterModelTests {
 		assertFalse(this.characterModel.isCurrentCityQuarentined());
 	}
 	
-	// How do I finish tsting Character Role
 	@Test
 	public void testEnumContingencyPlanner(){
 		assertEquals("CONTINGENCY_PLANNER", CharacterRole.CONTINGENCY_PLANNER.name());

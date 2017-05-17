@@ -1,12 +1,13 @@
 package citiesTests;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.awt.Color;
-import java.beans.DesignMode;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
@@ -22,11 +23,15 @@ public class CityControllerTests {
 	DiseaseController diseaseController;
 	CityController controller;
 	String cityName = "Chicago";
+	List<CityModel> listOfCities;
 	
 	@Before
 	public void init(){
 		this.diseaseController = new DiseaseController();
 		this.controller = new CityController(diseaseController);
+		
+		Set<CityModel> setOfCities = controller.getCities();
+		this.listOfCities = new ArrayList<CityModel>(setOfCities);
 	}
 	
 	@Test
@@ -136,5 +141,16 @@ public class CityControllerTests {
 	@Test
 	public void testGetOutBrokenCities(){
 		assertEquals(new HashSet<>(), this.controller.getOutbrokenCities());
+	}
+	
+	@Test
+	public void testCityNeighborSizes(){
+		Map<String, Integer> cityNamesSizeMap = this.controller.getCityNameToNeighborsSize();
+		for(int i = 0; i < this.listOfCities.size(); i++){
+			CityModel currentCity = this.listOfCities.get(i);
+			int expected = cityNamesSizeMap.get(currentCity.getName());
+			int actual = currentCity.getNeighbors().size();
+			assertEquals(expected, actual);
+		}
 	}
 }
