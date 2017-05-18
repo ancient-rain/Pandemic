@@ -135,7 +135,6 @@ public class OperationExpertCharacterControllerTests {
 		CardModel cardToMoveWith = this.cityToCardMap.get(cityToMoveTo);
 		this.operSpecialist.moveWithCard(cityToMoveToNotCharacter, cardToMoveWith);
 		assertTrue(this.operSpecialist.getMovedFromResearchStationWithcard());
-		//System.err.println(operSpecialist.getMovedFromResearchStationWithcard());
 		assertTrue(operSpecialist.verifyMoveWithCard(cityToMoveTo, cardToMoveWith));
 	}
 	
@@ -152,7 +151,6 @@ public class OperationExpertCharacterControllerTests {
 		CardModel cardToMoveWith = this.cityToCardMap.get(cityToMoveTo);
 		this.operSpecialist.moveWithCard(cityToMoveToNotCharacter, cardToMoveWith);
 		assertFalse(this.operSpecialist.getMovedFromResearchStationWithcard());
-		//assertFalse(operSpecialist.verifyMoveWithCard(cityToMoveTo, cardToMoveWith));
 		assertTrue(operSpecialist.getCharactersCurrentCity().equals(cityToMoveToNotCharacter));
 	}
 	
