@@ -214,7 +214,30 @@ public class GameView extends JFrame implements ActionListener {
 	private void getEventCardFromString(String eventCardString){
 		for(int i = 0; i < this.eventCards.size(); i++){
 			if(eventCardString.equals(eventCards.get(i).getName())){
+				if(eventCardString.equals("Airlift")){
+					selectPlayerToAirlift();
+				}
 				this.controller.playEventCard(eventCards.get(i));
+			}
+		}
+	}
+	
+	private void selectPlayerToAirlift(){
+		String[] playersToChoose = new String[this.controller.getPlayers().size()];
+		for(int i = 0; i < this.controller.getPlayers().size();i++){
+			playersToChoose[i] = controller.getPlayers().get(i).getCharacterModel().getName();
+		}
+		
+		Object playerString = JOptionPane.showInputDialog(this, "Select player to move:", 
+				"Airlift", JOptionPane.DEFAULT_OPTION, null, playersToChoose, playersToChoose[0]);
+		
+		getCharacterFromString((String) playerString);
+	}
+	
+	private void getCharacterFromString(String playerString){
+		for(int i = 0; i < this.players.size();i++){
+			if(this.controller.getPlayers().get(i).getCharacterModel().getName().equals(playerString)){
+				this.model.setCharacterToBeAirlifted(this.controller.getPlayers().get(i));
 			}
 		}
 	}
@@ -423,6 +446,7 @@ public class GameView extends JFrame implements ActionListener {
 			
 			if (inXBounds && inYBounds) {
 				this.selectedCity = city;
+				this.controller.getGameModel().setCityForEvent(city.getCityModel());
 				this.paintSelectedCity(this.getGraphics());
 			}
 		}

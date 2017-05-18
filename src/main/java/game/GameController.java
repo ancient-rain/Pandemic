@@ -226,6 +226,7 @@ public class GameController {
 		} else if(role.equals("Forecast")) {
 			return this.playForecast();
 		} else if(role.equals("Government Grant")) {
+			//gameModel.setCityForEvent();
 			return this.playGovernmentGrant(this.gameModel.getCityForEvent());
 		} else if(role.equals("One Quiet Night")){
 			return this.playOneQuietNight();
@@ -261,6 +262,7 @@ public class GameController {
 	}
 	
 	private boolean playGovernmentGrant(CityModel cityToAddResearchStation){
+		System.out.println(cityToAddResearchStation == null);
 		if(this.cityController.getResearchStationCounter() < 6 
 				&& !cityToAddResearchStation.hasResearchStation()){
 			cityToAddResearchStation.setHasResearchStation(true);
@@ -321,4 +323,8 @@ public class GameController {
 	public void setInfectionDeck(InfectionDeckCardController infDeckController) {
 		this.infectionDeckController = infDeckController;
 	}
+	
+	//public List<AbstractCharacterController> getCharacters(){
+	//	return this.
+	//}
 }
