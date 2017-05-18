@@ -25,6 +25,10 @@ public class CityView {
 		return this.citiesToDraw.get(cityName);
 	}
 	
+	public Map<String, CityFrontEndModel> getCitiesToDraw() {
+		return this.citiesToDraw;
+	}
+	
 	public void paintCities(Graphics gr) {
 		updateCitiesToDraw();
 		paintNeighborPaths(gr);
