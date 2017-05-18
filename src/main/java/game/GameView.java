@@ -186,7 +186,7 @@ public class GameView extends JFrame implements ActionListener {
 			} else if (button == this.buildButton) {
 				this.controller.buildResearchStation();
 			} else if (button == this.shareButton) {
-				
+				share();
 			} else if (button == this.passButton) {
 				this.controller.endOfTurn();
 			}			
@@ -226,6 +226,92 @@ public class GameView extends JFrame implements ActionListener {
 		} else if (selectedDisease.equals("Red")) {
 			this.controller.treatCity(this.redDisease);
 		}
+	}
+	
+	private void share(){
+		Set<CardModel> setOfCities = this.controller.getCurrentPlayer().getCharacterModel().getHandOfCards();
+		ArrayList<CardModel> listOfCities = new ArrayList<CardModel>(setOfCities);
+		String[] cardsArray = new String[listOfCities.size()];
+		
+		for(int i = 0; i < listOfCities.size(); i++){
+			cardsArray[i] = listOfCities.get(i).getName();
+		}
+		
+		if (listOfCities.size() > 1) {
+			Object cardToShare = JOptionPane.showInputDialog(this, "Select a card to share:", 
+					"Treat", JOptionPane.DEFAULT_OPTION, null, cardsArray, cardsArray[0]);
+			
+			if (!cardToShare.equals(null)) {
+				CardModel card = stringToCard((String) cardToShare);
+				choosePlayerToShareWith(card);
+			}
+		} else {
+			JOptionPane.showMessageDialog(this, "This can not be shared"); 
+		}
+	}
+	
+	private CardModel stringToCard(String cardAsString){
+		Set<CardModel> setOfCities = this.controller.getCurrentPlayer().getCharacterModel().getHandOfCards();
+		ArrayList<CardModel> listOfCities = new ArrayList<CardModel>(setOfCities);
+		
+		for(int i = 0; i < listOfCities.size(); i++){
+			if(listOfCities.get(i).getName().equals(cardAsString)){
+				return listOfCities.get(i);
+			}
+		}
+		
+		return new CardModel("", null);
+	}
+	
+	private void choosePlayerToShareWith(CardModel cardToShare){
+		boolean cityOccupiedByOtherPlayer = false;
+		if(!cardToShare.getType()
+				.equals(CardModel.CardType.PLAYER)){
+			JOptionPane.showMessageDialog(this, "This card can not be shared");
+			return;
+		}
+		List<AbstractCharacterController> playerList = this.controller.getPlayers();
+		String[] playerArray = new String[playerList.size()];
+		for(int i = 0; i < playerList.size(); i++){
+			if(playerList.get(i).getCharactersCurrentCity().equals(
+					this.controller.getCurrentPlayer().getCharactersCurrentCity())){
+				playerArray[i] = playerList.get(i).getCharacterModel().getName();
+				cityOccupiedByOtherPlayer = true;
+			}
+		}
+		if(!cityOccupiedByOtherPlayer){
+			JOptionPane.showMessageDialog(this, "There are no players to share with");
+		}
+		if (playerList.size() > 1) {
+			Object chosenPlayer = JOptionPane.showInputDialog(this, "Select a card to share:", 
+					"Treat", JOptionPane.DEFAULT_OPTION, null, playerArray, playerArray[0]);
+			
+			if (!cardToShare.equals(null)) {
+				AbstractCharacterController player = stringToPlayer((String) chosenPlayer);
+				if(!player.equals(this.controller.getCurrentPlayer())){
+					shareCard(player, cardToShare);
+				} else {
+					JOptionPane.showMessageDialog(this, "You do not want to share with yourself");
+				}
+			}
+		} else {
+			JOptionPane.showMessageDialog(this, "This can not be shared"); 
+		}
+	}
+	
+	private void shareCard(AbstractCharacterController player, CardModel cardToShare){
+		this.controller.shareKnowledge(player, cardToShare);
+	}
+	
+	private AbstractCharacterController stringToPlayer(String chosenPlayer){
+		AbstractCharacterController player = this.controller.getCurrentPlayer();
+		List<AbstractCharacterController> playerList = this.controller.getPlayers();
+		for(int i = 0; i < playerList.size(); i++){
+			if(playerList.get(i).getCharacterModel().getName().equals(chosenPlayer)){
+				return playerList.get(i);
+			}
+		}
+		return player;
 	}
 	
 	private List<String> updateCurrentCityDiseaseList() {
