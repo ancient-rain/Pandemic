@@ -852,4 +852,55 @@ public class GameControllerTests {
 		
 		assertTrue(this.controller.getCityController().getCityByName(nextCity.getName()).hasResearchStation());
 	}
+	
+	@Test
+	public void testInitInfect() {
+		int totalCubes = 24 *4;
+		
+		int threeInfected = 3 * 3;
+		int twoInfected = 2 * 3;
+		int oneInfected = 1 * 3;
+		
+		int redRemaining = this.controller.getDiseaseController().getRedDisease().getCubesLeft();
+		int yellowRemaining = this.controller.getDiseaseController().getYellowDisease().getCubesLeft();
+		int blueRemaining = this.controller.getDiseaseController().getBlueDisease().getCubesLeft();
+		int blackRemaining = this.controller.getDiseaseController().getBlackDisease().getCubesLeft();
+		
+		int totalInfected = threeInfected + twoInfected + oneInfected;
+		int totalRemaining = redRemaining + yellowRemaining + blackRemaining + blueRemaining;
+		
+		assertTrue(totalInfected + totalRemaining == totalCubes);
+	}
+	
+	@Test
+	public void testDoesNotHaveSpecialAbility() {
+		this.controller.getPlayers().clear();
+		CityModel startingCity = this.cityController.getCityByName("Atlanta");
+		CharacterModel playerModel = new CharacterModel("Scientist", startingCity);
+		CharacterControllerFactory factory = new CharacterControllerFactory();
+		this.controller.getPlayers().add(factory.createCharacterController(playerModel));
+		playerModel = new CharacterModel("Dispatcher", startingCity);
+		this.controller.getPlayers().add(factory.createCharacterController(playerModel));
+		this.playerController = this.controller.getCurrentPlayer();
+		
+		assertFalse(this.controller.specialAbility());
+	}
+	
+	@Test
+	public void testHasSpecialAbility() {
+		this.controller.getPlayers().clear();
+		CityModel startingCity = this.cityController.getCityByName("Atlanta");
+		CharacterModel playerModel = new CharacterModel("Scientist", startingCity);
+		CharacterControllerFactory factory = new CharacterControllerFactory();
+		this.controller.getPlayers().add(factory.createCharacterController(playerModel));
+		playerModel = new CharacterModel("Contingency Planner", startingCity);
+		this.controller.getPlayers().add(factory.createCharacterController(playerModel));
+		this.playerController = this.controller.getCurrentPlayer();
+		
+		this.controller.endOfTurn();
+		CardModel card = new CardModel("Government Grant", CardModel.CardType.EVENT);
+		this.controller.getGameModel().setSelectedCard(card);
+		
+		assertTrue(this.controller.specialAbility());
+	}
 }
