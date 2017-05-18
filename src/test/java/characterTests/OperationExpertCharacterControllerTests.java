@@ -100,7 +100,6 @@ public class OperationExpertCharacterControllerTests {
 	
 	@Test
 	public void testVerifyBuildFalse(){
-		operSpecialist.build(this.cityController);
 		this.cityController.setResearchStationCounter(6);
 		assertFalse(operSpecialist.verifyBuild(this.cityController));
 	}
