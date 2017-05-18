@@ -813,4 +813,43 @@ public class GameControllerTests {
 		
 		assertFalse(this.controller.playEventCard(card));
 	}
+	
+	@Test
+	public void testIsLost() {
+		assertFalse(this.controller.checkForLoss());
+	}
+	
+	@Test
+	public void testGovernmentGrantFailsCount() {
+		CityModel currentCity = this.playerController.getCharactersCurrentCity();
+		Iterator<CityModel> iter = currentCity.getNeighbors().iterator();
+		CityModel nextCity = iter.next();
+		this.cityController.setResearchStationCounter(6);
+		CardModel card = new CardModel("Government Grant", CardModel.CardType.EVENT);
+		
+		this.controller.getGameModel().setCityForEvent(nextCity);
+		
+		assertFalse(this.controller.getCityController().getCityByName(nextCity.getName()).hasResearchStation());
+		
+		this.controller.playEventCard(card);
+		
+		assertFalse(this.controller.getCityController().getCityByName(nextCity.getName()).hasResearchStation());
+	}
+	
+	@Test
+	public void testGovernmentGrantFailsHasStation() {
+		CityModel currentCity = this.playerController.getCharactersCurrentCity();
+		Iterator<CityModel> iter = currentCity.getNeighbors().iterator();
+		CityModel nextCity = iter.next();
+		nextCity.setHasResearchStation(true);
+		CardModel card = new CardModel("Government Grant", CardModel.CardType.EVENT);
+		
+		this.controller.getGameModel().setCityForEvent(nextCity);
+		
+		assertTrue(this.controller.getCityController().getCityByName(nextCity.getName()).hasResearchStation());
+		
+		this.controller.playEventCard(card);
+		
+		assertTrue(this.controller.getCityController().getCityByName(nextCity.getName()).hasResearchStation());
+	}
 }

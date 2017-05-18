@@ -42,7 +42,6 @@ public class GameController {
 		this.initializeGame();
 	}	
 	
-	//TEST
 	private void initializeGame(){
 		this.cityController.buildResearchStation(this.cityController.getCityByName("Atlanta"));
 		
@@ -143,7 +142,6 @@ public class GameController {
 		return false;
 	}
 	
-	//TEST
 	public void endOfAction(){
 		this.gameModel.setActionsLeft(this.gameModel.getActionsLeft() - 1);
 		if(this.gameModel.getActionsLeft() <= 0){
@@ -151,7 +149,6 @@ public class GameController {
 		}
 	}
 	
-	//TEST
 	public void endOfTurn(){
 		if(this.playerDeckController.getNumberOfCardsInDeck() == 0){
 			this.gameModel.setLost(true);
@@ -197,7 +194,6 @@ public class GameController {
 		this.gameModel.setTurnCounter(this.gameModel.getTurnCounter() + 1);
 	}
 	
-	//TEST
 	public void handleEpidemic(){
 		if(this.gameModel.getInfectionRateIndex() < this.gameModel.getInfectionRates().length - 1){
 			this.gameModel.setInfectionRateIndex(this.gameModel.getInfectionRateIndex() + 1);
@@ -223,7 +219,6 @@ public class GameController {
 		}
 	}
 	
-	//TEST
 	public boolean playEventCard(CardModel eventCardToPlay){
 		String role = eventCardToPlay.getName();
 		if(role.equals("Airlift")) {
