@@ -52,15 +52,82 @@ public class CityControllerTests {
 		CityModel cityToInfect = this.controller.getCityByName(cityName);
 		DiseaseModel diseaseModel = this.diseaseController.getBlueDisease();
 		
+		int beforeInfectCubesLeft = diseaseModel.getCubesLeft();
 		int beforeInfect = cityToInfect.getCubesByDisease(diseaseModel);
 		
 		this.controller.infect(cityToInfect, diseaseModel);
 		
 		int afterInfect = cityToInfect.getCubesByDisease(diseaseModel);
+		int afterInfectCubesLeft = diseaseModel.getCubesLeft();
 		
 		boolean comparison = (beforeInfect == afterInfect - 1);
+		boolean cubesLeftComparison = (beforeInfectCubesLeft == afterInfectCubesLeft + 1);
 		
 		assertTrue(comparison);
+		assertTrue(cubesLeftComparison);
+	}
+	
+	@Test
+	public void testInfectOneCurrentCube(){
+		CityModel cityToInfect = this.controller.getCityByName(cityName);
+		DiseaseModel diseaseModel = this.diseaseController.getBlueDisease();
+		cityToInfect.setCubesByDisease(diseaseModel, 1);
+		int beforeInfectCubesLeft = diseaseModel.getCubesLeft();
+		int beforeInfect = cityToInfect.getCubesByDisease(diseaseModel);
+		
+		this.controller.infect(cityToInfect, diseaseModel);
+		
+		int afterInfect = cityToInfect.getCubesByDisease(diseaseModel);
+		int afterInfectCubesLeft = diseaseModel.getCubesLeft();
+		
+		boolean comparison = (beforeInfect == afterInfect - 1);
+		boolean cubesLeftComparison = (beforeInfectCubesLeft == afterInfectCubesLeft + 1);
+		
+		//assertTrue(comparison);
+		//assertTrue(cubesLeftComparison);
+		assertEquals(1, this.controller.getInfectedCities().size());
+		assertEquals(0, this.controller.getOutbrokenCities().size());
+	}
+	
+	@Test
+	public void testInfectTwoCurrentCubes(){
+		CityModel cityToInfect = this.controller.getCityByName(cityName);
+		DiseaseModel diseaseModel = this.diseaseController.getBlueDisease();
+		cityToInfect.setCubesByDisease(diseaseModel, 2);
+		int beforeInfectCubesLeft = diseaseModel.getCubesLeft();
+		int beforeInfect = cityToInfect.getCubesByDisease(diseaseModel);
+		
+		this.controller.infect(cityToInfect, diseaseModel);
+		
+		int afterInfect = cityToInfect.getCubesByDisease(diseaseModel);
+		int afterInfectCubesLeft = diseaseModel.getCubesLeft();
+		
+		boolean comparison = (beforeInfect == afterInfect - 1);
+		boolean cubesLeftComparison = (beforeInfectCubesLeft == afterInfectCubesLeft + 1);
+		
+		//assertTrue(comparison);
+		//assertTrue(cubesLeftComparison);
+		assertEquals(1, this.controller.getInfectedCities().size());
+		assertEquals(0, this.controller.getOutbrokenCities().size());
+	}
+	
+	@Test
+	public void testInfectThreeCurrentCubes(){
+		CityModel cityToInfect = this.controller.getCityByName(cityName);
+		DiseaseModel diseaseModel = this.diseaseController.getBlueDisease();
+		cityToInfect.setCubesByDisease(diseaseModel, 3);
+		int beforeInfectCubesLeft = diseaseModel.getCubesLeft();
+		int beforeInfect = cityToInfect.getCubesByDisease(diseaseModel);
+		
+		assertEquals(0, this.controller.getOutbreakCoutner());
+		this.controller.infect(cityToInfect, diseaseModel);
+
+		assertEquals(cityToInfect.getNeighbors().size(), this.controller.getInfectedCities().size());
+		assertEquals(1, this.controller.getOutbrokenCities().size());
+		
+		assertEquals(1, this.controller.getOutbreakCoutner());
+		
+		
 	}
 	
 	@Test
@@ -174,5 +241,26 @@ public class CityControllerTests {
 			int actual = currentCity.getNeighbors().size();
 			assertEquals(expected, actual);
 		}
+	}
+	
+	@Test
+	public void testClearOutbrokenCities(){
+		CityModel cityToInfect = this.controller.getCityByName(cityName);
+		DiseaseModel diseaseModel = this.diseaseController.getBlueDisease();
+		cityToInfect.setCubesByDisease(diseaseModel, 4);
+
+		this.controller.infect(cityToInfect, diseaseModel);
+		
+		assertEquals(3, cityToInfect.getCubesByDisease(diseaseModel));
+		assertEquals(1, this.controller.getOutbrokenCities().size());
+		this.controller.clearOutbrokenCities();
+		assertEquals(0, this.controller.getOutbrokenCities().size());
+	}
+	
+	@Test
+	public void buildResearchStation(){
+		CityModel cityToBuildOn = this.listOfCities.get(15);
+		this.controller.buildResearchStation(cityToBuildOn);
+		assertTrue(cityToBuildOn.hasResearchStation());
 	}
 }
