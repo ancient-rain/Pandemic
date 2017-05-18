@@ -183,8 +183,6 @@ public class AbstractCharacterControllerTests {
 	
 	@Test
 	public void testVerifyBuildTrue(){
-		//CityController currentCityController = this.gameController.getCityController();
-		//currentCityController.setResearchStationCounter(3);
 		this.cityController.setResearchStationCounter(3);
 		characterController.getCharactersCurrentCity().setHasResearchStation(false);
 		this.characterController.addCardToHandOfCards(this.playerDeckController.getCityToCardMap()
@@ -259,7 +257,6 @@ public class AbstractCharacterControllerTests {
 	
 	@Test
 	public void testBuildCityTrue(){
-		//CityController currentCityController = this.gameController.getCityController();
 		this.characterController.addCardToHandOfCards(this.playerDeckController.getCityToCardMap()
 				.get(this.testCity));
 		assertEquals(1, this.character.getHandSize());
@@ -360,7 +357,6 @@ public class AbstractCharacterControllerTests {
 		this.blueDisease.setCubesLeft(24);
 		this.characterController.treat(this.blueDisease);
 		
-		//this.character.getCurrentCity().setCubesByDisease(this.blueDisease, 2);
 		assertTrue(this.blueDisease.isEradicated());
 		assertEquals(0, this.character.getCurrentCity().getCubesByDisease(this.blueDisease));
 	}
@@ -373,7 +369,6 @@ public class AbstractCharacterControllerTests {
 		assertEquals(0, this.blueDisease.getCubesLeft());
 		this.characterController.treat(this.blueDisease);
 		assertEquals(2, this.blueDisease.getCubesLeft());
-		//this.character.getCurrentCity().setCubesByDisease(this.blueDisease, 2);
 		assertFalse(this.blueDisease.isEradicated());
 		assertEquals(0, this.character.getCurrentCity().getCubesByDisease(this.blueDisease));
 	}
@@ -409,9 +404,6 @@ public class AbstractCharacterControllerTests {
 		assertFalse(this.characterController.verifyDiseaseCanBeTreated(this.blueDisease));
 	}
 	
-	//this.characterController.getCharactersCurrentCity().setCubesByDisease(this.blueDisease, 0);
-	//assertFalse(this.characterController.verifyDiseaseCanBeTreated(this.blueDisease));
-
 	
 	private Set<CardModel> developCardSet(int numCards) {
 		Set<CityModel> setOfCities = cityController.getCities();
