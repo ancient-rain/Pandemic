@@ -189,7 +189,6 @@ public class GameController {
 		}
 		this.cityController.clearOutbrokenCities();
 		this.gameModel.setQuietNightsLeft(this.gameModel.getQuietNightsLeft() - 1);
-		this.getCurrentPlayer().endTurn();
 		this.gameModel.setActionsLeft(4);
 		this.gameModel.setTurnCounter(this.gameModel.getTurnCounter() + 1);
 	}

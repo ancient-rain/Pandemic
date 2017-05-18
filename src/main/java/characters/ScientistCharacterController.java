@@ -10,7 +10,6 @@ public class ScientistCharacterController extends AbstractCharacterController{
 
 	public ScientistCharacterController(CharacterModel character) {
 		super(character);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override 
@@ -33,10 +32,6 @@ public class ScientistCharacterController extends AbstractCharacterController{
 
 	@Override
 	public void ability(GameController gameController) {
-	}
-
-	@Override
-	public void endTurn() {
 	}
 
 }

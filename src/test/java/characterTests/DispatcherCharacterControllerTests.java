@@ -52,11 +52,6 @@ public class DispatcherCharacterControllerTests {
 	}
 	
 	@Test
-	public void testEndTurn(){
-		this.dispatcher.endTurn();
-	}
-	
-	@Test
 	public void testAbilityNameEqual(){
 		dispatcher.ability(this.gameController);
 	}

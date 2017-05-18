@@ -73,11 +73,6 @@ public class OperationExpertCharacterControllerTests {
 	}
 	
 	@Test
-	public void testEndTurn(){
-		this.operSpecialist.endTurn();
-	}
-	
-	@Test
 	public void testAbility(){
 		operSpecialist.ability(this.gameController);
 	}
@@ -105,7 +100,6 @@ public class OperationExpertCharacterControllerTests {
 	
 	@Test
 	public void testVerifyBuildFalse(){
-		operSpecialist.build(this.cityController);
 		this.cityController.setResearchStationCounter(6);
 		assertFalse(operSpecialist.verifyBuild(this.cityController));
 	}

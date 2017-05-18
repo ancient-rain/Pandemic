@@ -1,38 +1,23 @@
 package characters;
 
-import cards.CardModel;
 import game.GameController;
 
 public class ContingencyPlannerCharacterController extends AbstractCharacterController{
 
-	private CardModel contingencyPlan;
 	
 	public ContingencyPlannerCharacterController(CharacterModel character) {
 		super(character);
-		this.contingencyPlan = new CardModel("", CardModel.CardType.EVENT);
-		
 	}
-
+	
 	@Override
 	public boolean verifyAbility(GameController gameController) {
-		
-		return false;
+		return gameController.getGameModel().getSelectedContingencyPlan().getName().equals("") && 
+				!gameController.getGameModel().getSelectedCard().getName().equals("");
 	}
 
 	@Override
 	public void ability(GameController gameController) {
-		if(this.contingencyPlan.getName().equals("")){
-			this.contingencyPlan = gameController.getGameModel().getSelectedContingencyPlan();
-		} else {
-			gameController.playEventCard(contingencyPlan);
-			this.contingencyPlan = new CardModel("", CardModel.CardType.EVENT);
-		}
+		gameController.getGameModel().setSelectedContingencyPlan(gameController.getGameModel().getSelectedCard());
 	}
-
-	@Override
-	public void endTurn() {
-	}
-
-	//@Override
-	//anything having to do with his hand
+	
 }

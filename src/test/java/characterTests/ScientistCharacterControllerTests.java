@@ -71,11 +71,6 @@ public class ScientistCharacterControllerTests {
 	}
 	
 	@Test
-	public void testEndTurn(){
-		this.scientist.endTurn();
-	}
-	
-	@Test
 	public void testAbility(){
 		scientist.ability(this.gameController);
 	}

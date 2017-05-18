@@ -67,11 +67,6 @@ public class MedicCharacterControllerTests {
 	}
 	
 	@Test
-	public void testEndTurn(){
-		this.medic.endTurn();
-	}
-	
-	@Test
 	public void testMoveWithoutCard(){
 		CityModel randomCity = this.listOfCities.get(20);
 

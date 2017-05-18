@@ -21,10 +21,4 @@ public class DispatcherCharacterController extends AbstractCharacterController{
 		
 	}
 
-	@Override
-	public void endTurn() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

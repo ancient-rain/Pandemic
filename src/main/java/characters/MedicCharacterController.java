@@ -39,8 +39,4 @@ public class MedicCharacterController extends AbstractCharacterController{
 	public void ability(GameController gameController) {
 	}
 
-	@Override
-	public void endTurn() {
-	}
-
 }
