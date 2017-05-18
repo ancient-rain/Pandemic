@@ -24,6 +24,7 @@ public class GameModel {
 	private CityModel cityForEvent;
 	private CardModel cardToRemoveFromInfectionDeck;
 	private List<CardModel> forecastCards;
+	private CardModel selectedCard;
 	private CardModel selectedContingencyPlan;
 	
 	public GameModel(){
@@ -167,5 +168,13 @@ public class GameModel {
 	
 	public void setCharacters(List<CharacterModel> characters){
 		this.characters = characters;
+	}
+
+	public CardModel getSelectedCard() {
+		return selectedCard;
+	}
+
+	public void setSelectedCard(CardModel selectedCard) {
+		this.selectedCard = selectedCard;
 	}
 }
