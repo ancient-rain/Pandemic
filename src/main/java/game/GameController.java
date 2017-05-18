@@ -143,7 +143,6 @@ public class GameController {
 		return false;
 	}
 	
-	//TEST
 	public void endOfAction(){
 		this.gameModel.setActionsLeft(this.gameModel.getActionsLeft() - 1);
 		if(this.gameModel.getActionsLeft() <= 0){
@@ -318,5 +317,13 @@ public class GameController {
 	
 	public AbstractDeckCardController getInfectionDeckController() {
 		return this.infectionDeckController;
+	}
+	
+	public void setPlayerDeck(PlayerDeckCardController controller) {
+		this.playerDeckController = controller;
+	}
+	
+	public void setInfectionDeck(InfectionDeckCardController controller) {
+		this.infectionDeckController = controller;
 	}
 }
