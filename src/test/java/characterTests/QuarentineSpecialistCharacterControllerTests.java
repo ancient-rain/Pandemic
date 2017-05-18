@@ -90,11 +90,6 @@ public class QuarentineSpecialistCharacterControllerTests {
 	}
 	
 	@Test
-	public void testEndTurn(){
-		this.quarentineSpec.endTurn();
-	}
-	
-	@Test
 	public void testAbility(){
 		quarentineSpec.ability(this.gameController);
 	}

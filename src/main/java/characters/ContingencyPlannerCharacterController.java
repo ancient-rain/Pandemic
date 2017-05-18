@@ -19,12 +19,5 @@ public class ContingencyPlannerCharacterController extends AbstractCharacterCont
 	public void ability(GameController gameController) {
 		gameController.getGameModel().setSelectedContingencyPlan(gameController.getGameModel().getSelectedCard());
 	}
-
-	@Override
-	public void endTurn() {
-		// TODO Auto-generated method stub
-		
-	}
-
 	
 }

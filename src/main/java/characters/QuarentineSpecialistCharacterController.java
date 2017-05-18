@@ -34,9 +34,5 @@ public class QuarentineSpecialistCharacterController extends AbstractCharacterCo
 	@Override
 	public void ability(GameController gameController) {
 	}
-
-	@Override
-	public void endTurn() {
-	}
-
+	
 }

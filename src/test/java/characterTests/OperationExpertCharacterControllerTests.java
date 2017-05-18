@@ -73,11 +73,6 @@ public class OperationExpertCharacterControllerTests {
 	}
 	
 	@Test
-	public void testEndTurn(){
-		this.operSpecialist.endTurn();
-	}
-	
-	@Test
 	public void testAbility(){
 		operSpecialist.ability(this.gameController);
 	}

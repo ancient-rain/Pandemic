@@ -52,11 +52,6 @@ public class ResearcherCharacterControllerTests {
 	}
 	
 	@Test
-	public void testEndTurn(){
-		this.researcher.endTurn();
-	}
-	
-	@Test
 	public void testAbilityNameEqual(){
 		researcher.ability(this.gameController);
 	}

@@ -70,9 +70,4 @@ public class OperationsExpertCharacterController extends AbstractCharacterContro
 	public void ability(GameController gameController) {
 	}
 
-	@Override
-	public void endTurn() {
-		this.movedFromResearchStationWithCard = false;
-	}
-
 }

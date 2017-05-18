@@ -133,7 +133,6 @@ public abstract class AbstractCharacterController {
 	
 	public abstract boolean verifyAbility(GameController gameController);
 	public abstract void ability(GameController gameController);
-	public abstract void endTurn();
 	
 	public boolean hasCardForCurrentCity(){
 		for(CardModel c : character.getHandOfCards()){

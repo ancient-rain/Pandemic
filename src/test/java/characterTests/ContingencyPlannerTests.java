@@ -107,8 +107,4 @@ public class ContingencyPlannerTests {
 		assertEquals(this.selectedCard, setCard);
 	}
 	
-	@Test
-	public void testEndTurn(){
-		this.contingencyPlanner.endTurn();
-	}
 }
