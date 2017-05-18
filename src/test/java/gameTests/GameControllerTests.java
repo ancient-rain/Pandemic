@@ -852,4 +852,23 @@ public class GameControllerTests {
 		
 		assertTrue(this.controller.getCityController().getCityByName(nextCity.getName()).hasResearchStation());
 	}
+	
+	@Test
+	public void testInitInfect() {
+		int totalCubes = 24 *4;
+		
+		int threeInfected = 3 * 3;
+		int twoInfected = 2 * 3;
+		int oneInfected = 1 * 3;
+		
+		int redRemaining = this.controller.getDiseaseController().getRedDisease().getCubesLeft();
+		int yellowRemaining = this.controller.getDiseaseController().getYellowDisease().getCubesLeft();
+		int blueRemaining = this.controller.getDiseaseController().getBlueDisease().getCubesLeft();
+		int blackRemaining = this.controller.getDiseaseController().getBlackDisease().getCubesLeft();
+		
+		int totalInfected = threeInfected + twoInfected + oneInfected;
+		int totalRemaining = redRemaining + yellowRemaining + blackRemaining + blueRemaining;
+		
+		assertTrue(totalInfected + totalRemaining == totalCubes);
+	}
 }
