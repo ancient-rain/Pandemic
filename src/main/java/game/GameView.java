@@ -182,7 +182,7 @@ public class GameView extends JFrame implements ActionListener {
 			} else if (button == this.treatButton) {
 				treat();
 			} else if (button == this.cureButton) {
-				
+				cure();
 			} else if (button == this.buildButton) {
 				this.controller.buildResearchStation();
 			} else if (button == this.shareButton) {
@@ -230,33 +230,28 @@ public class GameView extends JFrame implements ActionListener {
 	
 	private List<String> updateCurrentCityDiseaseList() {
 		List<String> diseases = new ArrayList<>();	
-		CityModel currentCity = this.controller.getCurrentPlayer().getCharactersCurrentCity();
-		DiseaseFrontEndModel blueDiseaseFrontEnd = new DiseaseFrontEndModel(this.blueDisease, Color.BLUE);
-		DiseaseFrontEndModel yellowDiseaseFrontEnd = new DiseaseFrontEndModel(this.yellowDisease, Color.YELLOW);
-		DiseaseFrontEndModel blackDiseaseFrontEnd = new DiseaseFrontEndModel(this.blackDisease, Color.BLACK);
-		DiseaseFrontEndModel redDiseaseFrontEnd = new DiseaseFrontEndModel(this.redDisease, Color.RED);
-		int blueCount = currentCity.getCubesByDisease(blueDiseaseFrontEnd.getDisease());
-		int yellowCount = currentCity.getCubesByDisease(yellowDiseaseFrontEnd.getDisease());
-		int blackCount = currentCity.getCubesByDisease(blackDiseaseFrontEnd.getDisease());
-		int redCount = currentCity.getCubesByDisease(redDiseaseFrontEnd.getDisease());
 		
-		if (blueCount > 0) {
+		if (this.controller.treatCity(this.blueDisease)) {
 			diseases.add("Blue");
 		}
 		
-		if (yellowCount > 0) {
+		if (this.controller.treatCity(this.yellowDisease)) {
 			diseases.add("Yellow");
 		}
 		
-		if (blackCount > 0) {
+		if (this.controller.treatCity(this.blackDisease)) {
 			diseases.add("Black");
 		}
 		
-		if (redCount > 0) {
+		if (this.controller.treatCity(this.redDisease)) {
 			diseases.add("Red");
 		}
 		
 		return diseases;
+	}
+	
+	private void cure() {
+		
 	}
 	
 	private void drawMap() {
