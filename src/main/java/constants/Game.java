@@ -7,7 +7,6 @@ import java.awt.Font;
 public class Game {
 	public final static Dimension GAME_BOARD_SIZE = new Dimension(1920, 1040);
 	public final static Dimension PLAYER_HEADER_SIZE = new Dimension(190, 65);
-	public final static Dimension SELECTED_CITY_SIZE = new Dimension(155, 30);
 	public final static Dimension SPACER = new Dimension(180, 30);
 	
 	public final static Color CUSTOM_GRAY_1 = new Color(238, 238, 238);
@@ -28,6 +27,11 @@ public class Game {
 	public final static int BLUE_FILLER_WIDTH = 208;
 	public final static int BLUE_FILLER_X = 203;
 	public final static int BLUE_FILLER_Y = 115;
+	
+	public final static int SELECTED_CITY_X = 15;
+	public final static int SELECTED_CITY_Y = 980;
+	public final static int SELECTED_CITY_WIDTH = 180;
+	public final static int SELECTED_CITY_HEIGHT = 45;
 	
 	public final static int OFFSET_1 = 1;
 	public final static int OFFSET_2 = 2;
