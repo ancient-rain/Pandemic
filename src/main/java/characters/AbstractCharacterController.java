@@ -33,7 +33,6 @@ public abstract class AbstractCharacterController {
 		}
 		if(this.character.isAtResearchStation()){
 			if(cityToMoveTo.hasResearchStation()){
-				//System.out.println("here");
 				return true;
 			}
 		}
