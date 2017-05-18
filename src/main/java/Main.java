@@ -31,8 +31,8 @@ public class Main {
 		List<CharacterModel> characters = new ArrayList<>();
 		
 		medic.setName("Ralph");
-		scientist.setName("Bob");
-		operations.setName("Nagger");
+		scientist.setName("Ted");
+		operations.setName("Bob the Builder");
 		
 		characters.add(medic);
 		characters.add(operations);
