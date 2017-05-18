@@ -95,5 +95,6 @@ public class Game {
 	public static String BUILD_BUTTON = "Build";
 	public static String SHARE_BUTTON = "Share";
 	public static String PASS_BUTTON = "Pass";
+	public static String PLAY_EVENT_BUTTON = "Play Event Card";
 	public static String NO_SELECTED_CITY = "No Selected City";
 }

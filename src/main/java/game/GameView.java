@@ -56,6 +56,7 @@ public class GameView extends JFrame implements ActionListener {
 	private JButton buildButton = new JButton(BUILD_BUTTON);
 	private JButton shareButton = new JButton(SHARE_BUTTON);
 	private JButton passButton = new JButton(PASS_BUTTON);
+	private JButton playEventCardButton = new JButton(PLAY_EVENT_BUTTON);
 	
 	GameController controller;
 	CityController cityController;
@@ -69,6 +70,7 @@ public class GameView extends JFrame implements ActionListener {
 	CityView cities;
 	CityFrontEndModel selectedCity;
 	boolean isSelectedCitySet;
+	List<CardModel> eventCards;
 
 	public GameView(GameController controller) {
 		this.controller = controller;
@@ -88,6 +90,7 @@ public class GameView extends JFrame implements ActionListener {
 		this.yellowDisease = this.diseaseController.getYellowDisease();
 		this.blackDisease = this.diseaseController.getBlackDisease();
 		this.redDisease = this.diseaseController.getRedDisease();
+		this.eventCards = new ArrayList<>();
 		
 		DiseaseModel blueDisease = new DiseaseModel();
 		CityModel city = new CityModel(NO_SELECTED_CITY, blueDisease);
@@ -154,6 +157,7 @@ public class GameView extends JFrame implements ActionListener {
 		this.buildButton.addActionListener(this);
 		this.shareButton.addActionListener(this);
 		this.passButton.addActionListener(this);
+		this.playEventCardButton.addActionListener(this);
 		
 		this.playerActionPanel.setLayout(actionLayout);
 		this.playerActionPanel.add(spacer);
@@ -163,6 +167,7 @@ public class GameView extends JFrame implements ActionListener {
 		this.playerActionPanel.add(this.buildButton);
 		this.playerActionPanel.add(this.shareButton);
 		this.playerActionPanel.add(this.passButton);
+		this.playerActionPanel.add(this.playEventCardButton);
 	}
 	
 	@Override
@@ -172,14 +177,6 @@ public class GameView extends JFrame implements ActionListener {
 			
 			if (button == this.moveButton) {
 				this.controller.moveCharacter(this.controller.getCurrentPlayer(), this.selectedCity.getCityModel());
-				/*if (this.controller.getCurrentPlayer().getCharactersCurrentCity()
-						.getName().equals("Atlanta")) {
-					this.controller.moveCharacter(this.controller.getCurrentPlayer(), 
-							this.cityController.getCityByName("Chicago"));
-				} else {
-					this.controller.moveCharacter(this.controller.getCurrentPlayer(), 
-							this.cityController.getCityByName("Atlanta"));
-				}*/
 			} else if (button == this.treatButton) {
 				treat();
 			} else if (button == this.cureButton) {
@@ -190,8 +187,35 @@ public class GameView extends JFrame implements ActionListener {
 				share();
 			} else if (button == this.passButton) {
 				this.controller.endOfTurn();
-			}			
+			} else if (button == this.playEventCardButton) {
+				playEventCard();
+			}		
 			repaint();
+		}
+	}
+	
+	private void playEventCard(){
+		if(eventCards.size()>0){
+			String[] eventCardsToPlay = new String[eventCards.size()];
+			for(int i = 0; i < this.eventCards.size();i++){
+				eventCardsToPlay[i] = eventCards.get(i).getName();
+			}
+			
+			Object cardString = JOptionPane.showInputDialog(this, "Select event card to play:", 
+					"Treat", JOptionPane.DEFAULT_OPTION, null, eventCardsToPlay, eventCardsToPlay[0]);
+			
+			getEventCardFromString((String) cardString);
+			
+		} else {
+			JOptionPane.showMessageDialog(this, "There are no event cards to play");
+		}
+	}
+	
+	private void getEventCardFromString(String eventCardString){
+		for(int i = 0; i < this.eventCards.size(); i++){
+			if(eventCardString.equals(eventCards.get(i).getName())){
+				this.controller.playEventCard(eventCards.get(i));
+			}
 		}
 	}
 
@@ -513,7 +537,7 @@ public class GameView extends JFrame implements ActionListener {
 
 	private void paintPlayerHands(Graphics gr) {
 		List<AbstractCharacterController> players = this.controller.getPlayers();
-		List<CardModel> eventCards = new ArrayList<>();
+		this.eventCards = new ArrayList<>();
 
 		for (int i = 0; i < players.size(); i++) {
 			CharacterModel player = players.get(i).getCharacterModel();
