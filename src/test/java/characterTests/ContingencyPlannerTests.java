@@ -1,65 +1,114 @@
 package characterTests;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
+import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
-import cards.AbstractDeckCardController;
 import cards.CardModel;
-import cards.InfectionDeckCardController;
-import cards.PlayerDeckCardController;
+import characters.AbstractCharacterController;
 import characters.CharacterModel;
 import characters.ContingencyPlannerCharacterController;
-import city.CityController;
-import city.CityModel;
-import diseases.DiseaseController;
-import diseases.DiseaseModel;
 import game.GameController;
 import game.GameModel;
 
 public class ContingencyPlannerTests {
-	DiseaseController diseaseController;
-	String cityName = "Chicago";
+	
+	GameModel gameModel;
 	GameController gameController;
-	ContingencyPlannerCharacterController contPlanner;
-
+	CharacterModel contingencyPlannerModel;
+	AbstractCharacterController contingencyPlanner;
+	CardModel startCard;
+	CardModel contPlan;
+	CardModel selectedCard;
+	
 	@Before
-	public void init() {
-		GameModel gameModel = new GameModel();
-		DiseaseController diseaseController = new DiseaseController();
-		CityController cityController = new CityController(diseaseController);
-		AbstractDeckCardController playerDeckController = new PlayerDeckCardController(cityController);
-		AbstractDeckCardController infectionDeckController = new InfectionDeckCardController(cityController);
-		
-		this.gameController = new GameController(gameModel,
-											diseaseController,
-											cityController,
-											playerDeckController,
-											infectionDeckController);
-
-		
-		String characterName = "CharacterName";
-		DiseaseModel diseaseModel = new DiseaseModel();
-		CityModel cityModel = new CityModel(cityName, diseaseModel);
-		CharacterModel characterModel = new CharacterModel(characterName, cityModel);
-		contPlanner = new ContingencyPlannerCharacterController(characterModel);
-		
+	public void init(){
+		this.gameModel = EasyMock.partialMockBuilder(GameModel.class)
+				.addMockedMethod("getSelectedCard")
+				.createNiceMock();
+		this.gameController = EasyMock.createNiceMock(GameController.class);
+		this.contingencyPlannerModel = EasyMock.createNiceMock(CharacterModel.class);
+		this.contingencyPlanner = new ContingencyPlannerCharacterController(this.contingencyPlannerModel);
+		this.startCard = EasyMock.createNiceMock(CardModel.class);
+		this.contPlan = EasyMock.createNiceMock(CardModel.class);
+		this.selectedCard = EasyMock.createNiceMock(CardModel.class);
+		this.gameModel.setSelectedContingencyPlan(this.contPlan);
 	}
 	
 	@Test
-	public void testVerifyAbilityFalse(){
-		assertFalse(contPlanner.verifyAbility(null));
+	public void testVerifyTrue(){
+		EasyMock.expect(this.gameController.getGameModel()).andStubReturn(this.gameModel);
+		EasyMock.expect(this.gameModel.getSelectedCard()).andStubReturn(this.selectedCard);
+		EasyMock.expect(this.contPlan.getName()).andReturn("");
+		EasyMock.expect(this.selectedCard.getName()).andReturn("testEvent");
+		
+		EasyMock.replay(this.gameModel, this.gameController, this.contingencyPlannerModel,
+				this.startCard, this.contPlan, this.selectedCard);
+		
+		boolean verified = this.contingencyPlanner.verifyAbility(this.gameController);
+		
+		EasyMock.verify(this.gameModel, this.gameController, this.contingencyPlannerModel,
+				this.startCard, this.contPlan, this.selectedCard);
+		
+		assertTrue(verified);
+	}
+	
+	@Test
+	public void testVerifyPlanNotEmpty(){
+		EasyMock.expect(this.gameController.getGameModel()).andStubReturn(this.gameModel);
+		EasyMock.expect(this.gameModel.getSelectedCard()).andStubReturn(this.selectedCard);
+		EasyMock.expect(this.contPlan.getName()).andReturn("testEvent");
+		
+		EasyMock.replay(this.gameModel, this.gameController, this.contingencyPlannerModel,
+				this.startCard, this.contPlan, this.selectedCard);
+		
+		boolean verified = this.contingencyPlanner.verifyAbility(this.gameController);
+		
+		EasyMock.verify(this.gameModel, this.gameController, this.contingencyPlannerModel,
+				this.startCard, this.contPlan, this.selectedCard);
+		
+		assertFalse(verified);
+	}
+	
+	@Test
+	public void testVerifySlectedEmpty(){
+		EasyMock.expect(this.gameController.getGameModel()).andStubReturn(this.gameModel);
+		EasyMock.expect(this.gameModel.getSelectedCard()).andStubReturn(this.selectedCard);
+		EasyMock.expect(this.contPlan.getName()).andReturn("");
+		EasyMock.expect(this.selectedCard.getName()).andReturn("");
+		
+		EasyMock.replay(this.gameModel, this.gameController, this.contingencyPlannerModel,
+				this.startCard, this.contPlan, this.selectedCard);
+
+		boolean verified = this.contingencyPlanner.verifyAbility(this.gameController);
+		
+		EasyMock.verify(this.gameModel, this.gameController, this.contingencyPlannerModel,
+				this.startCard, this.contPlan, this.selectedCard);
+		
+		assertFalse(verified);
+	}
+	
+	@Test
+	public void testAbility(){
+		EasyMock.expect(this.gameController.getGameModel()).andStubReturn(this.gameModel);
+		EasyMock.expect(this.gameModel.getSelectedCard()).andStubReturn(this.selectedCard);
+		
+		EasyMock.replay(this.gameModel, this.gameController, this.contingencyPlannerModel,
+				this.startCard, this.contPlan, this.selectedCard);
+		
+		this.contingencyPlanner.ability(this.gameController);
+		CardModel setCard = this.gameModel.getSelectedContingencyPlan();
+		
+		EasyMock.verify(this.gameModel, this.gameController, this.contingencyPlannerModel,
+				this.startCard, this.contPlan, this.selectedCard);
+		
+		assertEquals(this.selectedCard, setCard);
 	}
 	
 	@Test
 	public void testEndTurn(){
-		this.contPlanner.endTurn();
-	}
-	
-	@Test
-	public void testAbilityNameEqual(){
-		this.contPlanner.ability(this.gameController);
+		this.contingencyPlanner.endTurn();
 	}
 }
