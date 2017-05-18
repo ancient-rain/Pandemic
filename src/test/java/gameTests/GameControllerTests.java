@@ -871,4 +871,36 @@ public class GameControllerTests {
 		
 		assertTrue(totalInfected + totalRemaining == totalCubes);
 	}
+	
+	@Test
+	public void testDoesNotHaveSpecialAbility() {
+		this.controller.getPlayers().clear();
+		CityModel startingCity = this.cityController.getCityByName("Atlanta");
+		CharacterModel playerModel = new CharacterModel("Scientist", startingCity);
+		CharacterControllerFactory factory = new CharacterControllerFactory();
+		this.controller.getPlayers().add(factory.createCharacterController(playerModel));
+		playerModel = new CharacterModel("Dispatcher", startingCity);
+		this.controller.getPlayers().add(factory.createCharacterController(playerModel));
+		this.playerController = this.controller.getCurrentPlayer();
+		
+		assertFalse(this.controller.specialAbility());
+	}
+	
+	@Test
+	public void testHasSpecialAbility() {
+		this.controller.getPlayers().clear();
+		CityModel startingCity = this.cityController.getCityByName("Atlanta");
+		CharacterModel playerModel = new CharacterModel("Scientist", startingCity);
+		CharacterControllerFactory factory = new CharacterControllerFactory();
+		this.controller.getPlayers().add(factory.createCharacterController(playerModel));
+		playerModel = new CharacterModel("Contingency Planner", startingCity);
+		this.controller.getPlayers().add(factory.createCharacterController(playerModel));
+		this.playerController = this.controller.getCurrentPlayer();
+		
+		this.controller.endOfTurn();
+		CardModel card = new CardModel("Government Grant", CardModel.CardType.EVENT);
+		this.controller.getGameModel().setSelectedCard(card);
+		
+		assertTrue(this.controller.specialAbility());
+	}
 }

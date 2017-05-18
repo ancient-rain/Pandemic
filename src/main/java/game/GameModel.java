@@ -41,9 +41,10 @@ public class GameModel {
 		this.quietNightsLeft = 0;
 		this.characterToBeAirlifted = null;
 		this.cityForEvent = null;
-		this.cardToRemoveFromInfectionDeck = null;
+		this.cardToRemoveFromInfectionDeck = new CardModel("", CardModel.CardType.INFECTION);
 		this.forecastCards = new ArrayList<CardModel>();
-		this.selectedContingencyPlan = null;
+		this.selectedContingencyPlan = new CardModel("", CardModel.CardType.EVENT);
+		this.selectedCard = new CardModel("", CardModel.CardType.EVENT);
 	}
 	
 	public List<CharacterModel> getCharacters(){
