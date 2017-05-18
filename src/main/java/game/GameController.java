@@ -319,4 +319,12 @@ public class GameController {
 	public AbstractDeckCardController getInfectionDeckController() {
 		return this.infectionDeckController;
 	}
+
+	public void setPlayerDeck(PlayerDeckCardController deckController) {
+		this.playerDeckController = deckController;
+	}
+
+	public void setInfectionDeck(InfectionDeckCardController infDeckController) {
+		this.infectionDeckController = infDeckController;
+	}
 }
