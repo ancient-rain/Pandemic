@@ -26,8 +26,17 @@ public abstract class AbstractCharacterController {
 	}
 	
 	public boolean verifyMoveWithoutCard(CityModel cityToMoveTo){
-		return this.character.getCurrentNeighbors().contains(cityToMoveTo) 
-				|| (this.character.isAtResearchStation() && cityToMoveTo.hasResearchStation());
+		// this method has complete coverage whenever there println lines are in the code
+		// but if they are not there then it doesnt.
+		if(this.character.getCurrentNeighbors().contains(cityToMoveTo)){
+			return true;
+		}
+		if(this.character.isAtResearchStation()){
+			if(cityToMoveTo.hasResearchStation()){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public void moveWithoutCard(CityModel cityToMoveTo){
@@ -100,9 +109,16 @@ public abstract class AbstractCharacterController {
 	}
 	
 	public boolean verifyShareKnowledge(AbstractCharacterController otherChar, boolean doneOneDir){
-		return (this.hasCardForCurrentCity() 
-				&& otherChar.getCharactersCurrentCity().equals(this.character.getCurrentCity()))
-				|| (!doneOneDir && otherChar.verifyShareKnowledge(this, true));
+		if(this.hasCardForCurrentCity()){
+			if(otherChar.getCharactersCurrentCity().equals(this.character.getCurrentCity())) {
+				return true;
+			}
+		} else if(!doneOneDir){
+			if(otherChar.verifyShareKnowledge(this, true)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public void shareKnowledge(CharacterModel characterToShareWith, CardModel cardToShare){

@@ -17,6 +17,7 @@ import cards.AbstractDeckCardController;
 import cards.CardModel;
 import cards.InfectionDeckCardController;
 import cards.PlayerDeckCardController;
+import characters.AbstractCharacterController;
 import characters.CharacterModel;
 import characters.ContingencyPlannerCharacterController;
 import characters.DispatcherCharacterController;
@@ -31,9 +32,9 @@ public class AbstractCharacterControllerTests {
 	DiseaseController diseaseController;
 	String cityName = "Chicago";
 	GameController gameController;
-	ContingencyPlannerCharacterController contPlanner;
+	AbstractCharacterController contPlanner;
 	CharacterModel character, secondCharacter;
-	DispatcherCharacterController characterController;
+	AbstractCharacterController characterController;
 	CityModel cityModel, testCity;
 	CityModel neighborCityModel;
 	DiseaseModel blueDisease;
@@ -73,6 +74,8 @@ public class AbstractCharacterControllerTests {
 		this.character = new CharacterModel(characterName, this.cityModel);
 		this.secondCharacter = new CharacterModel("otherName", this.testCity);
 		this.characterController = new DispatcherCharacterController(this.character);
+		CharacterModel contingencyCharacterModel = new CharacterModel(characterName, this.testCity);
+		this.contPlanner = new ContingencyPlannerCharacterController(contingencyCharacterModel);
 		
 	}
 	
@@ -96,6 +99,16 @@ public class AbstractCharacterControllerTests {
 	}
 	
 	@Test
+	public void testverifyMoveWithoutCardIsANeighborAndHasResearchStation(){
+		Set<CityModel> setOfNeighbors = this.cityModel.getNeighbors();
+		List<CityModel> list = new ArrayList<CityModel>(setOfNeighbors);
+		this.neighborCityModel = list.get(0);
+		this.neighborCityModel.setHasResearchStation(true);
+		
+		assertTrue(this.characterController.verifyMoveWithoutCard(this.neighborCityModel));
+	}
+	
+	@Test
 	public void testverifyMoveWithoutCardIsNotANeighbor(){
 		Set<CityModel> setOfNeighbors = this.cityModel.getNeighbors();
 		List<CityModel> list = new ArrayList<CityModel>(setOfNeighbors);
@@ -104,6 +117,35 @@ public class AbstractCharacterControllerTests {
 		CityModel fakeCityModel = new CityModel(this.cityName, new DiseaseModel());
 		
 		assertFalse(this.characterController.verifyMoveWithoutCard(fakeCityModel));
+	}
+	
+	@Test
+	public void testverifyMoveWithoutCardFalse(){
+		Set<CityModel> setOfNeighbors = this.cityModel.getNeighbors();
+		List<CityModel> list = new ArrayList<CityModel>(setOfNeighbors);
+		this.neighborCityModel = list.get(0);
+		
+		CityModel fakeCityModel = new CityModel(this.cityName, new DiseaseModel());
+		
+		assertFalse(this.characterController.verifyMoveWithoutCard(fakeCityModel));
+	}
+	
+	@Test
+	public void testverifyMoveWithoutCardBothCitiesHaveStations(){
+		CityModel testCity = listOfCities.get(10);
+		testCity.setHasResearchStation(true);
+		this.characterController.getCharactersCurrentCity().setHasResearchStation(true);
+		
+		assertTrue(this.characterController.verifyMoveWithoutCard(testCity));
+	}
+	
+	@Test
+	public void testverifyMoveWithoutCurrentCityNoStation(){
+		CityModel testCity = listOfCities.get(10);
+		testCity.setHasResearchStation(true);
+		this.characterController.getCharactersCurrentCity().setHasResearchStation(false);
+		
+		assertFalse(this.characterController.verifyMoveWithoutCard(testCity));
 	}
 	
 	@Test
@@ -131,12 +173,21 @@ public class AbstractCharacterControllerTests {
 	}
 	
 	@Test
-	public void testVerifyBuildTrue(){
-		CityController currentCityController = this.gameController.getCityController();
-		currentCityController.setResearchStationCounter(3);
+	public void testVerifyBuildIsResearchStation(){
+		this.cityController.setResearchStationCounter(3);
+		characterController.getCharactersCurrentCity().setHasResearchStation(true);
 		this.characterController.addCardToHandOfCards(this.playerDeckController.getCityToCardMap()
 				.get(this.character.getCurrentCity()));
-		assertTrue(this.characterController.verifyBuild(currentCityController));
+		assertFalse(characterController.verifyBuild(this.cityController));
+	}
+	
+	@Test
+	public void testVerifyBuildTrue(){
+		this.cityController.setResearchStationCounter(3);
+		characterController.getCharactersCurrentCity().setHasResearchStation(false);
+		this.characterController.addCardToHandOfCards(this.playerDeckController.getCityToCardMap()
+				.get(this.character.getCurrentCity()));
+		assertTrue(characterController.verifyBuild(this.cityController));
 	}
 	
 	@Test
@@ -149,8 +200,11 @@ public class AbstractCharacterControllerTests {
 	@Test
 	public void testMoveWithCard(){
 		CardModel testCityCardModel = this.playerDeckController.getCityToCardMap().get(this.testCity);
+		this.characterController.addCardToHandOfCards(testCityCardModel);
+		assertEquals(1, this.character.getHandSize());
 		this.characterController.moveWithCard(testCity, testCityCardModel);
 		assertEquals(testCity, this.character.getCurrentCity());
+		assertEquals(0, this.character.getHandSize());
 	}
 	
 	@Test
@@ -181,7 +235,10 @@ public class AbstractCharacterControllerTests {
 		this.secondCharacter = new CharacterModel("otherCharacter", this.testCity);
 		this.characterController.addCardToHandOfCards(this.playerDeckController.getCityToCardMap()
 				.get(this.testCity));
+		assertEquals(1, this.characterController.getCharacterModel().getHandSize());
 		this.characterController.shareKnowledge(this.secondCharacter, testCityCardModel);
+		assertEquals(0, this.characterController.getCharacterModel().getHandSize());
+		assertEquals(1, secondCharacter.getHandSize());
 	}
 	
 	@Test
@@ -192,13 +249,22 @@ public class AbstractCharacterControllerTests {
 	}
 	
 	@Test
+	public void testVerifyShareKnowledgeIsInHand(){
+		this.contPlanner.addCardToHandOfCards(this.playerDeckController.getCityToCardMap()
+				.get(this.testCity));
+		assertFalse(this.contPlanner.verifyShareKnowledge(characterController, true));
+	}
+	
+	@Test
 	public void testBuildCityTrue(){
-		CityController currentCityController = this.gameController.getCityController();
 		this.characterController.addCardToHandOfCards(this.playerDeckController.getCityToCardMap()
 				.get(this.testCity));
+		assertEquals(1, this.character.getHandSize());
 		this.character.setCurrentCity(this.testCity);
-		this.characterController.build(currentCityController);
+		this.characterController.build(this.cityController);
+		assertEquals(0, this.character.getHandSize());
 		assertTrue(this.testCity.hasResearchStation());
+		assertEquals(2, this.cityController.getResearchStationCounter());
 	}
 	
 	@Test
@@ -213,8 +279,20 @@ public class AbstractCharacterControllerTests {
 	@Test
 	public void testCureTrue(){
 		Set<CardModel> cardsToCure = developCardSet();
+		List<CardModel> listOfCardsToCure = new ArrayList<CardModel>(cardsToCure);
+		for(int i = 0; i < listOfCardsToCure.size();i++){
+			this.characterController.addCardToHandOfCards(listOfCardsToCure.get(i));
+		}
+		assertEquals(5, this.character.getHandSize());
+		
+		this.blueDisease.setCubesLeft(24);
+		
+		assertFalse(this.blueDisease.isCured());
+		assertFalse(this.blueDisease.isEradicated());
 		
 		this.characterController.cure(cardsToCure, this.blueDisease);
+		
+		assertEquals(0, this.character.getHandSize());
 		
 		assertTrue(this.blueDisease.isCured());
 		assertTrue(this.blueDisease.isEradicated());
@@ -274,21 +352,25 @@ public class AbstractCharacterControllerTests {
 	}
 	
 	@Test
-	public void testTreatIsCured(){
+	public void testTreatIsCuredWith24Cubes(){
 		this.blueDisease.setCured(true);
 		this.blueDisease.setCubesLeft(24);
 		this.characterController.treat(this.blueDisease);
 		
-		this.character.getCurrentCity().setCubesByDisease(this.blueDisease, 2);
+		assertTrue(this.blueDisease.isEradicated());
+		assertEquals(0, this.character.getCurrentCity().getCubesByDisease(this.blueDisease));
 	}
 	
 	@Test
-	public void testTreatIsCuredWith24(){
+	public void testTreatIsCuredWith0Cubes(){
 		this.blueDisease.setCured(true);
 		this.blueDisease.setCubesLeft(0);
+		this.character.setCubesByDiseaseOnCurrentCity(this.blueDisease, 2);
+		assertEquals(0, this.blueDisease.getCubesLeft());
 		this.characterController.treat(this.blueDisease);
-		
-		this.character.getCurrentCity().setCubesByDisease(this.blueDisease, 2);
+		assertEquals(2, this.blueDisease.getCubesLeft());
+		assertFalse(this.blueDisease.isEradicated());
+		assertEquals(0, this.character.getCurrentCity().getCubesByDisease(this.blueDisease));
 	}
 	
 	@Test
@@ -315,6 +397,13 @@ public class AbstractCharacterControllerTests {
 		this.blueDisease.setCured(true);
 		assertFalse(characterController.verifyCure(cardsToCure, this.blueDisease));
 	}
+	
+	@Test
+	public void testVerifyDiseaseCanBeTreatedFalse(){
+		this.characterController.getCharactersCurrentCity().setCubesByDisease(this.blueDisease, 0);
+		assertFalse(this.characterController.verifyDiseaseCanBeTreated(this.blueDisease));
+	}
+	
 	
 	private Set<CardModel> developCardSet(int numCards) {
 		Set<CityModel> setOfCities = cityController.getCities();

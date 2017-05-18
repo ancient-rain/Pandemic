@@ -1,6 +1,6 @@
 package characterTests;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +70,21 @@ public class QuarentineSpecialistCharacterControllerTests {
 	}
 	
 	@Test
+	public void testInitialCityQuarentined(){
+		assertTrue(this.quarentineSpec.getCharactersCurrentCity().isQuarentined());
+	}
+	
+	@Test
+	public void testNeighboringCitiesQuarentined(){
+		CityModel currentCity = this.quarentineSpec.getCharactersCurrentCity();
+		Set<CityModel> neighboringCities = currentCity.getNeighbors();
+		ArrayList<CityModel> neighboringCitiesList = new ArrayList<CityModel>(neighboringCities);
+		for(int i = 0; i < neighboringCitiesList.size(); i++){
+			assertTrue(neighboringCitiesList.get(i).isQuarentined());
+		}
+	}
+	
+	@Test
 	public void testVerifyAbilityFalse(){
 		assertFalse(quarentineSpec.verifyAbility(this.gameController));
 	}
@@ -85,8 +100,24 @@ public class QuarentineSpecialistCharacterControllerTests {
 	}
 	
 	@Test
-	public void testMoveWithoutCard(){
+	public void testMoveWithoutCard(){	
+		CityModel previousCity = this.quarentineSpec.getCharactersCurrentCity();
 		CityModel cityToMoveTo = listOfCities.get(1);
 		quarentineSpec.moveWithoutCard(cityToMoveTo);
+		
+		Set<CityModel> previousNeighboringCities = previousCity.getNeighbors();
+		assertFalse(previousCity.isQuarentined());
+		ArrayList<CityModel> previousNeighboringCitiesList = new ArrayList<CityModel>(previousNeighboringCities);
+		for(int i = 0; i < previousNeighboringCitiesList.size(); i++){
+			assertFalse(previousNeighboringCitiesList.get(i).isQuarentined());
+		}
+		
+		CityModel currentCity = this.quarentineSpec.getCharactersCurrentCity();
+		Set<CityModel> neighboringCities = currentCity.getNeighbors();
+		assertTrue(currentCity.isQuarentined());
+		ArrayList<CityModel> neighboringCitiesList = new ArrayList<CityModel>(neighboringCities);
+		for(int i = 0; i < neighboringCitiesList.size(); i++){
+			assertTrue(neighboringCitiesList.get(i).isQuarentined());
+		}
 	}
 }

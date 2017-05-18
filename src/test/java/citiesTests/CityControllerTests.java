@@ -1,12 +1,12 @@
 package citiesTests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
-import java.awt.Color;
-import java.beans.DesignMode;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
@@ -22,11 +22,15 @@ public class CityControllerTests {
 	DiseaseController diseaseController;
 	CityController controller;
 	String cityName = "Chicago";
+	List<CityModel> listOfCities;
 	
 	@Before
 	public void init(){
 		this.diseaseController = new DiseaseController();
 		this.controller = new CityController(diseaseController);
+		
+		Set<CityModel> setOfCities = controller.getCities();
+		this.listOfCities = new ArrayList<CityModel>(setOfCities);
 	}
 	
 	@Test
@@ -54,7 +58,9 @@ public class CityControllerTests {
 		
 		int afterInfect = cityToInfect.getCubesByDisease(diseaseModel);
 		
-		assertTrue(beforeInfect == afterInfect - 1);
+		boolean comparison = (beforeInfect == afterInfect - 1);
+		
+		assertTrue(comparison);
 	}
 	
 	@Test
@@ -80,7 +86,9 @@ public class CityControllerTests {
 		
 		int numNeighbors = cityToInfect.getNeighbors().size();
 		
-		assertTrue(beforeOutbreak == afterOutbreak - numNeighbors);
+		boolean comparison = (beforeOutbreak == afterOutbreak - numNeighbors);
+		
+		assertTrue(comparison);
 	}
 	
 	@Test
@@ -95,7 +103,9 @@ public class CityControllerTests {
 		
 		int afterInfect = cityToInfect.getCubesByDisease(diseaseModel);
 		
-		assertTrue(beforeInfect == afterInfect);
+		boolean comparison = (beforeInfect == afterInfect);
+		
+		assertTrue(comparison);
 	}
 	
 	@Test
@@ -130,11 +140,39 @@ public class CityControllerTests {
 		int numQuarentined = 1;
 		afterOutbreak -= (numNeighbors - numQuarentined);
 		
-		assertTrue(beforeOutbreak == afterOutbreak);
+		boolean comparison = (beforeOutbreak == afterOutbreak);
+		
+		assertTrue(comparison);
+	}
+	
+	@Test
+	public void testRemoveInfectedCity(){
+		CityModel cityToInfect = this.controller.getCityByName(cityName);
+		DiseaseModel diseaseModel = this.diseaseController.getBlueDisease();
+		this.controller.infect(cityToInfect, diseaseModel);
+		
+		Set<CityModel> infectedCities = this.controller.getInfectedCities();
+		List<CityModel> listOfInfectedCities = new ArrayList<CityModel>(infectedCities);
+		assertEquals(1, infectedCities.size());
+		//CityModel cityToRemove = listOfInfectedCities.get(0);
+		assertTrue(infectedCities.contains(cityToInfect));
+		this.controller.removeInfectedCity(cityToInfect);
+		assertFalse(infectedCities.contains(cityToInfect));
 	}
 	
 	@Test
 	public void testGetOutBrokenCities(){
 		assertEquals(new HashSet<>(), this.controller.getOutbrokenCities());
+	}
+	
+	@Test
+	public void testCityNeighborSizes(){
+		Map<String, Integer> cityNamesSizeMap = this.controller.getCityNameToNeighborsSize();
+		for(int i = 0; i < this.listOfCities.size(); i++){
+			CityModel currentCity = this.listOfCities.get(i);
+			int expected = cityNamesSizeMap.get(currentCity.getName());
+			int actual = currentCity.getNeighbors().size();
+			assertEquals(expected, actual);
+		}
 	}
 }

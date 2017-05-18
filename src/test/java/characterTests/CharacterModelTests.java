@@ -91,7 +91,6 @@ public class CharacterModelTests {
 		assertFalse(this.characterModel.isCurrentCityQuarentined());
 	}
 	
-	// How do I finish tsting Character Role
 	@Test
 	public void testEnumContingencyPlanner(){
 		assertEquals("CONTINGENCY_PLANNER", CharacterRole.CONTINGENCY_PLANNER.name());
@@ -125,6 +124,12 @@ public class CharacterModelTests {
 	@Test
 	public void testEnumScientist(){
 		assertEquals("SCIENTIST", CharacterRole.SCIENTIST.name());
+	}
+	
+	@Test
+	public void testSetCurrentCityQuarentined(){
+		this.characterModel.setCurrentCityQuarentined(true);
+		assertTrue(this.characterModel.getCurrentCity().isQuarentined());
 	}
 
 }
