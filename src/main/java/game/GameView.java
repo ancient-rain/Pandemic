@@ -16,11 +16,13 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.imageio.ImageIO;
@@ -53,6 +55,7 @@ public class GameView extends JFrame implements ActionListener {
 	private JButton buildButton = new JButton(BUILD_BUTTON);
 	private JButton shareButton = new JButton(SHARE_BUTTON);
 	private JButton passButton = new JButton(PASS_BUTTON);
+	
 	GameController controller;
 	GameModel model;
 	BorderLayout layout;
@@ -60,6 +63,8 @@ public class GameView extends JFrame implements ActionListener {
 	JPanel gameInfoPanel, playerInfoPanel, playerActionPanel, mapPanel;
 	List<CharacterModel> players;
 	CityView cities;
+	CityFrontEndModel selectedCity;
+	boolean isSelectedCitySet;
 
 	public GameView(GameController controller) {
 		this.controller = controller;
@@ -71,9 +76,27 @@ public class GameView extends JFrame implements ActionListener {
 		this.playerActionPanel = new JPanel();
 		this.mapPanel = new JPanel();
 		this.players = this.model.getCharacters();
+		this.isSelectedCitySet = false;
 
 		CityController cityController = this.controller.getCityController();
 		this.cities = new CityView(cityController);
+		
+		DiseaseModel blueDisease = new DiseaseModel();
+		CityModel city = new CityModel(NO_SELECTED_CITY, blueDisease);
+		this.selectedCity = new CityFrontEndModel(city);
+		this.selectedCity.setColor(CUSTOM_GRAY_1);
+		
+		this.addMouseListener(new MouseListener() {
+			public void mouseReleased(MouseEvent e) {}
+			public void mouseEntered(MouseEvent e) {}
+			public void mouseExited(MouseEvent e) {}
+			public void mouseClicked(MouseEvent e) {}
+
+			@Override
+			public void mousePressed(MouseEvent click) {
+				determineClickedCity(click.getX(), click.getY());
+			}		
+		});
 	}
 	
 	public void viewGame() {
@@ -113,15 +136,9 @@ public class GameView extends JFrame implements ActionListener {
 	private void drawPlayerActions() {
 		FlowLayout actionLayout = new FlowLayout(FlowLayout.LEFT, OFFSET_15, OFFSET_20);
 		JLabel spacer = new JLabel();
-		JLabel selectedCityOutline = new JLabel();
 		
 		spacer.setPreferredSize(SPACER);
 		spacer.setBorder(BorderFactory.createLineBorder(CUSTOM_GRAY_1));
-		spacer.setOpaque(true);
-		
-		selectedCityOutline.setText(NO_SELECTED_CITY);
-		selectedCityOutline.setHorizontalAlignment(JLabel.CENTER);
-		selectedCityOutline.setPreferredSize(SELECTED_CITY_SIZE);
 		
 		this.moveButton.addActionListener(this);
 		this.treatButton.addActionListener(this);
@@ -132,7 +149,6 @@ public class GameView extends JFrame implements ActionListener {
 		
 		this.playerActionPanel.setLayout(actionLayout);
 		this.playerActionPanel.add(spacer);
-		this.playerActionPanel.add(selectedCityOutline);
 		this.playerActionPanel.add(this.moveButton);
 		this.playerActionPanel.add(this.treatButton);
 		this.playerActionPanel.add(this.cureButton);
@@ -212,6 +228,22 @@ public class GameView extends JFrame implements ActionListener {
 		this.setVisible(true);
 	}
 	
+	private void determineClickedCity(int xloc, int yloc) {	
+		Map<String, CityFrontEndModel> frontEndCities = this.cities.getCitiesToDraw();
+		
+		for (CityFrontEndModel city : frontEndCities.values()) {
+			int cityX = city.getX();
+			int cityY = city.getY();
+			boolean inXBounds = (xloc > cityX) && (xloc < cityX + CITY_RADIUS);
+			boolean inYBounds = (yloc > cityY) && (yloc < cityY + CITY_RADIUS);
+			
+			if (inXBounds && inYBounds) {
+				this.selectedCity = city;
+				this.paintSelectedCity(this.getGraphics());
+			}
+		}
+	}
+	
 	@Override // TODO: fix the flashing issue, might have to extend JPanel
 	public void paint(Graphics gr) {
 		super.paint(gr);
@@ -239,6 +271,7 @@ public class GameView extends JFrame implements ActionListener {
 		paintGameCounters(gr);
 		paintPlayerHands(gr);
 		paintCurrentTurn(gr);
+		paintSelectedCity(gr);
 	}
 	
 	private void paintCities(Graphics gr) {
@@ -382,18 +415,9 @@ public class GameView extends JFrame implements ActionListener {
 
 	private void paintCardinHand(Graphics gr, String cityName, Color color, int yloc) {
 		Graphics2D gr2D = (Graphics2D) gr;
+		Color handColor = getColor(color, false);
 
-		if (color.equals(Color.BLUE)) {
-			gr.setColor(PLAYER_HAND_BLUE);
-		} else if (color.equals(Color.YELLOW)) {
-			gr.setColor(PLAYER_HAND_YELLOW);
-		} else if (color.equals(Color.BLACK)) {
-			gr.setColor(PLAYER_HAND_BLACK);
-		} else if (color.equals(Color.RED)){
-			gr.setColor(PLAYER_HAND_RED);
-		} else {
-			gr.setColor(Color.ORANGE);
-		}
+		gr.setColor(handColor);
 
 		gr2D.setFont(FONT);
 		gr2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
@@ -401,6 +425,24 @@ public class GameView extends JFrame implements ActionListener {
 		gr2D.fillRect(PLAYER_HAND_X, yloc, PLAYER_HAND_WIDTH, PLAYER_HAND_HEIGHT);
 		gr2D.setColor(CUSTOM_GRAY_2);
 		gr2D.drawString(cityName, PLAYER_HAND_X + OFFSET_5, yloc + OFFSET_15);
+	}
+	
+	private Color getColor(Color color, boolean selectingCity) {
+		if (color.equals(Color.BLUE)) {
+			return PLAYER_HAND_BLUE;
+		} else if (color.equals(Color.YELLOW)) {
+			return PLAYER_HAND_YELLOW;
+		} else if (color.equals(Color.BLACK)) {
+			return PLAYER_HAND_BLACK;
+		} else if (color.equals(Color.RED)){
+			return PLAYER_HAND_RED;
+		} else {
+			if (selectingCity) {
+				return CUSTOM_GRAY_1;
+			} else {
+				return Color.ORANGE;
+			}
+		}
 	}
 	
 	private void paintEventCards(Graphics gr, List<CardModel> eventCards) {
@@ -623,5 +665,32 @@ public class GameView extends JFrame implements ActionListener {
 			gr2D.fillOval(408, 882 + OFFSET_15 * count, TURN_RADIUS, TURN_RADIUS);
 			count++;
 		}
+	}
+	
+	private void paintSelectedCity(Graphics gr) {
+		Graphics2D gr2D = (Graphics2D) gr;
+		FontMetrics metrics = gr2D.getFontMetrics(FONT);
+		String name = this.selectedCity.getCityModel().getName();
+		Color cityColor = this.selectedCity.getColor();
+		Color color = getColor(cityColor, true);
+		int xloc = SELECTED_CITY_X + (SELECTED_CITY_WIDTH - metrics.stringWidth(name)) / 2;
+		int yloc = SELECTED_CITY_Y + ((SELECTED_CITY_HEIGHT - metrics.getHeight()) / 2) + metrics.getAscent();
+
+		if (!this.isSelectedCitySet) {
+			color = CUSTOM_GRAY_1;
+			name = NO_SELECTED_CITY;
+			xloc = SELECTED_CITY_X + (SELECTED_CITY_WIDTH - metrics.stringWidth(name)) / 2;
+			yloc = SELECTED_CITY_Y + ((SELECTED_CITY_HEIGHT - metrics.getHeight()) / 2) + metrics.getAscent();
+			
+			this.isSelectedCitySet = true;
+		}
+		
+		gr2D.setFont(FONT);
+		gr2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
+				RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+		gr.setColor(color);
+		gr.fillRect(SELECTED_CITY_X, SELECTED_CITY_Y, SELECTED_CITY_WIDTH, SELECTED_CITY_HEIGHT);
+		gr.setColor(CUSTOM_GRAY_2);
+		gr.drawString(name, xloc, yloc);
 	}
 }
