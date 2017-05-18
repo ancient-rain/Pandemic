@@ -80,12 +80,38 @@ public class MedicCharacterControllerTests {
 		
 		DiseaseModel disease = listOfDiseases.get(0);
 		disease.setCured(true);
-		disease.setCubesLeft(24);
+		int numCubesLeft = 22;
+		disease.setCubesLeft(numCubesLeft);
+		randomCity.setCubesByDisease(disease, 24-numCubesLeft);
+		
+		assertEquals(2, randomCity.getCubesByDisease(disease));
 		
 		this.medic.moveWithoutCard(randomCity);
 		
 		assertEquals(0, randomCity.getCubesByDisease(disease));
+		assertEquals(24, disease.getCubesLeft());
 		assertTrue(disease.isEradicated());
+	}
+	
+	@Test
+	public void testMedicTreat(){
+		CityModel randomCity = this.listOfCities.get(20);
+
+		Set<DiseaseModel> setOfDiseases = randomCity.getDiseases();
+		List<DiseaseModel> listOfDiseases = new ArrayList<DiseaseModel>(setOfDiseases);
+		
+		DiseaseModel disease = listOfDiseases.get(0);
+		int numCubesLeft = 22;
+		disease.setCubesLeft(numCubesLeft);
+		
+		
+		this.medic.getCharacterModel().setCubesByDiseaseOnCurrentCity(disease, 2);
+		assertEquals(22, disease.getCubesLeft());
+		
+		this.medic.treat(disease);
+		
+		assertEquals(24, disease.getCubesLeft());
+		assertEquals(0, this.medic.getCharacterModel().getCubesByDiseaseOnCurrentCity(disease));
 	}
 	
 	@Test
@@ -100,6 +126,7 @@ public class MedicCharacterControllerTests {
 		disease.setCubesLeft(5);
 		
 		this.medic.moveWithoutCard(randomCity);
+		assertEquals(randomCity, this.medic.getCharactersCurrentCity());
 		assertFalse(disease.isEradicated());
 	}
 	
