@@ -262,7 +262,6 @@ public class GameController {
 	}
 	
 	private boolean playGovernmentGrant(CityModel cityToAddResearchStation){
-		System.out.println(cityToAddResearchStation == null);
 		if(this.cityController.getResearchStationCounter() < 6 
 				&& !cityToAddResearchStation.hasResearchStation()){
 			cityToAddResearchStation.setHasResearchStation(true);
@@ -324,7 +323,19 @@ public class GameController {
 		this.infectionDeckController = infDeckController;
 	}
 	
-	//public List<AbstractCharacterController> getCharacters(){
-	//	return this.
-	//}
+	public CardModel cardNameToCard(String cardName, List<CardModel> listOfTopCards) {
+		for(int i = 0; i < listOfTopCards.size();i++){
+			if(listOfTopCards.get(i).getName().equals(cardName)){
+				return listOfTopCards.get(i);
+			}
+		}
+		return listOfTopCards.get(0);
+	}
+	
+	public void addNewInfectionOrderCardsTotop(InfectionDeckCardController infectionController, List<CardModel> cardsToAddToTop){
+		for(int i = 0; i < cardsToAddToTop.size();i++){
+			infectionController.addToTop(cardsToAddToTop.get(i));
+		}
+		
+	}
 }
