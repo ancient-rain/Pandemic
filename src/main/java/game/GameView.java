@@ -389,9 +389,9 @@ public class GameView extends JFrame implements ActionListener {
 		paintEventCards(gr, eventCards);
 	}
 	
-	private int findPlayerYCoord(int playerNum) {
+	public int findPlayerYCoord(int playerNum) {
 		int totalPlayers = this.players.size();
-
+		
 		if (playerNum == FIRST_PLAYER_INDEX) {
 			return PLAYER_ONE_Y;
 		} else if (playerNum == SECOND_PLAYER_INDEX) {
@@ -631,7 +631,7 @@ public class GameView extends JFrame implements ActionListener {
 		gr2D.drawImage(infectionCard, INFECTION_CARD_X, TOP_CARD_Y, null);
 	}
 	
-	private Color checkLowCount(int numCards) {
+	public Color checkLowCount(int numCards) {
 		if (numCards <= 10) {
 			return Color.RED;
 		} else {

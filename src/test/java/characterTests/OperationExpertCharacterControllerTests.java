@@ -111,6 +111,13 @@ public class OperationExpertCharacterControllerTests {
 	}
 	
 	@Test
+	public void testVerifyBuildFalseTooLarge(){
+		operSpecialist.build(this.cityController);
+		this.cityController.setResearchStationCounter(7);
+		assertFalse(operSpecialist.verifyBuild(this.cityController));
+	}
+	
+	@Test
 	public void testVerifyBuildFalseTooLargeOfNumber(){
 		this.cityController.setResearchStationCounter(7);
 		operSpecialist.getCharactersCurrentCity().setHasResearchStation(false);
