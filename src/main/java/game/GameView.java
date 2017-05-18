@@ -171,14 +171,15 @@ public class GameView extends JFrame implements ActionListener {
 			Object button = event.getSource();
 			
 			if (button == this.moveButton) {
-				if (this.controller.getCurrentPlayer().getCharactersCurrentCity()
+				this.controller.moveCharacter(this.controller.getCurrentPlayer(), this.selectedCity.getCityModel());
+				/*if (this.controller.getCurrentPlayer().getCharactersCurrentCity()
 						.getName().equals("Atlanta")) {
 					this.controller.moveCharacter(this.controller.getCurrentPlayer(), 
 							this.cityController.getCityByName("Chicago"));
 				} else {
 					this.controller.moveCharacter(this.controller.getCurrentPlayer(), 
 							this.cityController.getCityByName("Atlanta"));
-				}
+				}*/
 			} else if (button == this.treatButton) {
 				treat();
 			} else if (button == this.cureButton) {
