@@ -2,12 +2,10 @@ package gameTests;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -196,18 +194,18 @@ public class GameControllerTests {
 		assertFalse(nextCity.hasResearchStation());
 	}
 	
-	@Test
+	/*@Test
 	public void testResearcherTakeShare() {
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		Iterator<CityModel> iter = currentCity.getNeighbors().iterator();
 		CityModel nextCity = iter.next();
 		CardModel card = new CardModel(nextCity.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card);
-		this.controller.shareKnowledge(this.controller.getPlayers().get(1), card);
+		this.controller.shareKnowledge(this.controller.getPlayers().get(0), card);
 		
-		assertTrue(this.controller.getPlayers().get(1).getCharacterModel().isInHand(card));
+		assertTrue(this.controller.getPlayers().get(0).getCharacterModel().isInHand(card));
 		assertFalse(this.playerController.getCharacterModel().isInHand(card));
-	}
+	}*/
 	
 	@Test
 	public void testResearcherGiveShare() {
@@ -230,7 +228,7 @@ public class GameControllerTests {
 	}
 	
 	
-	@Test
+	/*@Test
 	public void testNormalTakeShare() {
 		this.controller.getPlayers().clear();
 		CityModel startingCity = this.cityController.getCityByName("Atlanta");
@@ -244,11 +242,11 @@ public class GameControllerTests {
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		CardModel card = new CardModel(currentCity.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card);
-		this.controller.shareKnowledge(this.controller.getPlayers().get(1), card);
+		this.controller.shareKnowledge(this.controller.getPlayers().get(0), card);
 		
-		assertTrue(this.controller.getPlayers().get(1).getCharacterModel().isInHand(card));
+		assertTrue(this.controller.getPlayers().get(0).getCharacterModel().isInHand(card));
 		assertFalse(this.playerController.getCharacterModel().isInHand(card));
-	}
+	}*/
 	
 	@Test
 	public void testNormalGiveShare() {
@@ -476,260 +474,5 @@ public class GameControllerTests {
 		this.controller.playEventCard(card);
 		
 		assertTrue(this.controller.getCityController().getCityByName(nextCity.getName()).hasResearchStation());
-	}
-	
-	@Test
-	public void testEndOfTurn() {
-		CityModel currentCity = this.playerController.getCharactersCurrentCity();
-		Iterator<CityModel> iter = currentCity.getNeighbors().iterator();
-		CityModel nextCity = iter.next();
-		DiseaseModel disease = this.controller.getDiseaseController().getBlackDisease();
-		
-		nextCity.setCubesByDisease(disease, 3);
-		
-		this.controller.moveCharacter(playerController, nextCity);
-		this.controller.moveCharacter(playerController, currentCity);
-		this.controller.moveCharacter(playerController, nextCity);
-		this.controller.treatCity(disease);
-		
-		assertTrue(!this.playerController.equals(this.controller.getCurrentPlayer()));
-	}
-	
-	@Test
-	public void testEndOfTurnNoCardsInDeck() {		
-		int cardsInDeck = this.controller.getPlayerDeckController().getNumberOfCardsInDeck();
-		this.controller.getPlayerDeckController().drawNumberOfCards(cardsInDeck);
-		
-		this.controller.endOfTurn();
-		
-		assertTrue(this.controller.getGameModel().isLost());
-	}
-	
-	@Test
-	public void testEndOfTurnOneCardInDeck() {		
-		int cardsInDeck = this.controller.getPlayerDeckController().getNumberOfCardsInDeck();
-		this.controller.getPlayerDeckController().drawNumberOfCards(cardsInDeck - 1);
-		
-		this.controller.endOfTurn();
-		
-		assertTrue(this.controller.getGameModel().isLost());
-	}
-	
-	@Test
-	public void testEndOfTurnEpidemic() {
-		PlayerDeckCardController deckController = EasyMock.createNiceMock(PlayerDeckCardController.class);
-		InfectionDeckCardController infDeckController = EasyMock.createNiceMock(InfectionDeckCardController.class);
-		this.controller.setPlayerDeck(deckController);
-		this.controller.setInfectionDeck(infDeckController);
-		CityModel infecting = this.controller.getCityController().getCityByName("Atlanta");
-		
-		CardModel epidemicCard = EasyMock.createNiceMock(CardModel.class);
-		CardModel cityToEpidemic = EasyMock.createNiceMock(CardModel.class);
-		CardModel cardOne = EasyMock.createNiceMock(CardModel.class);
-		CardModel cardTwo = EasyMock.createNiceMock(CardModel.class);
-		
-		EasyMock.expect(deckController.getNumberOfCardsInDeck()).andStubReturn(3);
-		EasyMock.expect(epidemicCard.getName()).andStubReturn("Epidemic");
-		EasyMock.expect(deckController.draw()).andStubReturn(epidemicCard);
-		EasyMock.expect(cityToEpidemic.getName()).andStubReturn(infecting.getName());
-		EasyMock.expect(infDeckController.drawBottomCard()).andStubReturn(cityToEpidemic);
-		EasyMock.expect(cardOne.getName()).andStubReturn("Chicago");
-		EasyMock.expect(infDeckController.draw()).andReturn(cardOne);
-		infDeckController.discard(cardOne);
-		EasyMock.expectLastCall();
-		EasyMock.expect(cardTwo.getName()).andStubReturn("Washington");
-		EasyMock.expect(infDeckController.draw()).andReturn(cardTwo);
-		infDeckController.discard(cardTwo);
-		EasyMock.expectLastCall();
-		
-		EasyMock.replay(deckController, epidemicCard, cityToEpidemic, infDeckController, cardOne, cardTwo);
-
-		this.controller.endOfTurn();
-		
-		EasyMock.verify(deckController, epidemicCard, cityToEpidemic, infDeckController, cardOne, cardTwo);
-	}
-	
-	@Test
-	public void testEndOfTurnEpidemicWithMaxInfectionRate() {
-		PlayerDeckCardController deckController = EasyMock.createNiceMock(PlayerDeckCardController.class);
-		InfectionDeckCardController infDeckController = EasyMock.createNiceMock(InfectionDeckCardController.class);
-		this.controller.setPlayerDeck(deckController);
-		this.controller.setInfectionDeck(infDeckController);
-		CityModel infecting = this.controller.getCityController().getCityByName("Atlanta");
-		this.controller.getGameModel().setInfectionRateIndex(7);
-		
-		CardModel epidemicCard = EasyMock.createNiceMock(CardModel.class);
-		CardModel cityToEpidemic = EasyMock.createNiceMock(CardModel.class);
-		CardModel cardOne = EasyMock.createNiceMock(CardModel.class);
-		CardModel cardTwo = EasyMock.createNiceMock(CardModel.class);
-		
-		EasyMock.expect(deckController.getNumberOfCardsInDeck()).andStubReturn(3);
-		EasyMock.expect(epidemicCard.getName()).andStubReturn("Epidemic");
-		EasyMock.expect(deckController.draw()).andStubReturn(epidemicCard);
-		EasyMock.expect(cityToEpidemic.getName()).andStubReturn(infecting.getName());
-		EasyMock.expect(infDeckController.drawBottomCard()).andStubReturn(cityToEpidemic);
-		EasyMock.expect(cardOne.getName()).andStubReturn("Chicago");
-		EasyMock.expect(infDeckController.draw()).andReturn(cardOne);
-		infDeckController.discard(cardOne);
-		EasyMock.expectLastCall();
-		EasyMock.expect(cardTwo.getName()).andStubReturn("Washington");
-		EasyMock.expect(infDeckController.draw()).andReturn(cardTwo);
-		infDeckController.discard(cardTwo);
-		EasyMock.expectLastCall();
-		EasyMock.expect(infDeckController.draw()).andReturn(cardOne);
-		EasyMock.expect(infDeckController.draw()).andReturn(cardOne);
-
-		EasyMock.replay(deckController, epidemicCard, cityToEpidemic, infDeckController, cardOne, cardTwo);
-
-		this.controller.endOfTurn();
-		
-		EasyMock.verify(deckController, epidemicCard, cityToEpidemic, infDeckController, cardOne, cardTwo);
-	}
-	
-	@Test
-	public void testEndOfTurnEpidemicWithQuietNight() {
-		PlayerDeckCardController deckController = EasyMock.createNiceMock(PlayerDeckCardController.class);
-		InfectionDeckCardController infDeckController = EasyMock.createNiceMock(InfectionDeckCardController.class);
-		this.controller.setPlayerDeck(deckController);
-		this.controller.setInfectionDeck(infDeckController);
-		CityModel infecting = this.controller.getCityController().getCityByName("Atlanta");
-		this.controller.getGameModel().setQuietNightsLeft(2);
-		this.controller.getGameModel().setInfectionRateIndex(7);
-		
-		CardModel epidemicCard = EasyMock.createNiceMock(CardModel.class);
-		CardModel cityToEpidemic = EasyMock.createNiceMock(CardModel.class);
-		CardModel cardOne = EasyMock.createNiceMock(CardModel.class);
-		CardModel cardTwo = EasyMock.createNiceMock(CardModel.class);
-		
-		EasyMock.expect(deckController.getNumberOfCardsInDeck()).andStubReturn(3);
-		EasyMock.expect(epidemicCard.getName()).andStubReturn("Epidemic");
-		EasyMock.expect(deckController.draw()).andStubReturn(epidemicCard);
-		EasyMock.expect(cityToEpidemic.getName()).andStubReturn(infecting.getName());
-		EasyMock.expect(infDeckController.drawBottomCard()).andStubReturn(cityToEpidemic);
-		EasyMock.expect(cardOne.getName()).andStubReturn("Chicago");
-		EasyMock.expect(infDeckController.draw()).andReturn(cardOne);
-		infDeckController.discard(cardOne);
-		EasyMock.expectLastCall();
-
-		EasyMock.replay(deckController, epidemicCard, cityToEpidemic, infDeckController, cardOne, cardTwo);
-
-		this.controller.endOfTurn();
-		
-		EasyMock.verify(deckController, epidemicCard, cityToEpidemic, infDeckController, cardOne, cardTwo);
-	}
-	
-	@Test
-	public void testNormalTreatFails() {
-		CityModel currentCity = this.playerController.getCharactersCurrentCity();
-		DiseaseModel currentDisease = this.diseaseController.getBlackDisease();
-		Iterator<CityModel> iter = currentCity.getNeighbors().iterator();
-		CityModel nextCity = iter.next();
-		
-		this.controller.moveCharacter(playerController, nextCity);
-		this.controller.moveCharacter(playerController, currentCity);
-		this.controller.moveCharacter(playerController, nextCity);
-		this.controller.moveCharacter(playerController, currentCity);
-		
-		currentCity = this.playerController.getCharactersCurrentCity();
-		
-		int beforeTreat = currentCity.getCubesByDisease(currentDisease);
-		
-		this.controller.treatCity(currentDisease);
-		
-		int afterTreat = currentCity.getCubesByDisease(currentDisease);
-		assertTrue(beforeTreat == afterTreat);
-	}
-	
-	@Test
-	public void testInitWithACharacterList() {
-		GameModel gameModel = new GameModel();
-		CityModel city = this.controller.getCurrentPlayer().getCharacterModel().getCurrentCity();
-		CharacterModel playerModel1 = new CharacterModel("Medic", city);
-		CharacterModel playerModel2 = new CharacterModel("Scientist", city);
-		ArrayList<CharacterModel> twoPlayerList = new ArrayList<CharacterModel>();
-		twoPlayerList.add(playerModel1);
-		twoPlayerList.add(playerModel2);
-		gameModel.setCharacters(twoPlayerList);
-		gameModel.setNumberOfStartingCards(4);
-
-		DiseaseController diseaseController = new DiseaseController();
-		CityController cityController = new CityController(diseaseController);
-		AbstractDeckCardController playerDeckController = new PlayerDeckCardController(cityController);
-		AbstractDeckCardController infectionDeckController = new InfectionDeckCardController(cityController);
-		
-		this.controller = new GameController(gameModel,
-											diseaseController,
-											cityController,
-											playerDeckController,
-											infectionDeckController);
-		
-		int cardsInHand = 0;
-		for(AbstractCharacterController character : this.controller.getPlayers()){
-			cardsInHand += character.getCharacterModel().getHandOfCards().size();
-		}
-		int cardsPer = this.controller.getGameModel().getNumberOfStartingCards();
-		
-		assertTrue(cardsInHand == this.controller.getPlayers().size() * cardsPer);
-	}
-	
-	@Test
-	public void testInfectQuarentined() {
-		DiseaseModel red = this.controller.getDiseaseController().getRedDisease();
-		DiseaseModel yellow = this.controller.getDiseaseController().getYellowDisease();
-		DiseaseModel black = this.controller.getDiseaseController().getBlackDisease();
-		DiseaseModel blue = this.controller.getDiseaseController().getBlueDisease();
-		
-		int beforeInfect = 0;
-		for(CityModel city : this.controller.getCityController().getCities()){
-			city.setQuarentined(true);
-			beforeInfect += city.getCubesByDisease(red);
-			beforeInfect += city.getCubesByDisease(black);
-			beforeInfect += city.getCubesByDisease(blue);
-			beforeInfect += city.getCubesByDisease(yellow);
-		}
-		
-		this.controller.endOfTurn();
-		
-		int afterInfect = 0;
-		for(CityModel city : this.controller.getCityController().getCities()){
-			afterInfect += city.getCubesByDisease(red);
-			afterInfect += city.getCubesByDisease(black);
-			afterInfect += city.getCubesByDisease(blue);
-			afterInfect += city.getCubesByDisease(yellow);
-		}
-		
-		assertTrue(beforeInfect == afterInfect);
-	}
-	
-	@Test
-	public void testInfectEradicated() {
-		DiseaseModel red = this.controller.getDiseaseController().getRedDisease();
-		DiseaseModel yellow = this.controller.getDiseaseController().getYellowDisease();
-		DiseaseModel black = this.controller.getDiseaseController().getBlackDisease();
-		DiseaseModel blue = this.controller.getDiseaseController().getBlueDisease();
-		this.controller.getDiseaseController().getBlackDisease().setEradicated(true);
-		this.controller.getDiseaseController().getBlueDisease().setEradicated(true);
-		this.controller.getDiseaseController().getRedDisease().setEradicated(true);
-		this.controller.getDiseaseController().getYellowDisease().setEradicated(true);
-		
-		int beforeInfect = 0;
-		for(CityModel city : this.controller.getCityController().getCities()){
-			beforeInfect += city.getCubesByDisease(red);
-			beforeInfect += city.getCubesByDisease(black);
-			beforeInfect += city.getCubesByDisease(blue);
-			beforeInfect += city.getCubesByDisease(yellow);
-		}
-		
-		this.controller.endOfTurn();
-		
-		int afterInfect = 0;
-		for(CityModel city : this.controller.getCityController().getCities()){
-			afterInfect += city.getCubesByDisease(red);
-			afterInfect += city.getCubesByDisease(black);
-			afterInfect += city.getCubesByDisease(blue);
-			afterInfect += city.getCubesByDisease(yellow);
-		}
-		
-		assertTrue(beforeInfect == afterInfect);
 	}
 }
