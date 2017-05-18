@@ -44,7 +44,7 @@ public abstract class AbstractCharacterController {
 	}
 	
 	public boolean verifyMoveWithCard(CityModel cityToMoveTo, CardModel cardToMoveWith){
-		return this.hasCardForCurrentCity() || cardToMoveWith.sharesName(cityToMoveTo);
+		return cardToMoveWith.sharesName(this.getCharactersCurrentCity()) || cardToMoveWith.sharesName(cityToMoveTo);
 	}
 	
 	public void moveWithCard(CityModel cityToMoveTo, CardModel cardToMoveWith){
