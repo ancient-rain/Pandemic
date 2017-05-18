@@ -225,19 +225,19 @@ public class GameController {
 	
 	//TEST
 	public boolean playEventCard(CardModel eventCardToPlay){
-		switch(eventCardToPlay.getName()){
-		case "Airlift":
+		String role = eventCardToPlay.getName();
+		if(role.equals("Airlift")) {
 			return this.playAirlift(this.gameModel.getCharacterToBeAirlifted(), 
 					this.gameModel.getCityForEvent());
-		case "Forecast":
+		} else if(role.equals("Forecast")) {
 			return this.playForecast();
-		case "Government Grant":
+		} else if(role.equals("Government Grant")) {
 			return this.playGovernmentGrant(this.gameModel.getCityForEvent());
-		case "One Quiet Night":
+		} else if(role.equals("One Quiet Night")){
 			return this.playOneQuietNight();
-		case "Resilient Population": 
+		} else if(role.equals("Resilient Population")){
 			return this.playResilientPopulation(this.gameModel.getCardToRemoveFromInfectionDeck());
-		default:
+		} else {
 			return false;
 		}
 	}
