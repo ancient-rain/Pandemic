@@ -323,4 +323,8 @@ public class CityController {
 			c.setCubesByDisease(diseaseController.getYellowDisease(), 0);
 		}
 	}
+	
+	public void setOutbreakCounter(int number){
+		this.outbreakCounter = number;
+	}
 }

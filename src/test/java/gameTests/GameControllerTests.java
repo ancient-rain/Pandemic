@@ -732,5 +732,85 @@ public class GameControllerTests {
 		
 		assertTrue(beforeInfect == afterInfect);
 	}
+	
+	@Test
+	public void testEndOfTurnUntilGameLoss() {	
+		for(CityModel city : this.controller.getCityController().getCities()){
+			city.setCubesByDisease(city.getPrimaryDisease(), 3);
+		}
+		this.controller.getCityController().setOutbreakCounter(7);
+		while(!this.controller.getGameModel().isLost()){
+			this.controller.endOfTurn();
+		}
+		
+		assertTrue(this.controller.getCityController().getOutbreakCoutner() > 7);
+	}
 
+	@Test
+	public void testOneQuietNight() {
+		CardModel card = new CardModel("One Quiet Night", CardModel.CardType.EVENT);
+		
+		this.controller.playEventCard(card);
+		
+		assertTrue(this.controller.getPlayers().size() == this.controller.getGameModel().getQuietNightsLeft());
+	}
+	
+	@Test
+	public void testResilientPopulation() {
+		CardModel card = new CardModel("Resilient Population", CardModel.CardType.EVENT);
+		this.controller.endOfTurn();
+		
+		CardModel cardToRemove = this.controller.getInfectionDeckController().getDiscardedCards().get(0);
+		this.controller.getGameModel().setCardToRemoveFromInfectionDeck(cardToRemove);
+		
+		this.controller.playEventCard(card);
+		
+		assertTrue(!this.controller.getInfectionDeckController().getDiscardedCards().contains(cardToRemove));
+	}
+	
+	@Test
+	public void testForecast() {
+		CardModel card = new CardModel("Forecast", CardModel.CardType.EVENT);
+		ArrayList<CardModel> cardsToReturn = new ArrayList<CardModel>();
+		
+		this.controller.playEventCard(card);
+		
+		for(CardModel newCard : this.controller.getGameModel().getForecastCards()){
+			cardsToReturn.add(newCard);
+		}
+		
+		for(CardModel newCard : cardsToReturn){
+			card = newCard;
+			this.controller.forecastReturnCard(newCard);
+		}
+		
+		assertTrue(card.equals(this.controller.getInfectionDeckController().draw()));
+
+	}
+	
+	@Test
+	public void testForecastFail() {
+		CardModel card = new CardModel("Forecast", CardModel.CardType.EVENT);
+		ArrayList<CardModel> cardsToReturn = new ArrayList<CardModel>();
+		
+		this.controller.playEventCard(card);
+		
+		for(CardModel newCard : this.controller.getGameModel().getForecastCards()){
+			cardsToReturn.add(newCard);
+		}
+		
+		for(CardModel newCard : cardsToReturn){
+			card = newCard;
+			this.controller.forecastReturnCard(newCard);
+		}
+		
+		assertFalse(this.controller.forecastReturnCard(card));
+	}
+	
+	@Test
+	public void testPlayFakeEventCard() {
+		CardModel card = new CardModel("Fake", CardModel.CardType.EVENT);
+		
+		assertFalse(this.controller.playEventCard(card));
+	}
 }
