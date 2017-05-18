@@ -16,11 +16,14 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.imageio.ImageIO;
@@ -60,6 +63,7 @@ public class GameView extends JFrame implements ActionListener {
 	JPanel gameInfoPanel, playerInfoPanel, playerActionPanel, mapPanel;
 	List<CharacterModel> players;
 	CityView cities;
+	CityFrontEndModel selectedCity;
 
 	public GameView(GameController controller) {
 		this.controller = controller;
@@ -74,6 +78,23 @@ public class GameView extends JFrame implements ActionListener {
 
 		CityController cityController = this.controller.getCityController();
 		this.cities = new CityView(cityController);
+		
+		DiseaseModel blueDisease = new DiseaseModel();
+		CityModel city = new CityModel(ATLANTA, blueDisease);
+		this.selectedCity = new CityFrontEndModel(city);
+		
+		this.addMouseListener(new MouseListener() {
+			public void mouseReleased(MouseEvent e) {}
+			public void mouseEntered(MouseEvent e) {}
+			public void mouseExited(MouseEvent e) {}
+			public void mouseClicked(MouseEvent e) {}
+
+			@Override
+			public void mousePressed(MouseEvent click) {
+				determineClickedCity(click.getX(), click.getY());
+			}		
+		});
+
 	}
 	
 	public void viewGame() {
@@ -210,6 +231,24 @@ public class GameView extends JFrame implements ActionListener {
 		this.add(this.mapPanel, BorderLayout.CENTER);
 		this.pack();
 		this.setVisible(true);
+	}
+	
+	private void determineClickedCity(int xloc, int yloc) {
+		System.out.println(xloc + ", " + yloc);
+		
+		Map<String, CityFrontEndModel> frontEndCities = this.cities.getCitiesToDraw();
+		
+		for (CityFrontEndModel city : frontEndCities.values()) {
+			int cityX = city.getX();
+			int cityY = city.getY();
+			boolean inXBounds = (xloc > cityX) && (xloc < cityX + CITY_RADIUS);
+			boolean inYBounds = (yloc > cityY) && (yloc < cityY + CITY_RADIUS);
+			
+			if (inXBounds && inYBounds) {
+				this.selectedCity = city;
+				System.out.println(city.getCityModel().getName());
+			}
+		}
 	}
 	
 	@Override // TODO: fix the flashing issue, might have to extend JPanel
