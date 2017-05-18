@@ -82,8 +82,9 @@ public class GameView extends JFrame implements ActionListener {
 		this.cities = new CityView(cityController);
 		
 		DiseaseModel blueDisease = new DiseaseModel();
-		CityModel city = new CityModel(ATLANTA, blueDisease);
+		CityModel city = new CityModel(NO_SELECTED_CITY, blueDisease);
 		this.selectedCity = new CityFrontEndModel(city);
+		this.selectedCity.setColor(CUSTOM_GRAY_1);
 		
 		this.addMouseListener(new MouseListener() {
 			public void mouseReleased(MouseEvent e) {}
@@ -414,7 +415,7 @@ public class GameView extends JFrame implements ActionListener {
 
 	private void paintCardinHand(Graphics gr, String cityName, Color color, int yloc) {
 		Graphics2D gr2D = (Graphics2D) gr;
-		Color handColor = getColor(color);
+		Color handColor = getColor(color, false);
 
 		gr.setColor(handColor);
 
@@ -426,7 +427,7 @@ public class GameView extends JFrame implements ActionListener {
 		gr2D.drawString(cityName, PLAYER_HAND_X + OFFSET_5, yloc + OFFSET_15);
 	}
 	
-	private Color getColor(Color color) {
+	private Color getColor(Color color, boolean selectingCity) {
 		if (color.equals(Color.BLUE)) {
 			return PLAYER_HAND_BLUE;
 		} else if (color.equals(Color.YELLOW)) {
@@ -436,7 +437,11 @@ public class GameView extends JFrame implements ActionListener {
 		} else if (color.equals(Color.RED)){
 			return PLAYER_HAND_RED;
 		} else {
-			return Color.ORANGE;
+			if (selectingCity) {
+				return CUSTOM_GRAY_1;
+			} else {
+				return Color.ORANGE;
+			}
 		}
 	}
 	
@@ -667,10 +672,10 @@ public class GameView extends JFrame implements ActionListener {
 		FontMetrics metrics = gr2D.getFontMetrics(FONT);
 		String name = this.selectedCity.getCityModel().getName();
 		Color cityColor = this.selectedCity.getColor();
-		Color color = getColor(cityColor);
+		Color color = getColor(cityColor, true);
 		int xloc = SELECTED_CITY_X + (SELECTED_CITY_WIDTH - metrics.stringWidth(name)) / 2;
 		int yloc = SELECTED_CITY_Y + ((SELECTED_CITY_HEIGHT - metrics.getHeight()) / 2) + metrics.getAscent();
-		
+
 		if (!this.isSelectedCitySet) {
 			color = CUSTOM_GRAY_1;
 			name = NO_SELECTED_CITY;
