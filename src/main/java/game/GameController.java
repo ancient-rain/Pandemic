@@ -221,22 +221,36 @@ public class GameController {
 	public boolean playEventCard(CardModel eventCardToPlay){
 		String role = eventCardToPlay.getName();
 		if(role.equals("Airlift")) {
+			removeEventCardFromHand(eventCardToPlay);
 			return this.playAirlift(this.gameModel.getCharacterToBeAirlifted(), 
 					this.gameModel.getCityForEvent());
 		} else if(role.equals("Forecast")) {
+			removeEventCardFromHand(eventCardToPlay);
 			return this.playForecast();
 		} else if(role.equals("Government Grant")) {
-			//gameModel.setCityForEvent();
+			removeEventCardFromHand(eventCardToPlay);
 			return this.playGovernmentGrant(this.gameModel.getCityForEvent());
 		} else if(role.equals("One Quiet Night")){
+			removeEventCardFromHand(eventCardToPlay);
 			return this.playOneQuietNight();
 		} else if(role.equals("Resilient Population")){
+			removeEventCardFromHand(eventCardToPlay);
 			return this.playResilientPopulation(this.gameModel.getCardToRemoveFromInfectionDeck());
 		} else {
 			return false;
 		}
 	}
 	
+	private void removeEventCardFromHand(CardModel eventCardToPlay) {
+		for(int i = 0; i < this.getPlayers().size(); i++){
+			if(this.getPlayers().get(i).getCharacterModel().getHandOfCards().contains(eventCardToPlay)){
+				//this.getPlayers().get(i).verifyMoveWithCard(cityToMoveTo, cardToMoveWith)
+				this.getPlayers().get(i).getCharacterModel().removeCardFromHandOfCards(eventCardToPlay);
+			}
+		}
+		
+	}
+
 	private boolean playAirlift(AbstractCharacterController characterToMove, CityModel cityToMoveTo){
 		characterToMove.getCharacterModel().setCurrentCity(cityToMoveTo);
 		return true;
