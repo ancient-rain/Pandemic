@@ -57,6 +57,7 @@ public class GameController {
 		}
 		
 		CharacterControllerFactory characterFactory = new CharacterControllerFactory();
+		
 		for(CharacterModel c : this.gameModel.getCharacters()){
 			this.characters.add(characterFactory.createCharacterController(c));
 		}
