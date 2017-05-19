@@ -14,9 +14,18 @@ import game.GameController;
 import game.GameModel;
 import game.GameView;
 
+import static constants.Card.*;
+import static constants.Game.*;
+import static constants.City.*;
+import static constants.Disease.*;
+import static constants.Character.*;
+
 public class Main {
 	
 	public static void main(String [] args) {
+		LanguageMenu languageMenu = new LanguageMenu();
+		languageMenu.selectLocale();
+		
 		GameModel gameModel = new GameModel();
 		DiseaseController diseaseController = new DiseaseController();
 		CityController cityController = new CityController(diseaseController);
@@ -24,7 +33,7 @@ public class Main {
 		AbstractDeckCardController infectionDeckController = new InfectionDeckCardController(cityController);
 		
 		// This will be retrieved from our other menus
-		CityModel atlanta = cityController.getCityByName("Atlanta");
+		CityModel atlanta = cityController.getCityByName(ATLANTA);
 		CharacterModel medic = new CharacterModel("Medic", atlanta);
 		CharacterModel operations = new CharacterModel("Operations Expert", atlanta);
 		CharacterModel scientist = new CharacterModel("Scientist", atlanta);

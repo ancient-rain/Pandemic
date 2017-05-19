@@ -1,6 +1,7 @@
 package constants;
 
 import java.awt.Color;
+import java.util.ResourceBundle;
 
 public class Character {
 	public final static int PLAYER_HAND_HEIGHT = 20;
@@ -36,5 +37,23 @@ public class Character {
 	public final static String SCIENTIST_ICON = "images/characters/icons/scientist.png";
 	public final static String OPERATIONS_EXPERT_ICON =
 			"images/characters/icons/operationsExpert.png";
+	
+	/*public static String CONTINGENCY_PLANNER = "Contingency Planner";
+	public static String DISPATCHER = "Dispatcher";
+	public static String MEDIC = "Medic";
+	public static String OPERATIONS_EXPERT = "Operations Expert";
+	public static String QUARANTINE_SPECIALIST = "Quarantine Specialist";
+	public static String RESEARCHER = "Researcher";
+	public static String SCIENTIST = "Scientist";
+
+	public static void updateConstants(ResourceBundle resourceBundle) {
+		CONTINGENCY_PLANNER = resourceBundle.getString("CONTINGENCY_PLANNER");
+		DISPATCHER = resourceBundle.getString("DISPATCHER");
+		MEDIC = resourceBundle.getString("MEDIC");
+		OPERATIONS_EXPERT = resourceBundle.getString("OPERATIONS_EXPERT");
+		QUARANTINE_SPECIALIST = resourceBundle.getString("QUARANTINE_SPECIALIST");
+		RESEARCHER = resourceBundle.getString("RESEARCHER");
+		SCIENTIST = resourceBundle.getString("SCIENTIST");
+	}*/
 	
 }

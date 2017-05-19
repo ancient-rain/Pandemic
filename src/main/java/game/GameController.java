@@ -18,6 +18,11 @@ import city.CityModel;
 import diseases.DiseaseController;
 import diseases.DiseaseModel;
 
+import static constants.City.*;
+import static constants.Game.*;
+import static constants.Card.*;
+import static constants.Character.*;
+
 public class GameController {
 
 	private GameModel gameModel;
@@ -65,7 +70,7 @@ public class GameController {
 			for(int i = 0; i < this.gameModel.getNumberOfStartingCards(); i++){
 				c.addCardToHandOfCards(this.playerDeckController.draw());
 			}
-			c.moveWithoutCard(this.cityController.getCityByName("Atlanta"));
+			c.moveWithoutCard(this.cityController.getCityByName(ATLANTA));
 		}
 		
 		this.playerDeckController.specialShuffle(this.gameModel.getDifficulty());
@@ -160,13 +165,13 @@ public class GameController {
 			return;
 		}
 		CardModel drawnCard2 = this.playerDeckController.draw();
-		if(drawnCard1.getName().equals("Epidemic")){
+		if(drawnCard1.getName().equals(EPIDEMIC)){
 			this.handleEpidemic();
 			this.playerDeckController.discard(drawnCard1);
 		} else {
 			this.getCurrentPlayer().addCardToHandOfCards(drawnCard1);
 		}
-		if(drawnCard2.getName().equals("Epidemic")){
+		if(drawnCard2.getName().equals(EPIDEMIC)){
 			this.handleEpidemic();
 			this.playerDeckController.discard(drawnCard2);
 		} else {
@@ -220,16 +225,16 @@ public class GameController {
 	
 	public boolean playEventCard(CardModel eventCardToPlay){
 		String role = eventCardToPlay.getName();
-		if(role.equals("Airlift")) {
+		if(role.equals(AIRLIFT)) {
 			return this.playAirlift(this.gameModel.getCharacterToBeAirlifted(), 
 					this.gameModel.getCityForEvent());
-		} else if(role.equals("Forecast")) {
+		} else if(role.equals(FORECAST)) {
 			return this.playForecast();
-		} else if(role.equals("Government Grant")) {
+		} else if(role.equals(GOVERNMENT_GRANT)) {
 			return this.playGovernmentGrant(this.gameModel.getCityForEvent());
-		} else if(role.equals("One Quiet Night")){
+		} else if(role.equals(ONE_QUIET_NIGHT)){
 			return this.playOneQuietNight();
-		} else if(role.equals("Resilient Population")){
+		} else if(role.equals(RESILIENT_POPULATION)){
 			return this.playResilientPopulation(this.gameModel.getCardToRemoveFromInfectionDeck());
 		} else {
 			return false;

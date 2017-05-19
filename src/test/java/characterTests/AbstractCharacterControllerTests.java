@@ -418,7 +418,7 @@ public class AbstractCharacterControllerTests {
 		
 		return cardsToCure;
 	}
-	
+	String helloWorld;
 	private Set<CardModel> developCardSetNoHandAdd(int numCards) {
 		Set<CityModel> setOfCities = cityController.getCities();
 		this.listOfCities = new ArrayList<CityModel>(setOfCities);

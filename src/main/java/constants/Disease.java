@@ -1,5 +1,7 @@
 package constants;
 
+import java.util.ResourceBundle;
+
 public class Disease {
 	public final static int BLUE_COUNTER_X = 668;
 	public final static int YELLOW_COUNTER_X = 766;
@@ -10,7 +12,7 @@ public class Disease {
 	public final static int YELLOW_DISEASE_X = 711;
 	public final static int BLACK_DISEASE_X = 810;
 	public final static int RED_DISEASE_X = 907;
-	
+
 	public final static String BLACK_OUTLINE = "images/cureMarkers/blackOutline.png";
 	public final static String BLUE_OUTLINE = "images/cureMarkers/blueOutline.png";
 	public final static String RED_OUTLINE = "images/cureMarkers/redOutline.png";
@@ -23,4 +25,9 @@ public class Disease {
 	public final static String BLUE_ERADICATED = "images/cureMarkers/blueEradicated.png";
 	public final static String RED_ERADICATED = "images/cureMarkers/redEradicated.png";
 	public final static String YELLOW_ERADICATED = "images/cureMarkers/yellowEradicated.png";
+
+	public static void updateConstants(ResourceBundle resourceBundle) {
+
+	}
+
 }

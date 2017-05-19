@@ -201,13 +201,13 @@ public class GameView extends JFrame implements ActionListener {
 				eventCardsToPlay[i] = eventCards.get(i).getName();
 			}
 			
-			Object cardString = JOptionPane.showInputDialog(this, "Select event card to play:", 
-					"Treat", JOptionPane.DEFAULT_OPTION, null, eventCardsToPlay, eventCardsToPlay[0]);
+			Object cardString = JOptionPane.showInputDialog(this, SELECT_EVENT_CARD, 
+					EVENTS, JOptionPane.DEFAULT_OPTION, null, eventCardsToPlay, eventCardsToPlay[0]);
 			
 			getEventCardFromString((String) cardString);
 			
 		} else {
-			JOptionPane.showMessageDialog(this, "There are no event cards to play");
+			JOptionPane.showMessageDialog(this, NO_EVENT_CARDS);
 		}
 	}
 	
@@ -228,8 +228,8 @@ public class GameView extends JFrame implements ActionListener {
 		}
 		
 		if (diseases.length > 1) {
-			Object treated = JOptionPane.showInputDialog(this, "Select a disease to treat:", 
-					"Treat", JOptionPane.DEFAULT_OPTION, null, diseases, diseases[0]);
+			Object treated = JOptionPane.showInputDialog(this, SELECT_DISEASE, 
+					TREAT, JOptionPane.DEFAULT_OPTION, null, diseases, diseases[0]);
 			
 			if (!treated.equals(null)) {
 				treatDisease(treated);
@@ -237,18 +237,18 @@ public class GameView extends JFrame implements ActionListener {
 		} else if (diseases.length == 1) {
 			treatDisease(diseases[0]);
 		} else {
-			JOptionPane.showMessageDialog(this, "No diseases to treat at current location!"); 
+			JOptionPane.showMessageDialog(this, NO_DISEASES); 
 		}
 	}
 	
 	private void treatDisease(Object selectedDisease) {	
-		if (selectedDisease.equals("Blue")) {
+		if (selectedDisease.equals(BLUE)) {
 			this.controller.treatCity(this.blueDisease);
-		} else if (selectedDisease.equals("Yellow")) {
+		} else if (selectedDisease.equals(YELLOW)) {
 			this.controller.treatCity(this.yellowDisease);
-		} else if (selectedDisease.equals("Black")) {
+		} else if (selectedDisease.equals(BLACK)) {
 			this.controller.treatCity(this.blackDisease);
-		} else if (selectedDisease.equals("Red")) {
+		} else if (selectedDisease.equals(RED)) {
 			this.controller.treatCity(this.redDisease);
 		}
 	}
@@ -263,15 +263,15 @@ public class GameView extends JFrame implements ActionListener {
 		}
 		
 		if (listOfCities.size() > 1) {
-			Object cardToShare = JOptionPane.showInputDialog(this, "Select a card to share:", 
-					"Treat", JOptionPane.DEFAULT_OPTION, null, cardsArray, cardsArray[0]);
+			Object cardToShare = JOptionPane.showInputDialog(this, SELECT_CARD_SHARE, 
+					SHARE, JOptionPane.DEFAULT_OPTION, null, cardsArray, cardsArray[0]);
 			
 			if (!cardToShare.equals(null)) {
 				CardModel card = stringToCard((String) cardToShare);
 				choosePlayerToShareWith(card);
 			}
 		} else {
-			JOptionPane.showMessageDialog(this, "This can not be shared"); 
+			JOptionPane.showMessageDialog(this, NO_SHARED); 
 		}
 	}
 	
@@ -292,7 +292,7 @@ public class GameView extends JFrame implements ActionListener {
 		boolean cityOccupiedByOtherPlayer = false;
 		if(!cardToShare.getType()
 				.equals(CardModel.CardType.PLAYER)){
-			JOptionPane.showMessageDialog(this, "This card can not be shared");
+			JOptionPane.showMessageDialog(this, NO_SHARED);
 			return;
 		}
 		List<AbstractCharacterController> playerList = this.controller.getPlayers();
@@ -305,22 +305,22 @@ public class GameView extends JFrame implements ActionListener {
 			}
 		}
 		if(!cityOccupiedByOtherPlayer){
-			JOptionPane.showMessageDialog(this, "There are no players to share with");
+			JOptionPane.showMessageDialog(this, NO_PLAYERS_TO_SHARE_WITH);
 		}
 		if (playerList.size() > 1) {
-			Object chosenPlayer = JOptionPane.showInputDialog(this, "Select a card to share:", 
-					"Treat", JOptionPane.DEFAULT_OPTION, null, playerArray, playerArray[0]);
+			Object chosenPlayer = JOptionPane.showInputDialog(this, SELECT_CARD_SHARE, 
+					SHARE, JOptionPane.DEFAULT_OPTION, null, playerArray, playerArray[0]);
 			
 			if (!cardToShare.equals(null)) {
 				AbstractCharacterController player = stringToPlayer((String) chosenPlayer);
 				if(!player.equals(this.controller.getCurrentPlayer())){
 					shareCard(player, cardToShare);
 				} else {
-					JOptionPane.showMessageDialog(this, "You do not want to share with yourself");
+					JOptionPane.showMessageDialog(this, NO_SHARE_SELF);
 				}
 			}
 		} else {
-			JOptionPane.showMessageDialog(this, "This can not be shared"); 
+			JOptionPane.showMessageDialog(this, NO_SHARED); 
 		}
 	}
 	
@@ -352,19 +352,19 @@ public class GameView extends JFrame implements ActionListener {
 		int redCount = currentCity.getCubesByDisease(redDiseaseFrontEnd.getDisease());
 		
 		if (blueCount > 0) {
-			diseases.add("Blue");
+			diseases.add(BLUE);
 		}
 		
 		if (yellowCount > 0) {
-			diseases.add("Yellow");
+			diseases.add(YELLOW);
 		}
 		
 		if (blackCount > 0) {
-			diseases.add("Black");
+			diseases.add(BLACK);
 		}
 		
 		if (redCount > 0) {
-			diseases.add("Red");
+			diseases.add(RED);
 		}
 		
 		return diseases;
@@ -439,10 +439,10 @@ public class GameView extends JFrame implements ActionListener {
 		if (!this.model.isLost() && !this.model.isWon()) {
 			paintBoard(gr);
 		} else if (this.model.isLost()) {
-			System.out.println("GAME OVER");
+			System.out.println(GAME_OVER);
 			System.exit(0);
 		} else if (this.model.isWon()) {
-			System.out.println("YOU WON!");
+			System.out.println(YOU_WON);
 			System.exit(0);
 		}
 		

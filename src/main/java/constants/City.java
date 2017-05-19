@@ -1,14 +1,16 @@
 package constants;
 
+import java.util.ResourceBundle;
+
 public class City {
 	public final static int CITY_RADIUS = 25;
 	public final static int DELTA = CITY_RADIUS / 2;
-	
+
 	public final static int RESEARCH_STATION_TOP_OFFSET = 2;
 	public final static int RESEARCH_STATION_SIDE_OFFSET = 5;
 	public final static int RESEARCH_STATION_MIDDLE_OFFSET = 9;
 	public final static int RESEARCH_STATION_BOTTOM_OFFSET = 19;
-	
+
 	public final static String ALGIERS = "Algiers";
 	public final static String ATLANTA = "Atlanta";
 	public final static String BAGHDAD = "Baghdad";
@@ -50,11 +52,15 @@ public class City {
 	public final static String SANTIAGO = "Santiago";
 	public final static String SAO_PAULO = "Sao Paulo";
 	public final static String SEOUL = "Seoul";
-	public	final static String SHANGHAI = "Shanghai";
+	public final static String SHANGHAI = "Shanghai";
 	public final static String ST_PETERSBURG = "St. Petersburg";
 	public final static String SYDNEY = "Sydney";
 	public final static String TAIPEI = "Taipei";
 	public final static String TEHRAN = "Tehran";
 	public final static String TOKYO = "Tokyo";
 	public final static String WASHINGTON = "Washington";
+
+	public static void updateConstants(ResourceBundle resourceBundle) {
+
+	}
 }
