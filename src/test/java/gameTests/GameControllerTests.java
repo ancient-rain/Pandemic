@@ -152,8 +152,12 @@ public class GameControllerTests {
 		CityModel currentCity = this.playerController.getCharactersCurrentCity();
 		DiseaseModel currentDisease = this.diseaseController.getBlackDisease();
 		currentCity.setCubesByDisease(currentDisease, 2);
+		int actionsBefore = this.controller.getGameModel().getActionsLeft();
 		
 		this.controller.treatCity(currentDisease);
+		
+		int actionsAfter = this.controller.getGameModel().getActionsLeft();
+		assertTrue(actionsBefore == actionsAfter + 1);
 		
 		int afterTreat = currentCity.getCubesByDisease(currentDisease);
 		assertTrue(afterTreat == 0);
@@ -191,10 +195,14 @@ public class GameControllerTests {
 		this.playerController.addCardToHandOfCards(card);
 		
 		this.controller.moveCharacter(playerController, nextCity);
+		int actionsBefore = this.controller.getGameModel().getActionsLeft();
 		
 		assertFalse(nextCity.hasResearchStation());
 		
 		assertTrue(this.controller.buildResearchStation());
+		
+		int actionsAfter = this.controller.getGameModel().getActionsLeft();
+		assertTrue(actionsBefore == actionsAfter + 1);
 		
 		assertTrue(nextCity.hasResearchStation());
 	}
@@ -221,7 +229,13 @@ public class GameControllerTests {
 		CityModel nextCity = iter.next();
 		CardModel card = new CardModel(nextCity.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card);
+		
+		int actionsBefore = this.controller.getGameModel().getActionsLeft();
+		
 		assertTrue(this.controller.shareKnowledge(this.controller.getPlayers().get(1), card));
+		
+		int actionsAfter = this.controller.getGameModel().getActionsLeft();
+		assertTrue(actionsBefore == actionsAfter + 1);
 
 		assertTrue(this.controller.getPlayers().get(1).getCharacterModel().isInHand(card));
 		assertFalse(this.playerController.getCharacterModel().isInHand(card));
@@ -352,10 +366,15 @@ public class GameControllerTests {
 		toCureWithSet.add(card4);
 		toCureWithSet.add(card5);
 		
+		int actionsBefore = this.controller.getGameModel().getActionsLeft();
+		
 		assertFalse(this.diseaseController.getBlueDisease().isCured());
 		
 		this.controller.cureDisease(toCureWithSet, diseaseToCure);
-		//assertEquals(4, this.controller.getGameModel().getActionsLeft());
+		
+		int actionsAfter = this.controller.getGameModel().getActionsLeft();
+		
+		assertTrue(actionsBefore == actionsAfter + 1);
 		
 		assertTrue(this.diseaseController.getBlueDisease().isCured());
 	}
@@ -776,7 +795,7 @@ public class GameControllerTests {
 	public void testOneQuietNight() {
 		CardModel card = new CardModel("One Quiet Night", CardModel.CardType.EVENT);
 		
-		assertFalse(this.controller.playEventCard(card));
+		assertTrue(this.controller.playEventCard(card));
 		//assertEquals(controller.getGameModel().getCharacters().size(), this.gameModel.getQuietNightsLeft());
 		
 		assertTrue(this.controller.getPlayers().size() == this.controller.getGameModel().getQuietNightsLeft());
@@ -928,7 +947,12 @@ public class GameControllerTests {
 		CardModel card = new CardModel("Government Grant", CardModel.CardType.EVENT);
 		this.controller.getGameModel().setSelectedCard(card);
 		
+		int actionsBefore = this.controller.getGameModel().getActionsLeft();
+		
 		assertTrue(this.controller.specialAbility());
+		
+		int actionsAfter = this.controller.getGameModel().getActionsLeft();
+		assertTrue(actionsBefore == actionsAfter + 1);
 	}
 	
 	@Test

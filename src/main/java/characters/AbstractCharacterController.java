@@ -72,7 +72,8 @@ public abstract class AbstractCharacterController {
 		if (!this.character.isAtResearchStation()) {
 			return false;
 		}
-		if(cardsToCureWith.size() < 5 || diseaseToCure.isCured()){
+		if(cardsToCureWith.size() < 5 
+				|| diseaseToCure.isCured()){
 			return false;
 		}
 		for(CardModel c : cardsToCureWith){
