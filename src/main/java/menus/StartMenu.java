@@ -70,7 +70,7 @@ public class StartMenu {
 	}
 	
 	private void selectNumberOfPlayers() {
-		String[] options = {TWO_PLAYERS_TEXT, THREE_PLAYERS_TEXT, FOUR_PLAYERS_TEXT, BACK};
+		String[] options = {TWO_PLAYERS_TEXT, THREE_PLAYERS_TEXT, FOUR_PLAYERS_TEXT};
 		int option = -1;
 		
 		while (option == -1) {
@@ -83,16 +83,14 @@ public class StartMenu {
 				this.numPlayers = TWO_PLAYERS;
 			} else if (option == 1) {
 				this.numPlayers = THREE_PLAYERS;
-			} else if (option == 2) {
-				this.numPlayers = FOUR_PLAYERS;
 			} else {
-				selectStartingOptions();
+				this.numPlayers = FOUR_PLAYERS;
 			}
 		}
 	}
 	
 	private void selectDifficulty() {
-		String[] options = {INTRODUCTORY, STANDARD, HEROIC, BACK};
+		String[] options = {INTRODUCTORY, STANDARD, HEROIC};
 		int option = -1;
 		
 		while (option == -1) {
@@ -105,17 +103,15 @@ public class StartMenu {
 				this.difficulty = INTRODUCTORY_DIFFICULTY;
 			} else if (option == 1) {
 				this.difficulty = STANDARD_DIFFICULTY;
-			} else if (option == 2) {
-				this.difficulty = HEROIC_DIFFICULTY;
 			} else {
-				selectNumberOfPlayers();
+				this.difficulty = HEROIC_DIFFICULTY;
 			}
 		}
 	}
 	
 	private void confirm() {
 		String title = "";
-		String[] options = {PROCEED, BACK};
+		String[] options = {PROCEED, EXIT};
 		int option = -1;
 		
 		while (option != 0) {
@@ -123,10 +119,8 @@ public class StartMenu {
 			option = JOptionPane.showOptionDialog(null, this.panel, title,
 					JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, null);
 			
-			if (option == -1) {
+			if (option == -1 || option == 1) {
 				System.exit(0);
-			} else if (option == 1) {
-				selectDifficulty();
 			}
 		}
 	}

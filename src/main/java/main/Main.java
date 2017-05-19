@@ -1,6 +1,7 @@
 package main;
 
 import static constants.Game.STARTING_CARD_HELPER;
+import static constants.Game.PANDEMIC;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,7 @@ public class Main {
 				diseaseController, cityController, playerDeckController, infectionDeckController);
 		GameView view = new GameView(controller);
 		
+		view.setTitle(PANDEMIC);
 		view.viewGame();
 		view.repaint();
 	}

@@ -93,6 +93,7 @@ public class Game {
 	public final static String RESEARCH_STATION_IMG = "images/researchStation.png";
 	public final static String BMP_FILE = ".bmp";
 	public final static String PNG_FILE = ".png";
+	public final static String PANDEMIC = "Pandemic";
 
 	public final static String INTRODUCTORY = "Introductory";
 	public final static String STANDARD = "Standard";
@@ -110,7 +111,6 @@ public class Game {
 	public static String TWO_PLAYERS_TEXT = "Two Players";
 	public static String THREE_PLAYERS_TEXT = "Three Players";
 	public static String FOUR_PLAYERS_TEXT = "Four Players";
-	public static String BACK = "Back";
 	public static String PROCEED = "Proceed";
 
 	public static String INFECTION_DECK = "Infection Deck";
