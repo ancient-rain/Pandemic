@@ -94,10 +94,7 @@ public class Game {
 	public static String LOCALE_INFO = "Please select your language: ";
 
 	public static String EVENTS = "Event";
-	public static String TREAT = "Treat";
 
-	public static String SELECT_EVENT_CARD = "Select event card to play:";
-	public static String NO_EVENT_CARDS = "There are no event cards to play";
 	public static String SELECT_DISEASE = "Select a disease to treat:";
 	public static String NO_DISEASES = "No diseases to treat at current location!";
 
@@ -142,6 +139,9 @@ public class Game {
 	public static String EVENT_CARD = "Choose Event";
 	public static String SELECT_EVENT_CARD = "Select and event card to play:";
 	public static String NO_EVENT_CARDS = "There are no event cards to play!";
+	public static String FORECAST_INFO = "Selected card will be placed on top of the deck:";
+	public static String SELECT_PLAYER_TO_MOVE = "Select player to move:";
+	public static String SELECT_INFECTION_CARD = "Select a card to remove from the infection discard deck";
 
 	public static void updateConstants(ResourceBundle resourceBundle) {
 		INFECTION_DECK = resourceBundle.getString("INFECTION_DECK");
