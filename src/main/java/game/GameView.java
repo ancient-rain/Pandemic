@@ -190,6 +190,7 @@ public class GameView extends JFrame implements ActionListener {
 				share();
 			} else if (button == this.passButton) {
 				this.controller.endOfTurn();
+
 			} else if (button == this.playEventCardButton) {
 				playEventCard();
 			}		
@@ -591,7 +592,7 @@ public class GameView extends JFrame implements ActionListener {
 		}
 		
 		return cardsToRemove;
-	}
+	}	
 	
 	private void drawMap() {
 		setBackground();
