@@ -17,12 +17,14 @@ public class LanguageMenu {
 	
 	public void selectLocale() {
 		JPanel panel = new JPanel();
+		JComboBox<String> localeBox = new JComboBox<String>();
+		
 		panel.add(new JLabel(constants.Game.LOCALE_INFO));
-		JComboBox localeBox = new JComboBox();
+		
 		localeBox.addItem("English");
 		localeBox.addItem("French");
 		panel.add(localeBox);
-		
+
 		String[] languageLocaleList = new String[2];
 		int choiceSelected = JOptionPane.showConfirmDialog(null, 
 				JOptionPane.QUESTION_MESSAGE);
@@ -33,7 +35,7 @@ public class LanguageMenu {
 				break;
 		}
 		
-		resourceBundle = ResourceBundle.getBundle("resources/resources", locale.getDefault());
+		this.resourceBundle = ResourceBundle.getBundle("resources/resources", locale.getDefault());
 		updateLocale();
 	}
 	
@@ -45,7 +47,7 @@ public class LanguageMenu {
 	}
 	
 	public void updateResources() {
-		resourceBundle = ResourceBundle.getBundle("resources/resources", locale);
+		this.resourceBundle = ResourceBundle.getBundle("resources/resources", locale);
 		constants.Game.updateConstants(resourceBundle);
 	}
 }

@@ -1,7 +1,5 @@
 package constants;
 
-import java.util.ResourceBundle;
-
 public class City {
 	public final static int CITY_RADIUS = 25;
 	public final static int DELTA = CITY_RADIUS / 2;
@@ -59,8 +57,4 @@ public class City {
 	public final static String TEHRAN = "Tehran";
 	public final static String TOKYO = "Tokyo";
 	public final static String WASHINGTON = "Washington";
-
-	public static void updateConstants(ResourceBundle resourceBundle) {
-
-	}
 }
