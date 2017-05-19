@@ -181,7 +181,11 @@ public class Game {
 	public static String PLAYER_NAME = "Player Name";
 	public static String ENTER_PLAYER_NAME = "Enter the name for Player";
 	public static String SELECT_CHARACTER = "Select Character";
-
+	// here
+	public static String SELECT_CARD_FROM_INFECTION = "Select card to remove from infectoin deck: ";
+	public static String SELECT_CART_PLACED_ON_TOP = "Selected card will be placed on top of the deck:";
+	public static String SELECT_PLAYER_TO_MOVE = "Select player to move:";
+	
 	public static void updateConstants(ResourceBundle resourceBundle) {
 		INFECTION_DECK = resourceBundle.getString("INFECTION_DECK");
 		PLAYER_DECK = resourceBundle.getString("PLAYER_DECK");
@@ -234,5 +238,9 @@ public class Game {
 		THREE_PLAYERS_TEXT = resourceBundle.getString("THREE_PLAYERS_TEXT");
 		FOUR_PLAYERS_TEXT = resourceBundle.getString("FOUR_PLAYERS_TEXT");
 		PROCEED = resourceBundle.getString("PROCEED");
+		
+		SELECT_CARD_FROM_INFECTION = resourceBundle.getString("SELECT_CARD_FROM_INFECTION");
+		SELECT_CART_PLACED_ON_TOP = resourceBundle.getString("SELECT_CART_PLACED_ON_TOP");
+		SELECT_PLAYER_TO_MOVE = resourceBundle.getString("SELECT_PLAYER_TO_MOVE");
 	}
 }
