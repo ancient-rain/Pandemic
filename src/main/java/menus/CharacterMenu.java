@@ -1,14 +1,14 @@
 package menus;
 
-import static constants.Game.OFFSET_15;
-import static constants.Game.HALF;
-import static constants.Game.CHARACTERS_NAME_LIST;
-import static constants.Game.GAME_BOARD_SIZE;
+
 import static constants.Card.CHARACTERS_CARD_LIST;
 import static constants.City.ATLANTA;
+import static constants.Game.CHARACTERS_NAME_LIST;
+import static constants.Game.CARD_LAYOUT;
+import static constants.Game.PLAYER_NAME;
+import static constants.Game.ENTER_PLAYER_NAME;
+import static constants.Game.SELECT_CHARACTER;
 
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +17,6 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -82,8 +81,8 @@ public class CharacterMenu {
 		String playerName = "";
 		
 		while (playerName == null|| playerName.equals("")) {
-			playerName = JOptionPane.showInputDialog(null, "Enter the name for Player" + count + ":",
-					"Player Name", JOptionPane.INFORMATION_MESSAGE);
+			playerName = JOptionPane.showInputDialog(null, ENTER_PLAYER_NAME + count + ":",
+					PLAYER_NAME, JOptionPane.INFORMATION_MESSAGE);
 		}
 		
 		return playerName;
@@ -94,7 +93,7 @@ public class CharacterMenu {
 		int selectedCharacter = -1;
 		
 		while (selectedCharacter == -1) {
-			selectedCharacter = JOptionPane.showOptionDialog(null, this.panel, "Select Character",
+			selectedCharacter = JOptionPane.showOptionDialog(null, this.panel, SELECT_CHARACTER,
 					JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, 
 					this.characterNames.toArray(), null);
 		}
@@ -108,11 +107,10 @@ public class CharacterMenu {
 	
 	
 	private void setCardPanel() {
-		GridLayout cardLayout = new GridLayout(2, 4);
 		List<String> characterCards = this.characterCardList;
 		List<JLabel> cardLabels = new ArrayList<>();
 		
-		this.panel.setLayout(cardLayout);
+		this.panel.setLayout(CARD_LAYOUT);
 		
 		addCharacterLabels(cardLabels);
 		addPanelCards(cardLabels, characterCards);
@@ -146,9 +144,8 @@ public class CharacterMenu {
 		try {
 			File file = new File(filepath);
 			image = ImageIO.read(file);
-		} catch (IOException e) {		
-			System.out.println("Could not locate image");
-			System.out.println(e.getMessage());
+		} catch (IOException e) {
+			e.printStackTrace();
 			System.exit(0);
 		}
 		

@@ -3,11 +3,14 @@ package constants;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Game {
+	public final static GridLayout CARD_LAYOUT = new GridLayout(2, 4);
+	
 	public final static Dimension START_MENU_SIZE = new Dimension(660, 192);
 	public final static Dimension GAME_BOARD_SIZE = new Dimension(1920, 1040);
 	public final static Dimension PLAYER_HEADER_SIZE = new Dimension(190, 65);
@@ -157,4 +160,8 @@ public class Game {
 	public static String EVENT_CARD = "Choose Event";
 	public static String SELECT_EVENT_CARD = "Select and event card to play:";
 	public static String NO_EVENT_CARDS = "There are no event cards to play!";
+	
+	public static String PLAYER_NAME = "Player Name";
+	public static String ENTER_PLAYER_NAME = "Enter the name for Player";
+	public static String SELECT_CHARACTER = "Select Character";
 }
