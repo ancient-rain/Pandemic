@@ -95,9 +95,36 @@ public class QuarentineSpecialistCharacterControllerTests {
 	}
 	
 	@Test
-	public void testMoveWithoutCard(){	
+	public void testMoveToNeighbor(){
 		CityModel previousCity = this.quarentineSpec.getCharactersCurrentCity();
-		CityModel cityToMoveTo = listOfCities.get(1);
+		Set<CityModel> previousNeighboringCities = previousCity.getNeighbors();
+		CityModel cityToMoveTo = new CityModel("", blueDisease);
+		for(CityModel city : previousNeighboringCities){
+			cityToMoveTo = city;
+			break;
+		}
+		quarentineSpec.moveWithoutCard(cityToMoveTo);
+		
+		CityModel currentCity = this.quarentineSpec.getCharactersCurrentCity();
+		Set<CityModel> neighboringCities = currentCity.getNeighbors();
+		assertTrue(currentCity.isQuarentined());
+		ArrayList<CityModel> neighboringCitiesList = new ArrayList<CityModel>(neighboringCities);
+		for(int i = 0; i < neighboringCitiesList.size(); i++){
+			assertTrue(neighboringCitiesList.get(i).isQuarentined());
+		}
+	}
+	
+	@Test
+	public void testMoveViaShuttle(){
+		CityModel previousCity = this.quarentineSpec.getCharactersCurrentCity();
+		previousCity.setHasResearchStation(true);
+		CityModel cityToMoveTo = new CityModel("", blueDisease);
+		for(CityModel city : listOfCities){
+			if(city.hasResearchStation() && !city.equals(previousCity)){
+				cityToMoveTo = city;
+				break;
+			}
+		}
 		quarentineSpec.moveWithoutCard(cityToMoveTo);
 		
 		Set<CityModel> previousNeighboringCities = previousCity.getNeighbors();
