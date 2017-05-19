@@ -81,6 +81,9 @@ public class Game {
 	public final static int STANDARD_DIFFICULTY = 5;
 	public final static int HEROIC_DIFFICULTY = 6;
 	
+	public final static int STARTING_CARD_HELPER = 6;
+	public final static int HALF = 2;
+	
 	public final static String MAP_IMG = "images/map.png";
 	public final static String BIOHAZARD_IMG = "images/biohazard.PNG";
 	public final static String OUTBREAK_IMG = "images/outbreak.png";

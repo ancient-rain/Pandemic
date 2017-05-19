@@ -1,6 +1,5 @@
 package menus;
 
-
 import static constants.Card.CHARACTERS_CARD_LIST;
 import static constants.City.ATLANTA;
 import static constants.Game.CHARACTERS_NAME_LIST;
