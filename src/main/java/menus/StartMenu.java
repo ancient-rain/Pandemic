@@ -139,6 +139,7 @@ public class StartMenu {
 
 	private String getConfirmTitle() {
 		String title = PROCEED_WITH;
+<<<<<<< HEAD
 		String currentPlayers =  this.numPlayers + PLAYERS_AT;
 		String currentDifficulty = "";
 
@@ -148,6 +149,17 @@ public class StartMenu {
 			currentDifficulty = STANDARD.toUpperCase() + DIFFICULTY;
 		} else {
 			currentDifficulty = HEROIC.toUpperCase() + DIFFICULTY;
+=======
+		String currentPlayers =  this.numPlayers + " " + PLAYERS_AT;
+		String currentDifficulty = "";
+
+		if (this.difficulty == INTRODUCTORY_DIFFICULTY) {
+			currentDifficulty = INTRODUCTORY.toUpperCase() + " " + DIFFICULTY;
+		} else if (this.difficulty == STANDARD_DIFFICULTY) {
+			currentDifficulty = STANDARD.toUpperCase() + " " + DIFFICULTY;
+		} else {
+			currentDifficulty = HEROIC.toUpperCase() + " " + DIFFICULTY;
+>>>>>>> Fixed issue with clicking cancel on event card selection
 		}
 		
 		title += currentPlayers;

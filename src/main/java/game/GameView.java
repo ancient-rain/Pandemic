@@ -37,9 +37,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import cards.AbstractDeckCardController;
 import cards.CardModel;
-import cards.InfectionDeckCardController;
 import characters.AbstractCharacterController;
 import characters.CharacterFrontEndModel;
 import characters.CharacterModel;
@@ -191,7 +189,6 @@ public class GameView extends JFrame implements ActionListener {
 				share();
 			} else if (button == this.passButton) {
 				this.controller.endOfTurn();
-
 			} else if (button == this.playEventCardButton) {
 				playEventCard();
 			}		
@@ -201,17 +198,19 @@ public class GameView extends JFrame implements ActionListener {
 	}
 	
 	private void playEventCard(){
-		if(eventCards.size()>0){
+		if (eventCards.size() > 0) {
 			String[] eventCardsToPlay = new String[eventCards.size()];
-			for(int i = 0; i < this.eventCards.size();i++){
+			
+			for (int i = 0; i < this.eventCards.size();i++) {
 				eventCardsToPlay[i] = eventCards.get(i).getName();
 			}
 			
-			Object cardString = JOptionPane.showInputDialog(this, SELECT_EVENT_CARD, EVENT_CARD,
+			String cardString = (String) JOptionPane.showInputDialog(this, SELECT_EVENT_CARD, EVENT_CARD,
 					JOptionPane.DEFAULT_OPTION, null, eventCardsToPlay, eventCardsToPlay[0]);
 			
-			getEventCardFromString((String) cardString);
-			
+			if (cardString != null) {
+				getEventCardFromString((String) cardString);
+			}	
 		} else {
 			JOptionPane.showMessageDialog(this, NO_EVENT_CARDS);
 		}

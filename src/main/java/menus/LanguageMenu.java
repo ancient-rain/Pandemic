@@ -25,7 +25,6 @@ public class LanguageMenu {
 		
 		String[] languageLocaleList = new String[2];
 		int choiceSelected = JOptionPane.showConfirmDialog(null, 
-				panel, "", JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.QUESTION_MESSAGE);
 		
 		switch (choiceSelected) {
