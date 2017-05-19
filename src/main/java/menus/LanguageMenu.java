@@ -24,9 +24,9 @@ public class LanguageMenu {
 		localeBox.addItem("English");
 		localeBox.addItem("French");
 		panel.add(localeBox);
-
-		String[] languageLocaleList = new String[2];
+	
 		int choiceSelected = JOptionPane.showConfirmDialog(null, 
+				panel, "", JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.QUESTION_MESSAGE);
 		
 		switch (choiceSelected) {
