@@ -309,7 +309,7 @@ public class GameView extends JFrame implements ActionListener {
 		
 		String playerString = (String) JOptionPane.showInputDialog(this, "Select player to move:", 
 				"Airlift", JOptionPane.DEFAULT_OPTION, null, playersToChoose, playersToChoose[0]);
-
+		
 		if (playerString != null && this.model.getCityForEvent() != null) {
 			getCharacterFromString(playerString);
 			airliftSelected = true;
