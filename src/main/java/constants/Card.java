@@ -45,12 +45,12 @@ public class Card {
 	public final static String EVENT_CARD_PATH = "images/playerDeck/eventCards/";
 	public final static String CITY_CARD_PATH = "images/playerDeck/cityCards/";
 
-	public static String EPIDEMIC = "Epidemic";
-	public static String AIRLIFT = "Airlift";
-	public static String FORECAST = "Forecast";
-	public static String GOVERNMENT_GRANT = "Government Grant";
-	public static String ONE_QUIET_NIGHT = "One Quiet Night";
-	public static String RESILIENT_POPULATION = "Resilient Population";
+	public final static String EPIDEMIC = "Epidemic";
+	public final static String AIRLIFT = "Airlift";
+	public final static String FORECAST = "Forecast";
+	public final static String GOVERNMENT_GRANT = "Government Grant";
+	public final static String ONE_QUIET_NIGHT = "One Quiet Night";
+	public final static String RESILIENT_POPULATION = "Resilient Population";
 	
 	final static String MEDIC_CARD = "images/characters/cards/medic.png";
 	final static String DISPATCHER_CARD = "images/characters/cards/dispatcher.png";
@@ -63,13 +63,4 @@ public class Card {
 	public static final List<String> CHARACTERS_CARD_LIST = new ArrayList<>(
 			Arrays.asList(MEDIC_CARD, DISPATCHER_CARD, QUARANTINE_SPECIALIST_CARD, CONTINGENCY_PLANNER_CARD,
 					RESEARCHER_CARD, SCIENTIST_CARD, OPERATIONS_EXPERT_CARD));
-	
-	public static void updateConstants(ResourceBundle resourceBundle) {
-		EPIDEMIC = resourceBundle.getString("EPIDEMIC");
-		AIRLIFT = resourceBundle.getString("AIRLIFT");
-		FORECAST = resourceBundle.getString("FORECAST");
-		GOVERNMENT_GRANT = resourceBundle.getString("GOVERNMENT_GRANT");
-		ONE_QUIET_NIGHT = resourceBundle.getString("ONE_QUIET_NIGHT");
-		RESILIENT_POPULATION = resourceBundle.getString("RESILIENT_POPULATION");
-	}
 }

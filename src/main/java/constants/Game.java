@@ -70,10 +70,12 @@ public class Game {
 	public final static int SECOND_PLAYER_INDEX = 1;
 	public final static int THIRD_PLAYER_INDEX = 2;
 
-	final static int PLAYER_ONE = 1;
-	final static int PLAYER_TWO = 2;
-	final static int PLAYER_THREE = 3;
-	final static int PLAYER_FOUR = 4;
+	public final static int FORECAST_CARDS = 6;
+	public final static int MAX_CARDS = 7;
+	public final static int MAX_NUM_OUTBREAKS = 7;
+	public final static int NUM_INFECTIONS = 4;
+	public final static int ACTION_COUNT = 4;
+	public final static int MAX_RESEARCH_COUNT = 6;
 
 	public final static int TWO_PLAYERS = 2;
 	public final static int THREE_PLAYERS = 3;
