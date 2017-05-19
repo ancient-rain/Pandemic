@@ -21,6 +21,8 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -143,7 +145,6 @@ public class GameView extends JFrame implements ActionListener {
 			
 			this.playerInfoPanel.add(view);
 		}
-		
 	}
 	
 	private void drawPlayerActions() {
@@ -192,6 +193,7 @@ public class GameView extends JFrame implements ActionListener {
 			} else if (button == this.playEventCardButton) {
 				playEventCard();
 			}		
+
 			repaint();
 		}
 	}
@@ -294,8 +296,8 @@ public class GameView extends JFrame implements ActionListener {
 		}
 		
 		if (diseases.length > 1) {
-			Object treated = JOptionPane.showInputDialog(this, "Select a disease to treat:", 
-					"Treat", JOptionPane.DEFAULT_OPTION, null, diseases, diseases[0]);
+			Object treated = JOptionPane.showInputDialog(this, SELECT_DISEASE_TO_TREAT, 
+					TREAT, JOptionPane.DEFAULT_OPTION, null, diseases, diseases[0]);
 			
 			if (!treated.equals(null)) {
 				treatDisease(treated);
@@ -303,18 +305,19 @@ public class GameView extends JFrame implements ActionListener {
 		} else if (diseases.length == 1) {
 			treatDisease(diseases[0]);
 		} else {
-			JOptionPane.showMessageDialog(this, "No diseases to treat at current location!"); 
+			JOptionPane.showMessageDialog(this, String.format("<html><center>%s</center></html", NO_DISEASES_TO_TREAT),
+					TREAT, JOptionPane.INFORMATION_MESSAGE); 
 		}
 	}
 	
 	private void treatDisease(Object selectedDisease) {	
-		if (selectedDisease.equals("Blue")) {
+		if (selectedDisease.equals(BLUE)) {
 			this.controller.treatCity(this.blueDisease);
-		} else if (selectedDisease.equals("Yellow")) {
+		} else if (selectedDisease.equals(YELLOW)) {
 			this.controller.treatCity(this.yellowDisease);
-		} else if (selectedDisease.equals("Black")) {
+		} else if (selectedDisease.equals(BLACK)) {
 			this.controller.treatCity(this.blackDisease);
-		} else if (selectedDisease.equals("Red")) {
+		} else if (selectedDisease.equals(RED)) {
 			this.controller.treatCity(this.redDisease);
 		}
 	}
@@ -409,26 +412,126 @@ public class GameView extends JFrame implements ActionListener {
 		List<String> diseases = new ArrayList<>();	
 		
 		if (this.controller.treatCity(this.blueDisease)) {
-			diseases.add("Blue");
+			diseases.add(BLUE);
 		}
 		
 		if (this.controller.treatCity(this.yellowDisease)) {
-			diseases.add("Yellow");
+			diseases.add(YELLOW);
 		}
 		
 		if (this.controller.treatCity(this.blackDisease)) {
-			diseases.add("Black");
+			diseases.add(BLACK);
 		}
 		
 		if (this.controller.treatCity(this.redDisease)) {
-			diseases.add("Red");
+			diseases.add(RED);
 		}
 		
 		return diseases;
 	}
 	
 	private void cure() {
+		Set<CardModel> playerHand = this.controller.getCurrentPlayer().getCharacterModel().getHandOfCards();
+		Set<CardModel> blueCards = new HashSet<>();
+		Set<CardModel> yellowCards = new HashSet<>();
+		Set<CardModel> blackCards = new HashSet<>();
+		Set<CardModel> redCards = new HashSet<>();
+		String[] cures = new String[]{BLUE, YELLOW, BLACK, RED};
+		boolean didCure = false;
+		boolean alreadyCured = false;
+		boolean alreadyEradicated = false;
 		
+		for (CardModel card : playerHand) {
+			if (card.getType().equals(CardModel.CardType.PLAYER)) {
+				Color color = this.cities.getCityToDraw(card.getName()).getColor();
+				if (color.equals(Color.BLUE)) {
+					blueCards.add(card);
+				} else if (color.equals(Color.YELLOW)) {
+					yellowCards.add(card);
+				} else if (color.equals(Color.BLACK)) {
+					blackCards.add(card);
+				} else {
+					redCards.add(card);
+				}
+			}
+		}
+		
+		Object cured = JOptionPane.showInputDialog(this, SELECT_DISEASE_TO_CURE, 
+				CURE, JOptionPane.DEFAULT_OPTION, null, cures, cures[0]);
+		
+		if (cured.equals(BLUE)) {
+			blueCards = cardsToRemove(blueCards);
+			alreadyCured = this.diseaseController.getBlueDisease().isCured();
+			alreadyEradicated = this.diseaseController.getBlueDisease().isEradicated();
+			didCure = this.controller.cureDisease(blueCards, this.blueDisease);
+		} else if (cured.equals(YELLOW)) {
+			yellowCards = cardsToRemove(yellowCards);
+			alreadyCured = this.diseaseController.getYellowDisease().isCured();
+			alreadyEradicated = this.diseaseController.getYellowDisease().isEradicated();
+			didCure = this.controller.cureDisease(yellowCards, this.yellowDisease);
+		} else if (cured.equals(BLACK)) {
+			blackCards = cardsToRemove(blackCards);
+			alreadyCured = this.diseaseController.getBlackDisease().isCured();
+			alreadyEradicated = this.diseaseController.getBlackDisease().isEradicated();
+			didCure = this.controller.cureDisease(blackCards, this.blackDisease);
+		} else if (cured.equals(RED)) {
+			redCards = cardsToRemove(redCards);
+			alreadyCured = this.diseaseController.getRedDisease().isCured();
+			alreadyEradicated = this.diseaseController.getRedDisease().isEradicated();
+			didCure = this.controller.cureDisease(redCards, this.redDisease);	
+		}
+		
+		if (alreadyEradicated) {
+			JOptionPane.showMessageDialog(this, String.format("<html><center>%s</center></html", ALREADY_ERADICATED),
+					CURE, JOptionPane.INFORMATION_MESSAGE); 
+		} else if (alreadyCured) {
+			JOptionPane.showMessageDialog(this, String.format("<html><center>%s</center></html", ALREADY_CURED),
+					CURE, JOptionPane.INFORMATION_MESSAGE); 
+		} else {
+			if (!didCure) {
+				JOptionPane.showMessageDialog(this, String.format("<html><center>%s</center></html", NOT_ENOUGH_CARDS_TO_CURE),
+						CURE, JOptionPane.INFORMATION_MESSAGE); 
+			}
+		}
+	}
+	
+	private Set<CardModel> cardsToRemove(Set<CardModel> cards) {
+		Map<String, CardModel> cardMap = new HashMap<>();
+		Set<CardModel> cardsToRemove = new HashSet<>();
+		List<String> keepCardList = new ArrayList<>();
+		List<String> removeCardList = new ArrayList<>();
+		
+		for (CardModel card : cards) {
+			String name = card.getName();
+			cardMap.put(name, card);
+			removeCardList.add(name);
+		}
+		
+		if (this.controller.getCurrentPlayer().getCharacterModel().getRole().equals(SCIENTIST)) {
+			while (cardMap.size() - keepCardList.size() > 4) {
+				String keep = (String) JOptionPane.showInputDialog(this, SELECT_CARD_TO_KEEP, CURE,
+						JOptionPane.DEFAULT_OPTION, null, removeCardList.toArray(), removeCardList.toArray()[0]);
+				keepCardList.add(keep);
+				removeCardList.remove(keep);
+			}
+		} else {
+			while (cardMap.size() - keepCardList.size() > 5) {
+				String keep = (String) JOptionPane.showInputDialog(this, SELECT_CARD_TO_KEEP, CURE, 
+						JOptionPane.DEFAULT_OPTION, null, removeCardList.toArray(), removeCardList.toArray()[0]);
+				keepCardList.add(keep);
+				removeCardList.remove(keep);
+			}
+		}
+		
+		for (String name : keepCardList) {
+			cardMap.remove(name);
+		}
+		
+		for (CardModel card : cardMap.values()) {
+			cardsToRemove.add(card);
+		}
+		
+		return cardsToRemove;
 	}
 	
 	private void drawMap() {
@@ -458,7 +561,6 @@ public class GameView extends JFrame implements ActionListener {
 
 		return image;
 	}
-	
 	
 	private void updateFrame() {
 		this.setLayout(this.layout);
@@ -501,10 +603,16 @@ public class GameView extends JFrame implements ActionListener {
 		if (!this.model.isLost() && !this.model.isWon()) {
 			paintBoard(gr);
 		} else if (this.model.isLost()) {
-			System.out.println("GAME OVER");
+			this.setVisible(false);
+			
+			JOptionPane.showMessageDialog(null, String.format("<html><center>%s</center></html", LOST),
+					LOST_GAME, JOptionPane.INFORMATION_MESSAGE);
 			System.exit(0);
 		} else if (this.model.isWon()) {
-			System.out.println("YOU WON!");
+			this.setVisible(false);
+			
+			JOptionPane.showMessageDialog(null, String.format("<html><center>%s</center></html", WON),
+					WON_GAME, JOptionPane.INFORMATION_MESSAGE);
 			System.exit(0);
 		}
 		
