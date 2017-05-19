@@ -118,4 +118,5 @@ public class Game {
 	public static String ALREADY_CURED = "Disease is already cured!";
 	public static String NOT_ENOUGH_CARDS_TO_CURE = "Not enough cards to cure selected disease!";
 	public static String SELECT_CARD_TO_KEEP = "Select a card to keep in your hand: ";
+	public static String NOT_AT_RESEARCH_STATION = "Must be at research station to cure disease!";
 }

@@ -296,7 +296,7 @@ public class GameView extends JFrame implements ActionListener {
 		}
 		
 		if (diseases.length > 1) {
-			Object treated = JOptionPane.showInputDialog(this, SELECT_DISEASE_TO_TREAT, 
+			String treated = (String) JOptionPane.showInputDialog(this, SELECT_DISEASE_TO_TREAT, 
 					TREAT, JOptionPane.DEFAULT_OPTION, null, diseases, diseases[0]);
 			
 			if (!treated.equals(null)) {
@@ -310,7 +310,34 @@ public class GameView extends JFrame implements ActionListener {
 		}
 	}
 	
-	private void treatDisease(Object selectedDisease) {	
+	private List<String> updateCurrentCityDiseaseList() {
+		List<String> diseases = new ArrayList<>();
+		String name = this.controller.getCurrentPlayer().getCharactersCurrentCity().getName();
+		int blue = this.cityController.getCityByName(name).getCubesByDisease(this.blueDisease);
+		int yellow = this.cityController.getCityByName(name).getCubesByDisease(this.yellowDisease);
+		int black = this.cityController.getCityByName(name).getCubesByDisease(this.blackDisease);
+		int red = this.cityController.getCityByName(name).getCubesByDisease(this.redDisease);
+		
+		if (blue > 0) {
+			diseases.add(BLUE);
+		}
+		
+		if (yellow > 0) {
+			diseases.add(YELLOW);
+		}
+		
+		if (black > 0) {
+			diseases.add(BLACK);
+		}
+		
+		if (red > 0) {
+			diseases.add(RED);
+		}
+		
+		return diseases;
+	}
+	
+	private void treatDisease(String selectedDisease) {	
 		if (selectedDisease.equals(BLUE)) {
 			this.controller.treatCity(this.blueDisease);
 		} else if (selectedDisease.equals(YELLOW)) {
@@ -408,28 +435,6 @@ public class GameView extends JFrame implements ActionListener {
 		return player;
 	}
 	
-	private List<String> updateCurrentCityDiseaseList() {
-		List<String> diseases = new ArrayList<>();	
-		
-		if (this.controller.treatCity(this.blueDisease)) {
-			diseases.add(BLUE);
-		}
-		
-		if (this.controller.treatCity(this.yellowDisease)) {
-			diseases.add(YELLOW);
-		}
-		
-		if (this.controller.treatCity(this.blackDisease)) {
-			diseases.add(BLACK);
-		}
-		
-		if (this.controller.treatCity(this.redDisease)) {
-			diseases.add(RED);
-		}
-		
-		return diseases;
-	}
-	
 	private void cure() {
 		Set<CardModel> playerHand = this.controller.getCurrentPlayer().getCharacterModel().getHandOfCards();
 		Set<CardModel> blueCards = new HashSet<>();
@@ -440,6 +445,7 @@ public class GameView extends JFrame implements ActionListener {
 		boolean didCure = false;
 		boolean alreadyCured = false;
 		boolean alreadyEradicated = false;
+		boolean atResearchStation = this.controller.getCurrentPlayer().getCharacterModel().isAtResearchStation();
 		
 		for (CardModel card : playerHand) {
 			if (card.getType().equals(CardModel.CardType.PLAYER)) {
@@ -463,25 +469,36 @@ public class GameView extends JFrame implements ActionListener {
 			blueCards = cardsToRemove(blueCards);
 			alreadyCured = this.diseaseController.getBlueDisease().isCured();
 			alreadyEradicated = this.diseaseController.getBlueDisease().isEradicated();
-			didCure = this.controller.cureDisease(blueCards, this.blueDisease);
+			if (atResearchStation) {
+				didCure = this.controller.cureDisease(blueCards, this.blueDisease);
+			}
 		} else if (cured.equals(YELLOW)) {
 			yellowCards = cardsToRemove(yellowCards);
 			alreadyCured = this.diseaseController.getYellowDisease().isCured();
 			alreadyEradicated = this.diseaseController.getYellowDisease().isEradicated();
-			didCure = this.controller.cureDisease(yellowCards, this.yellowDisease);
+			if (atResearchStation) {
+				didCure = this.controller.cureDisease(yellowCards, this.yellowDisease);
+			}
 		} else if (cured.equals(BLACK)) {
 			blackCards = cardsToRemove(blackCards);
 			alreadyCured = this.diseaseController.getBlackDisease().isCured();
 			alreadyEradicated = this.diseaseController.getBlackDisease().isEradicated();
-			didCure = this.controller.cureDisease(blackCards, this.blackDisease);
+			if (atResearchStation) {
+				didCure = this.controller.cureDisease(blackCards, this.blackDisease);
+			}
 		} else if (cured.equals(RED)) {
 			redCards = cardsToRemove(redCards);
 			alreadyCured = this.diseaseController.getRedDisease().isCured();
 			alreadyEradicated = this.diseaseController.getRedDisease().isEradicated();
-			didCure = this.controller.cureDisease(redCards, this.redDisease);	
+			if (atResearchStation) {
+				didCure = this.controller.cureDisease(redCards, this.redDisease);
+			}
 		}
 		
-		if (alreadyEradicated) {
+		if (!atResearchStation) {
+			JOptionPane.showMessageDialog(this, String.format("<html><center>%s</center></html", NOT_AT_RESEARCH_STATION),
+					CURE, JOptionPane.INFORMATION_MESSAGE); 
+		} else if (alreadyEradicated) {
 			JOptionPane.showMessageDialog(this, String.format("<html><center>%s</center></html", ALREADY_ERADICATED),
 					CURE, JOptionPane.INFORMATION_MESSAGE); 
 		} else if (alreadyCured) {
@@ -511,15 +528,19 @@ public class GameView extends JFrame implements ActionListener {
 			while (cardMap.size() - keepCardList.size() > 4) {
 				String keep = (String) JOptionPane.showInputDialog(this, SELECT_CARD_TO_KEEP, CURE,
 						JOptionPane.DEFAULT_OPTION, null, removeCardList.toArray(), removeCardList.toArray()[0]);
-				keepCardList.add(keep);
-				removeCardList.remove(keep);
+				if (keep != null) {
+					keepCardList.add(keep);
+					removeCardList.remove(keep);
+				}	
 			}
 		} else {
 			while (cardMap.size() - keepCardList.size() > 5) {
 				String keep = (String) JOptionPane.showInputDialog(this, SELECT_CARD_TO_KEEP, CURE, 
 						JOptionPane.DEFAULT_OPTION, null, removeCardList.toArray(), removeCardList.toArray()[0]);
-				keepCardList.add(keep);
-				removeCardList.remove(keep);
+				if (keep != null) {
+					keepCardList.add(keep);
+					removeCardList.remove(keep);
+				}	
 			}
 		}
 		
