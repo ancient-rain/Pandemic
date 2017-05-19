@@ -218,27 +218,28 @@ public class GameController {
 		}
 	}
 	
-	public boolean playEventCard(CardModel eventCardToPlay){
+	public boolean playEventCard(CardModel eventCardToPlay) {
 		String role = eventCardToPlay.getName();
+		boolean playedEvent = false;
+		
 		if(role.equals("Airlift")) {
-			removeEventCardFromHand(eventCardToPlay);
-			return this.playAirlift(this.gameModel.getCharacterToBeAirlifted(), 
+			playedEvent = this.playAirlift(this.gameModel.getCharacterToBeAirlifted(), 
 					this.gameModel.getCityForEvent());
 		} else if(role.equals("Forecast")) {
-			removeEventCardFromHand(eventCardToPlay);
-			return this.playForecast();
+			playedEvent = this.playForecast();
 		} else if(role.equals("Government Grant")) {
-			removeEventCardFromHand(eventCardToPlay);
-			return this.playGovernmentGrant(this.gameModel.getCityForEvent());
+			playedEvent = this.playGovernmentGrant(this.gameModel.getCityForEvent());
 		} else if(role.equals("One Quiet Night")){
-			removeEventCardFromHand(eventCardToPlay);
-			return this.playOneQuietNight();
+			playedEvent = this.playOneQuietNight();
 		} else if(role.equals("Resilient Population")){
-			removeEventCardFromHand(eventCardToPlay);
-			return this.playResilientPopulation(this.gameModel.getCardToRemoveFromInfectionDeck());
-		} else {
-			return false;
+			playedEvent = this.playResilientPopulation(this.gameModel.getCardToRemoveFromInfectionDeck());
 		}
+
+		if (playedEvent) {
+			removeEventCardFromHand(eventCardToPlay);
+			this.playerDeckController.discard(eventCardToPlay);
+		}
+		return playedEvent;
 	}
 	
 	public void removeEventCardFromHand(CardModel eventCardToPlay) {
@@ -285,11 +286,11 @@ public class GameController {
 	
 	private boolean playOneQuietNight(){
 		this.gameModel.setQuietNightsLeft(this.characters.size());
-		return false;
+		return true;
 	}
 	
-	private boolean playResilientPopulation(CardModel cardToRemove){
-		return this.infectionDeckController.getDiscardedCards().remove(cardToRemove);
+	private boolean playResilientPopulation(CardModel cardToRemove) {
+		return this.getInfectionDeckController().getDiscardedCards().remove(cardToRemove);
 	}
 	
 	public boolean checkForLoss(){
@@ -343,12 +344,5 @@ public class GameController {
 			}
 		}
 		return null;
-	}
-	
-	public void addNewInfectionOrderCardsTotop(InfectionDeckCardController infectionController, List<CardModel> cardsToAddToTop){
-		for(int i = 0; i < cardsToAddToTop.size();i++){
-			infectionController.addToTop(cardsToAddToTop.get(i));
-		}
-		
 	}
 }

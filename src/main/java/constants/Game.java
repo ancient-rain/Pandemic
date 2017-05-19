@@ -97,4 +97,30 @@ public class Game {
 	public static String PASS_BUTTON = "Pass";
 	public static String PLAY_EVENT_BUTTON = "Play Event Card";
 	public static String NO_SELECTED_CITY = "No Selected City";
+	
+	public static String BLUE = "Blue";
+	public static String YELLOW = "Yellow";
+	public static String BLACK = "Black";
+	public static String RED = "Red";
+	
+	public static String LOST = "You Lost!";
+	public static String LOST_GAME = "Lost Game!";
+	public static String WON = "You Won!";
+	public static String WON_GAME = "Won Game!";
+	
+	public static String TREAT = "Treat";
+	public static String SELECT_DISEASE_TO_TREAT = "Select a diseease to treat:";
+	public static String NO_DISEASES_TO_TREAT = "No diseases to treat at current location!";
+	
+	public static String CURE = "Cure";
+	public static String SELECT_DISEASE_TO_CURE = "Select a disease to cure:";
+	public static String ALREADY_ERADICATED = "Disease is already eradicated!";
+	public static String ALREADY_CURED = "Disease is already cured!";
+	public static String NOT_ENOUGH_CARDS_TO_CURE = "Not enough cards to cure selected disease!";
+	public static String SELECT_CARD_TO_KEEP = "Select a card to keep in your hand: ";
+	public static String NOT_AT_RESEARCH_STATION = "Must be at research station to cure disease!";
+	
+	public static String EVENT_CARD = "Choose Event";
+	public static String SELECT_EVENT_CARD = "Select and event card to play:";
+	public static String NO_EVENT_CARDS = "There are no event cards to play!";
 }

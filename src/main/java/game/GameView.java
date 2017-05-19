@@ -21,6 +21,8 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -143,7 +145,6 @@ public class GameView extends JFrame implements ActionListener {
 			
 			this.playerInfoPanel.add(view);
 		}
-		
 	}
 	
 	private void drawPlayerActions() {
@@ -182,16 +183,18 @@ public class GameView extends JFrame implements ActionListener {
 			} else if (button == this.treatButton) {
 				treat();
 			} else if (button == this.cureButton) {
-				
+				cure();
 			} else if (button == this.buildButton) {
 				this.controller.buildResearchStation();
 			} else if (button == this.shareButton) {
 				share();
 			} else if (button == this.passButton) {
 				this.controller.endOfTurn();
+
 			} else if (button == this.playEventCardButton) {
 				playEventCard();
 			}		
+
 			repaint();
 		}
 	}
@@ -203,83 +206,121 @@ public class GameView extends JFrame implements ActionListener {
 				eventCardsToPlay[i] = eventCards.get(i).getName();
 			}
 			
-			Object cardString = JOptionPane.showInputDialog(this, "Select event card to play:", 
-					"Treat", JOptionPane.DEFAULT_OPTION, null, eventCardsToPlay, eventCardsToPlay[0]);
+			Object cardString = JOptionPane.showInputDialog(this, SELECT_EVENT_CARD, EVENT_CARD,
+					JOptionPane.DEFAULT_OPTION, null, eventCardsToPlay, eventCardsToPlay[0]);
 			
 			getEventCardFromString((String) cardString);
 			
 		} else {
-			JOptionPane.showMessageDialog(this, "There are no event cards to play");
+			JOptionPane.showMessageDialog(this, NO_EVENT_CARDS);
 		}
 	}
 	
-	private void getEventCardFromString(String eventCardString){
-		for(int i = 0; i < this.eventCards.size(); i++){
-			if(eventCardString.equals(eventCards.get(i).getName())){
-				if(eventCardString.equals("Airlift")){
-					selectPlayerToAirlift();
-				} else if(eventCardString.equals("Forecast")){
+	private void getEventCardFromString(String eventCardString) {
+		boolean playEvent = true;
+		for (int i = 0; i < this.eventCards.size(); i++) {
+			if (eventCardString.equals(eventCards.get(i).getName())) {
+				if (eventCardString.equals("Airlift")) {
+					playEvent = selectPlayerToAirlift();
+				} else if (eventCardString.equals("Resilient Population")) {
+					playEvent = selectInfectionCardToRemove();
+				} else if (eventCardString.equals("Government Grant")) {
+					playEvent = this.model.getCityForEvent() != null;
+				}
+				
+				if (playEvent) {
+					this.controller.playEventCard(eventCards.get(i));
+				}
+				
+				if (eventCardString.equals("Forecast")) {
 					getTopCardsForForecast();
 				}
-				this.controller.playEventCard(eventCards.get(i));
 			}
 		}
 	}
 	
-	private void getTopCardsForForecast(){
-		InfectionDeckCardController infectionController = (InfectionDeckCardController) this.controller.getInfectionDeckController();
-		List<CardModel> listOfTopCards = infectionController.drawNumberOfCards(6);
-		CardModel firstSelectedCard = selectCardFromTopOfInfection(listOfTopCards);
-		listOfTopCards.remove(firstSelectedCard);
-		CardModel secondSelectedCard = selectCardFromTopOfInfection(listOfTopCards);
-		listOfTopCards.remove(secondSelectedCard);
-		CardModel thirdSelectedCard = selectCardFromTopOfInfection(listOfTopCards);
-		listOfTopCards.remove(thirdSelectedCard);
-		CardModel fourthSelectedCard = selectCardFromTopOfInfection(listOfTopCards);
-		listOfTopCards.remove(fourthSelectedCard);
-		CardModel fifthSelectedCard = selectCardFromTopOfInfection(listOfTopCards);
-		listOfTopCards.remove(fifthSelectedCard);
-		CardModel sixthSelectedCard = listOfTopCards.get(0);
+	private boolean selectInfectionCardToRemove() {
+		List<CardModel> discard = this.controller.getInfectionDeckController().getDiscardedCards();
+		List<String> names = new ArrayList<>();
+		boolean cardSelected = false;
 		
-		List<CardModel> cardsToAddToTop = new ArrayList<CardModel>();
-		cardsToAddToTop.add(sixthSelectedCard);
-		cardsToAddToTop.add(fifthSelectedCard);
-		cardsToAddToTop.add(fourthSelectedCard);
-		cardsToAddToTop.add(thirdSelectedCard);
-		cardsToAddToTop.add(secondSelectedCard);
-		cardsToAddToTop.add(firstSelectedCard);
+		for (CardModel card : discard) {
+			names.add(card.getName());
+		}
+				
+		String cardToRemove = (String) JOptionPane.showInputDialog(this, "Select card to remove from infectoin deck: ", "Resilient Population", 
+				JOptionPane.DEFAULT_OPTION, null, names.toArray(), names.toArray()[0]);
 		
-		this.controller.addNewInfectionOrderCardsTotop(infectionController, cardsToAddToTop);
+		if (cardToRemove != null) {
+			CityModel returnCity = this.cityController.getCityByName(cardToRemove);
+			CardModel selectedCard = this.controller.getInfectionDeckController().getCityToCardMap().get(returnCity);
+			
+			this.model.setCardToRemoveFromInfectionDeck(selectedCard);
+			cardSelected = true;
+		}
 		
+		return cardSelected;
+	}
+	
+	private void getTopCardsForForecast() {
+		List<CardModel> listOfTopCards = this.model.getForecastCards();
+		List<CardModel> newOrderedList = new ArrayList<>();
+		boolean citySelected = true;
+		
+		while (citySelected) {
+			if (listOfTopCards.size() <= 1) {
+				newOrderedList.add(listOfTopCards.get(0));
+				citySelected = false;
+			} else {
+				CardModel selectedCard = selectCardFromTopOfInfection(listOfTopCards);
+				
+				if (selectedCard != null) {
+					newOrderedList.add(selectedCard);
+					listOfTopCards.remove(selectedCard);
+				}
+			}
+		}
+		
+		for (int i = 0; i < newOrderedList.size(); i++) {
+			this.controller.forecastReturnCard(newOrderedList.get(i));
+		}
 	}
 	
 	private CardModel selectCardFromTopOfInfection(List<CardModel> listOfTopCards) {
 		String[] topCardsArray = new String[listOfTopCards.size()];
+		
 		for(int i = 0; i < listOfTopCards.size();i++){
 			topCardsArray[i] = listOfTopCards.get(i).getName();
 		}
 		
-		Object cardName = JOptionPane.showInputDialog(this, "Please select a card to place in order, it moves from the top of the deck down:", 
-				"Treat", JOptionPane.DEFAULT_OPTION, null, topCardsArray, topCardsArray[0]);
+		String cardName = (String) JOptionPane.showInputDialog(this, "Selected card will be placed on top of the deck:", 
+				"Forcast", JOptionPane.DEFAULT_OPTION, null, topCardsArray, topCardsArray[0]);
 		
-		return this.controller.cardNameToCard((String) cardName, listOfTopCards);
+		return this.controller.cardNameToCard(cardName, listOfTopCards);
 	}
 
-	private void selectPlayerToAirlift(){
+	private boolean selectPlayerToAirlift(){
 		String[] playersToChoose = new String[this.controller.getPlayers().size()];
-		for(int i = 0; i < this.controller.getPlayers().size();i++){
+		boolean airliftSelected = false;
+		
+		for(int i = 0; i < this.controller.getPlayers().size(); i++){
 			playersToChoose[i] = controller.getPlayers().get(i).getCharacterModel().getName();
 		}
 		
-		Object playerString = JOptionPane.showInputDialog(this, "Select player to move:", 
+		String playerString = (String) JOptionPane.showInputDialog(this, "Select player to move:", 
 				"Airlift", JOptionPane.DEFAULT_OPTION, null, playersToChoose, playersToChoose[0]);
 		
-		getCharacterFromString((String) playerString);
+		if (playerString != null && this.model.getCityForEvent() != null) {
+			getCharacterFromString(playerString);
+			airliftSelected = true;
+		}
+		
+		return airliftSelected;
 	}
 	
-	private void getCharacterFromString(String playerString){
-		for(int i = 0; i < this.players.size();i++){
-			if(this.controller.getPlayers().get(i).getCharacterModel().getName().equals(playerString)){
+	private void getCharacterFromString(String playerString) {
+		for (int i = 0; i < this.players.size(); i++) {
+			if (this.controller.getPlayers().get(i).getCharacterModel().getName().equals(playerString)) {
 				this.model.setCharacterToBeAirlifted(this.controller.getPlayers().get(i));
 			}
 		}
@@ -294,8 +335,8 @@ public class GameView extends JFrame implements ActionListener {
 		}
 		
 		if (diseases.length > 1) {
-			Object treated = JOptionPane.showInputDialog(this, "Select a disease to treat:", 
-					"Treat", JOptionPane.DEFAULT_OPTION, null, diseases, diseases[0]);
+			String treated = (String) JOptionPane.showInputDialog(this, SELECT_DISEASE_TO_TREAT, 
+					TREAT, JOptionPane.DEFAULT_OPTION, null, diseases, diseases[0]);
 			
 			if (!treated.equals(null)) {
 				treatDisease(treated);
@@ -303,18 +344,46 @@ public class GameView extends JFrame implements ActionListener {
 		} else if (diseases.length == 1) {
 			treatDisease(diseases[0]);
 		} else {
-			JOptionPane.showMessageDialog(this, "No diseases to treat at current location!"); 
+			JOptionPane.showMessageDialog(this, String.format("<html><center>%s</center></html", NO_DISEASES_TO_TREAT),
+					TREAT, JOptionPane.INFORMATION_MESSAGE); 
 		}
 	}
 	
-	private void treatDisease(Object selectedDisease) {	
-		if (selectedDisease.equals("Blue")) {
+	private List<String> updateCurrentCityDiseaseList() {
+		List<String> diseases = new ArrayList<>();
+		String name = this.controller.getCurrentPlayer().getCharactersCurrentCity().getName();
+		int blue = this.cityController.getCityByName(name).getCubesByDisease(this.blueDisease);
+		int yellow = this.cityController.getCityByName(name).getCubesByDisease(this.yellowDisease);
+		int black = this.cityController.getCityByName(name).getCubesByDisease(this.blackDisease);
+		int red = this.cityController.getCityByName(name).getCubesByDisease(this.redDisease);
+		
+		if (blue > 0) {
+			diseases.add(BLUE);
+		}
+		
+		if (yellow > 0) {
+			diseases.add(YELLOW);
+		}
+		
+		if (black > 0) {
+			diseases.add(BLACK);
+		}
+		
+		if (red > 0) {
+			diseases.add(RED);
+		}
+		
+		return diseases;
+	}
+	
+	private void treatDisease(String selectedDisease) {	
+		if (selectedDisease.equals(BLUE)) {
 			this.controller.treatCity(this.blueDisease);
-		} else if (selectedDisease.equals("Yellow")) {
+		} else if (selectedDisease.equals(YELLOW)) {
 			this.controller.treatCity(this.yellowDisease);
-		} else if (selectedDisease.equals("Black")) {
+		} else if (selectedDisease.equals(BLACK)) {
 			this.controller.treatCity(this.blackDisease);
-		} else if (selectedDisease.equals("Red")) {
+		} else if (selectedDisease.equals(RED)) {
 			this.controller.treatCity(this.redDisease);
 		}
 	}
@@ -405,36 +474,125 @@ public class GameView extends JFrame implements ActionListener {
 		return player;
 	}
 	
-	private List<String> updateCurrentCityDiseaseList() {
-		List<String> diseases = new ArrayList<>();	
-		CityModel currentCity = this.controller.getCurrentPlayer().getCharactersCurrentCity();
-		DiseaseFrontEndModel blueDiseaseFrontEnd = new DiseaseFrontEndModel(this.blueDisease, Color.BLUE);
-		DiseaseFrontEndModel yellowDiseaseFrontEnd = new DiseaseFrontEndModel(this.yellowDisease, Color.YELLOW);
-		DiseaseFrontEndModel blackDiseaseFrontEnd = new DiseaseFrontEndModel(this.blackDisease, Color.BLACK);
-		DiseaseFrontEndModel redDiseaseFrontEnd = new DiseaseFrontEndModel(this.redDisease, Color.RED);
-		int blueCount = currentCity.getCubesByDisease(blueDiseaseFrontEnd.getDisease());
-		int yellowCount = currentCity.getCubesByDisease(yellowDiseaseFrontEnd.getDisease());
-		int blackCount = currentCity.getCubesByDisease(blackDiseaseFrontEnd.getDisease());
-		int redCount = currentCity.getCubesByDisease(redDiseaseFrontEnd.getDisease());
+	private void cure() {
+		Set<CardModel> playerHand = this.controller.getCurrentPlayer().getCharacterModel().getHandOfCards();
+		Set<CardModel> blueCards = new HashSet<>();
+		Set<CardModel> yellowCards = new HashSet<>();
+		Set<CardModel> blackCards = new HashSet<>();
+		Set<CardModel> redCards = new HashSet<>();
+		String[] cures = new String[]{BLUE, YELLOW, BLACK, RED};
+		boolean didCure = false;
+		boolean alreadyCured = false;
+		boolean alreadyEradicated = false;
+		boolean atResearchStation = this.controller.getCurrentPlayer().getCharacterModel().isAtResearchStation();
 		
-		if (blueCount > 0) {
-			diseases.add("Blue");
+		for (CardModel card : playerHand) {
+			if (card.getType().equals(CardModel.CardType.PLAYER)) {
+				Color color = this.cities.getCityToDraw(card.getName()).getColor();
+				if (color.equals(Color.BLUE)) {
+					blueCards.add(card);
+				} else if (color.equals(Color.YELLOW)) {
+					yellowCards.add(card);
+				} else if (color.equals(Color.BLACK)) {
+					blackCards.add(card);
+				} else {
+					redCards.add(card);
+				}
+			}
 		}
 		
-		if (yellowCount > 0) {
-			diseases.add("Yellow");
+		Object cured = JOptionPane.showInputDialog(this, SELECT_DISEASE_TO_CURE, 
+				CURE, JOptionPane.DEFAULT_OPTION, null, cures, cures[0]);
+		
+		if (cured.equals(BLUE)) {
+			blueCards = cardsToRemove(blueCards);
+			alreadyCured = this.diseaseController.getBlueDisease().isCured();
+			alreadyEradicated = this.diseaseController.getBlueDisease().isEradicated();
+			if (atResearchStation) {
+				didCure = this.controller.cureDisease(blueCards, this.blueDisease);
+			}
+		} else if (cured.equals(YELLOW)) {
+			yellowCards = cardsToRemove(yellowCards);
+			alreadyCured = this.diseaseController.getYellowDisease().isCured();
+			alreadyEradicated = this.diseaseController.getYellowDisease().isEradicated();
+			if (atResearchStation) {
+				didCure = this.controller.cureDisease(yellowCards, this.yellowDisease);
+			}
+		} else if (cured.equals(BLACK)) {
+			blackCards = cardsToRemove(blackCards);
+			alreadyCured = this.diseaseController.getBlackDisease().isCured();
+			alreadyEradicated = this.diseaseController.getBlackDisease().isEradicated();
+			if (atResearchStation) {
+				didCure = this.controller.cureDisease(blackCards, this.blackDisease);
+			}
+		} else if (cured.equals(RED)) {
+			redCards = cardsToRemove(redCards);
+			alreadyCured = this.diseaseController.getRedDisease().isCured();
+			alreadyEradicated = this.diseaseController.getRedDisease().isEradicated();
+			if (atResearchStation) {
+				didCure = this.controller.cureDisease(redCards, this.redDisease);
+			}
 		}
 		
-		if (blackCount > 0) {
-			diseases.add("Black");
+		if (!atResearchStation) {
+			JOptionPane.showMessageDialog(this, String.format("<html><center>%s</center></html", NOT_AT_RESEARCH_STATION),
+					CURE, JOptionPane.INFORMATION_MESSAGE); 
+		} else if (alreadyEradicated) {
+			JOptionPane.showMessageDialog(this, String.format("<html><center>%s</center></html", ALREADY_ERADICATED),
+					CURE, JOptionPane.INFORMATION_MESSAGE); 
+		} else if (alreadyCured) {
+			JOptionPane.showMessageDialog(this, String.format("<html><center>%s</center></html", ALREADY_CURED),
+					CURE, JOptionPane.INFORMATION_MESSAGE); 
+		} else {
+			if (!didCure) {
+				JOptionPane.showMessageDialog(this, String.format("<html><center>%s</center></html", NOT_ENOUGH_CARDS_TO_CURE),
+						CURE, JOptionPane.INFORMATION_MESSAGE); 
+			}
 		}
-		
-		if (redCount > 0) {
-			diseases.add("Red");
-		}
-		
-		return diseases;
 	}
+	
+	private Set<CardModel> cardsToRemove(Set<CardModel> cards) {
+		Map<String, CardModel> cardMap = new HashMap<>();
+		Set<CardModel> cardsToRemove = new HashSet<>();
+		List<String> keepCardList = new ArrayList<>();
+		List<String> removeCardList = new ArrayList<>();
+		
+		for (CardModel card : cards) {
+			String name = card.getName();
+			cardMap.put(name, card);
+			removeCardList.add(name);
+		}
+		
+		if (this.controller.getCurrentPlayer().getCharacterModel().getRole().equals(SCIENTIST)) {
+			while (cardMap.size() - keepCardList.size() > 4) {
+				String keep = (String) JOptionPane.showInputDialog(this, SELECT_CARD_TO_KEEP, CURE,
+						JOptionPane.DEFAULT_OPTION, null, removeCardList.toArray(), removeCardList.toArray()[0]);
+				if (keep != null) {
+					keepCardList.add(keep);
+					removeCardList.remove(keep);
+				}	
+			}
+		} else {
+			while (cardMap.size() - keepCardList.size() > 5) {
+				String keep = (String) JOptionPane.showInputDialog(this, SELECT_CARD_TO_KEEP, CURE, 
+						JOptionPane.DEFAULT_OPTION, null, removeCardList.toArray(), removeCardList.toArray()[0]);
+				if (keep != null) {
+					keepCardList.add(keep);
+					removeCardList.remove(keep);
+				}	
+			}
+		}
+		
+		for (String name : keepCardList) {
+			cardMap.remove(name);
+		}
+		
+		for (CardModel card : cardMap.values()) {
+			cardsToRemove.add(card);
+		}
+		
+		return cardsToRemove;
+	}	
 	
 	private void drawMap() {
 		setBackground();
@@ -464,7 +622,6 @@ public class GameView extends JFrame implements ActionListener {
 		return image;
 	}
 	
-	
 	private void updateFrame() {
 		this.setLayout(this.layout);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -489,7 +646,7 @@ public class GameView extends JFrame implements ActionListener {
 			
 			if (inXBounds && inYBounds) {
 				this.selectedCity = city;
-				this.controller.getGameModel().setCityForEvent(city.getCityModel());
+				this.model.setCityForEvent(city.getCityModel());
 				this.paintSelectedCity(this.getGraphics());
 			}
 		}
@@ -506,10 +663,16 @@ public class GameView extends JFrame implements ActionListener {
 		if (!this.model.isLost() && !this.model.isWon()) {
 			paintBoard(gr);
 		} else if (this.model.isLost()) {
-			System.out.println("GAME OVER");
+			this.setVisible(false);
+			
+			JOptionPane.showMessageDialog(null, String.format("<html><center>%s</center></html", LOST),
+					LOST_GAME, JOptionPane.INFORMATION_MESSAGE);
 			System.exit(0);
 		} else if (this.model.isWon()) {
-			System.out.println("YOU WON!");
+			this.setVisible(false);
+			
+			JOptionPane.showMessageDialog(null, String.format("<html><center>%s</center></html", WON),
+					WON_GAME, JOptionPane.INFORMATION_MESSAGE);
 			System.exit(0);
 		}
 		

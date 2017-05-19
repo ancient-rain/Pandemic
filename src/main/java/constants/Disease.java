@@ -6,10 +6,10 @@ public class Disease {
 	public final static int BLACK_COUNTER_X = 865;
 	public final static int RED_COUNTER_X = 962;
 	public final static int DISEASE_Y = 36;
-	public final static int BLUE_DISEASE_X = 613;
-	public final static int YELLOW_DISEASE_X = 711;
-	public final static int BLACK_DISEASE_X = 810;
-	public final static int RED_DISEASE_X = 907;
+	public final static int BLUE_DISEASE_X = 598;
+	public final static int YELLOW_DISEASE_X = 696;
+	public final static int BLACK_DISEASE_X = 795;
+	public final static int RED_DISEASE_X = 892;
 	
 	public final static String BLACK_OUTLINE = "images/cureMarkers/blackOutline.png";
 	public final static String BLUE_OUTLINE = "images/cureMarkers/blueOutline.png";

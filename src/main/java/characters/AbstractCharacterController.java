@@ -69,7 +69,10 @@ public abstract class AbstractCharacterController {
 		}
 	}
 	
-	public boolean verifyCure(Set<CardModel> cardsToCureWith, DiseaseModel diseaseToCure){
+	public boolean verifyCure(Set<CardModel> cardsToCureWith, DiseaseModel diseaseToCure) {
+		if (!this.character.isAtResearchStation()) {
+			return false;
+		}
 		if(cardsToCureWith.size() < 5 || diseaseToCure.isCured()){
 			return false;
 		}
