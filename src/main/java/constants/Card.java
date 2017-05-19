@@ -63,7 +63,6 @@ public class Card {
 	public static final List<String> CHARACTERS_CARD_LIST = new ArrayList<>(
 			Arrays.asList(MEDIC_CARD, DISPATCHER_CARD, QUARANTINE_SPECIALIST_CARD, CONTINGENCY_PLANNER_CARD,
 					RESEARCHER_CARD, SCIENTIST_CARD, OPERATIONS_EXPERT_CARD));
-
 	
 	public static void updateConstants(ResourceBundle resourceBundle) {
 		EPIDEMIC = resourceBundle.getString("EPIDEMIC");
