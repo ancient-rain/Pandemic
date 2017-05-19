@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.DefaultSingleSelectionModel;
-
 import cards.AbstractDeckCardController;
 import cards.CardModel;
 import cards.InfectionDeckCardController;
@@ -21,7 +19,6 @@ import diseases.DiseaseModel;
 import static constants.City.*;
 import static constants.Game.*;
 import static constants.Card.*;
-import static constants.Character.*;
 
 public class GameController {
 
@@ -156,15 +153,17 @@ public class GameController {
 	}
 	
 	public void endOfTurn(){
-		if(this.playerDeckController.getNumberOfCardsInDeck() == 0){
+		if(this.playerDeckController.getNumberOfCardsInDeck() == 0) {
 			this.gameModel.setLost(true);
 			return;
 		}
+		
 		CardModel drawnCard1 = this.playerDeckController.draw();
-		if(this.playerDeckController.getNumberOfCardsInDeck() == 0){
+		if(this.playerDeckController.getNumberOfCardsInDeck() == 0) {
 			this.gameModel.setLost(true);
 			return;
 		}
+		
 		CardModel drawnCard2 = this.playerDeckController.draw();
 		if(drawnCard1.getName().equals(EPIDEMIC)){
 			this.handleEpidemic();
@@ -172,30 +171,35 @@ public class GameController {
 		} else {
 			this.getCurrentPlayer().addCardToHandOfCards(drawnCard1);
 		}
+		
 		if(drawnCard2.getName().equals(EPIDEMIC)){
 			this.handleEpidemic();
 			this.playerDeckController.discard(drawnCard2);
 		} else {
 			this.getCurrentPlayer().addCardToHandOfCards(drawnCard2);
 		}
+		
 		int numberOfInfections = 0;
-		if (this.gameModel.getInfectionRateIndex() < 7) {
+		if(this.gameModel.getInfectionRateIndex() < MAX_NUM_OUTBREAKS) {
 			numberOfInfections = this.gameModel.getInfectionRates()[this.gameModel.getInfectionRateIndex()];
 		} else {
-			numberOfInfections = 4;
+			numberOfInfections = NUM_INFECTIONS;
 		}
+		
 		if(this.gameModel.getQuietNightsLeft() > 0){
 			numberOfInfections = 1;
 		}
-		for(int i = 0; i < numberOfInfections; i++){
+		
+		for (int i = 0; i < numberOfInfections; i++){
 			CardModel infectionCard = this.infectionDeckController.draw();
 			this.infect(this.cityController.getCityByName(infectionCard.getName()), 
 					this.cityController.getCityByName(infectionCard.getName()).getPrimaryDisease());
 			this.infectionDeckController.discard(infectionCard);
 		}
+		
 		this.cityController.clearOutbrokenCities();
 		this.gameModel.setQuietNightsLeft(this.gameModel.getQuietNightsLeft() - 1);
-		this.gameModel.setActionsLeft(4);
+		this.gameModel.setActionsLeft(ACTION_COUNT);
 		this.gameModel.setTurnCounter(this.gameModel.getTurnCounter() + 1);
 	}
 	
@@ -218,7 +222,7 @@ public class GameController {
 	private void infect(CityModel cityToInfect, DiseaseModel diseaseInfecting){
 		if(!diseaseInfecting.isEradicated() && !cityToInfect.isQuarentined()){
 			this.cityController.infect(cityToInfect, diseaseInfecting);
-			if(diseaseInfecting.getCubesLeft() < 0 || this.cityController.getOutbreakCoutner() > 7){
+			if(diseaseInfecting.getCubesLeft() < 0 || this.cityController.getOutbreakCoutner() > MAX_NUM_OUTBREAKS){
 				this.gameModel.setLost(true);
 			}
 		}
@@ -254,7 +258,6 @@ public class GameController {
 				this.getPlayers().get(i).getCharacterModel().removeCardFromHandOfCards(eventCardToPlay);
 			}
 		}
-		
 	}
 
 	private boolean playAirlift(AbstractCharacterController characterToMove, CityModel cityToMoveTo){
@@ -262,8 +265,8 @@ public class GameController {
 		return true;
 	}
 	
-	private boolean playForecast(){
-		this.gameModel.setForecastCardsLeft(6);
+	private boolean playForecast() {
+		this.gameModel.setForecastCardsLeft(FORECAST_CARDS);
 		List<CardModel> toReturn = new ArrayList<CardModel>();
 		for(int i = 0; i < this.gameModel.getForecastCardsLeft(); i++){
 			toReturn.add(this.infectionDeckController.draw());
@@ -272,7 +275,7 @@ public class GameController {
 		return true;
 	}
 	
-	public boolean forecastReturnCard(CardModel cardToPutBack){
+	public boolean forecastReturnCard(CardModel cardToPutBack) {
 		if(this.gameModel.getForecastCardsLeft() > 0){
 			((InfectionDeckCardController)this.infectionDeckController).addToTop(cardToPutBack);
 			this.gameModel.setForecastCardsLeft(this.gameModel.getForecastCardsLeft() - 1);
@@ -281,8 +284,8 @@ public class GameController {
 		return false;
 	}
 	
-	private boolean playGovernmentGrant(CityModel cityToAddResearchStation){
-		if(this.cityController.getResearchStationCounter() < 6 
+	private boolean playGovernmentGrant(CityModel cityToAddResearchStation) {
+		if(this.cityController.getResearchStationCounter() < MAX_RESEARCH_COUNT 
 				&& !cityToAddResearchStation.hasResearchStation()){
 			cityToAddResearchStation.setHasResearchStation(true);
 			return true;
@@ -290,7 +293,7 @@ public class GameController {
 		return false;
 	}
 	
-	private boolean playOneQuietNight(){
+	private boolean playOneQuietNight() {
 		this.gameModel.setQuietNightsLeft(this.characters.size());
 		return true;
 	}
@@ -299,31 +302,31 @@ public class GameController {
 		return this.getInfectionDeckController().getDiscardedCards().remove(cardToRemove);
 	}
 	
-	public boolean checkForLoss(){
+	public boolean checkForLoss() {
 		return this.gameModel.isLost();
 	}
 	
-	public boolean checkForWin(){
+	public boolean checkForWin() {
 		return this.gameModel.isWon();
 	}
 	
-	public GameModel getGameModel(){
+	public GameModel getGameModel() {
 		return this.gameModel;
 	}
 	
-	public CityController getCityController(){
+	public CityController getCityController() {
 		return this.cityController;
 	}
 	
-	public AbstractCharacterController getCurrentPlayer(){
+	public AbstractCharacterController getCurrentPlayer() {
 		return this.characters.get(this.gameModel.getTurnCounter() % this.characters.size());
 	}
 	
-	public List<AbstractCharacterController> getPlayers(){
+	public List<AbstractCharacterController> getPlayers() {
 		return this.characters;
 	}
 	
-	public DiseaseController getDiseaseController(){
+	public DiseaseController getDiseaseController() {
 		return this.diseaseController;
 	}
 	

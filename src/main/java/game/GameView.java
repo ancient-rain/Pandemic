@@ -620,6 +620,7 @@ public class GameView extends JFrame implements ActionListener {
 			File file = new File(filepath);
 			image = ImageIO.read(file);
 		} catch (IOException e) {
+			System.out.println(filepath);
 			System.out.println(e.getMessage());
 			System.exit(0);
 		}
