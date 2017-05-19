@@ -53,7 +53,7 @@ public class PlayerDeckCardControllerTests {
 				cardsSinceLastEpidemic = 0;
 				epidemics++;
 			} else {
-				assertFalse(++cardsSinceLastEpidemic > (partitionSize * 2)+1);
+				assertFalse(cardsSinceLastEpidemic++ > (partitionSize * 2)+1);
 			}
 		}
 		assertEquals(difficulty, epidemics);
