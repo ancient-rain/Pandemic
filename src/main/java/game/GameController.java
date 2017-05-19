@@ -49,9 +49,10 @@ public class GameController {
 		
 		for(int i = 0; i < 3; i++){
 			for(int j = 0; j < 3; j++){
-				//TODO: fix this to discard cards
 				CityModel cityToInfect = this.cityController.getCityByName(
 						this.infectionDeckController.draw().getName());
+				this.infectionDeckController.discard(
+						this.infectionDeckController.getCityToCardMap().get(cityToInfect));
 				for(int k = j; k < 3; k++){
 					this.cityController.infect(cityToInfect, cityToInfect.getPrimaryDisease());
 				}

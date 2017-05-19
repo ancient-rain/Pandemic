@@ -796,7 +796,6 @@ public class GameControllerTests {
 		CardModel card = new CardModel("One Quiet Night", CardModel.CardType.EVENT);
 		
 		assertTrue(this.controller.playEventCard(card));
-		//assertEquals(controller.getGameModel().getCharacters().size(), this.gameModel.getQuietNightsLeft());
 		
 		assertTrue(this.controller.getPlayers().size() == this.controller.getGameModel().getQuietNightsLeft());
 	}
