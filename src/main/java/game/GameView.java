@@ -221,11 +221,11 @@ public class GameView extends JFrame implements ActionListener {
 		boolean playEvent = true;
 		for (int i = 0; i < this.eventCards.size(); i++) {
 			if (eventCardString.equals(eventCards.get(i).getName())) {
-				if (eventCardString.equals("Airlift")) {
+				if (eventCardString.equals(AIRLIFT)) {
 					playEvent = selectPlayerToAirlift();
-				} else if (eventCardString.equals("Resilient Population")) {
+				} else if (eventCardString.equals(RESILIENT_POPULATION)) {
 					playEvent = selectInfectionCardToRemove();
-				} else if (eventCardString.equals("Government Grant")) {
+				} else if (eventCardString.equals(GOVERNMENT_GRANT)) {
 					playEvent = this.model.getCityForEvent() != null;
 				}
 				
@@ -233,7 +233,7 @@ public class GameView extends JFrame implements ActionListener {
 					this.controller.playEventCard(eventCards.get(i));
 				}
 				
-				if (eventCardString.equals("Forecast")) {
+				if (eventCardString.equals(FORECAST)) {
 					getTopCardsForForecast();
 				}
 			}
@@ -249,12 +249,14 @@ public class GameView extends JFrame implements ActionListener {
 			names.add(card.getName());
 		}
 				
-		String cardToRemove = (String) JOptionPane.showInputDialog(this, "Select card to remove from infectoin deck: ", "Resilient Population", 
-				JOptionPane.DEFAULT_OPTION, null, names.toArray(), names.toArray()[0]);
+		String cardToRemove = (String) JOptionPane.showInputDialog(this, SELECT_INFECTION_CARD,
+				RESILIENT_POPULATION, JOptionPane.DEFAULT_OPTION, null, names.toArray(),
+				names.toArray()[0]);
 		
 		if (cardToRemove != null) {
 			CityModel returnCity = this.cityController.getCityByName(cardToRemove);
-			CardModel selectedCard = this.controller.getInfectionDeckController().getCityToCardMap().get(returnCity);
+			CardModel selectedCard =
+					this.controller.getInfectionDeckController().getCityToCardMap().get(returnCity);
 			
 			this.model.setCardToRemoveFromInfectionDeck(selectedCard);
 			cardSelected = true;
@@ -294,8 +296,8 @@ public class GameView extends JFrame implements ActionListener {
 			topCardsArray[i] = listOfTopCards.get(i).getName();
 		}
 		
-		String cardName = (String) JOptionPane.showInputDialog(this, "Selected card will be placed on top of the deck:", 
-				"Forcast", JOptionPane.DEFAULT_OPTION, null, topCardsArray, topCardsArray[0]);
+		String cardName = (String) JOptionPane.showInputDialog(this, FORECAST_INFO, 
+				FORECAST, JOptionPane.DEFAULT_OPTION, null, topCardsArray, topCardsArray[0]);
 		
 		return this.controller.cardNameToCard(cardName, listOfTopCards);
 	}
@@ -308,8 +310,8 @@ public class GameView extends JFrame implements ActionListener {
 			playersToChoose[i] = controller.getPlayers().get(i).getCharacterModel().getName();
 		}
 		
-		String playerString = (String) JOptionPane.showInputDialog(this, "Select player to move:", 
-				"Airlift", JOptionPane.DEFAULT_OPTION, null, playersToChoose, playersToChoose[0]);
+		String playerString = (String) JOptionPane.showInputDialog(this, SELECT_PLAYER_TO_MOVE, 
+				AIRLIFT, JOptionPane.DEFAULT_OPTION, null, playersToChoose, playersToChoose[0]);
 		
 		if (playerString != null && this.model.getCityForEvent() != null) {
 			getCharacterFromString(playerString);
@@ -345,8 +347,8 @@ public class GameView extends JFrame implements ActionListener {
 		} else if (diseases.length == 1) {
 			treatDisease(diseases[0]);
 		} else {
-			JOptionPane.showMessageDialog(this, String.format("<html><center>%s</center></html", NO_DISEASES_TO_TREAT),
-					TREAT, JOptionPane.INFORMATION_MESSAGE); 
+			JOptionPane.showMessageDialog(this, String.format("<html><center>%s</center></html",
+					NO_DISEASES_TO_TREAT), TREAT, JOptionPane.INFORMATION_MESSAGE); 
 		}
 	}
 	
@@ -485,7 +487,8 @@ public class GameView extends JFrame implements ActionListener {
 		boolean didCure = false;
 		boolean alreadyCured = false;
 		boolean alreadyEradicated = false;
-		boolean atResearchStation = this.controller.getCurrentPlayer().getCharacterModel().isAtResearchStation();
+		boolean atResearchStation = 
+				this.controller.getCurrentPlayer().getCharacterModel().isAtResearchStation();
 		
 		for (CardModel card : playerHand) {
 			if (card.getType().equals(CardModel.CardType.PLAYER)) {
@@ -536,18 +539,18 @@ public class GameView extends JFrame implements ActionListener {
 		}
 		
 		if (!atResearchStation) {
-			JOptionPane.showMessageDialog(this, String.format("<html><center>%s</center></html", NOT_AT_RESEARCH_STATION),
-					CURE, JOptionPane.INFORMATION_MESSAGE); 
+			JOptionPane.showMessageDialog(this, String.format("<html><center>%s</center></html",
+					NOT_AT_RESEARCH_STATION), CURE, JOptionPane.INFORMATION_MESSAGE); 
 		} else if (alreadyEradicated) {
-			JOptionPane.showMessageDialog(this, String.format("<html><center>%s</center></html", ALREADY_ERADICATED),
-					CURE, JOptionPane.INFORMATION_MESSAGE); 
+			JOptionPane.showMessageDialog(this, String.format("<html><center>%s</center></html",
+					ALREADY_ERADICATED), CURE, JOptionPane.INFORMATION_MESSAGE); 
 		} else if (alreadyCured) {
-			JOptionPane.showMessageDialog(this, String.format("<html><center>%s</center></html", ALREADY_CURED),
-					CURE, JOptionPane.INFORMATION_MESSAGE); 
+			JOptionPane.showMessageDialog(this, String.format("<html><center>%s</center></html",
+					ALREADY_CURED), CURE, JOptionPane.INFORMATION_MESSAGE); 
 		} else {
 			if (!didCure) {
-				JOptionPane.showMessageDialog(this, String.format("<html><center>%s</center></html", NOT_ENOUGH_CARDS_TO_CURE),
-						CURE, JOptionPane.INFORMATION_MESSAGE); 
+				JOptionPane.showMessageDialog(this, String.format("<html><center>%s</center></html",
+						NOT_ENOUGH_CARDS_TO_CURE), CURE, JOptionPane.INFORMATION_MESSAGE); 
 			}
 		}
 	}
@@ -567,7 +570,8 @@ public class GameView extends JFrame implements ActionListener {
 		if (this.controller.getCurrentPlayer().getCharacterModel().getRole().equals(SCIENTIST)) {
 			while (cardMap.size() - keepCardList.size() > 4) {
 				String keep = (String) JOptionPane.showInputDialog(this, SELECT_CARD_TO_KEEP, CURE,
-						JOptionPane.DEFAULT_OPTION, null, removeCardList.toArray(), removeCardList.toArray()[0]);
+						JOptionPane.DEFAULT_OPTION, null, removeCardList.toArray(),
+						removeCardList.toArray()[0]);
 				if (keep != null) {
 					keepCardList.add(keep);
 					removeCardList.remove(keep);
@@ -576,7 +580,8 @@ public class GameView extends JFrame implements ActionListener {
 		} else {
 			while (cardMap.size() - keepCardList.size() > 5) {
 				String keep = (String) JOptionPane.showInputDialog(this, SELECT_CARD_TO_KEEP, CURE, 
-						JOptionPane.DEFAULT_OPTION, null, removeCardList.toArray(), removeCardList.toArray()[0]);
+						JOptionPane.DEFAULT_OPTION, null, removeCardList.toArray(),
+						removeCardList.toArray()[0]);
 				if (keep != null) {
 					keepCardList.add(keep);
 					removeCardList.remove(keep);
