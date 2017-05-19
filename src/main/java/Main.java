@@ -41,13 +41,13 @@ public class Main {
 		
 		medic.setName("Ralph");
 		scientist.setName("Ted");
-//		operations.setName("Bob the Builder");
+		operations.setName("Bob the Builder");
 				
 		characters.add(medic);
-//		characters.add(operations);
+		characters.add(operations);
 		characters.add(scientist);
 		
-		gameModel.setNumberOfStartingCards(14);
+		gameModel.setNumberOfStartingCards(3);
 		gameModel.setCharacters(characters);
 		gameModel.setDifficulty(4);
 		
