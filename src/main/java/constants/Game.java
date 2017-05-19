@@ -94,24 +94,21 @@ public class Game {
 	public final static String STANDARD = "Standard";
 	public final static String HEROIC = "Heroic";
 	
-	public static String START_GAME_WITH = "Start game with ";
-	public static String AT_STRING = " at ";
-	public static String PLAYERS_STRING = " players ";
-	public static String DIFFICULTY = " difficulty";
+	public static String PROCEED_WITH = "Proceed with ";
+	public static String PLAYERS_AT = " players at ";
+	public static String DIFFICULTY = " difficulty?";
 	
-	public static String SELECT_NUM_PLAYERS = "Select the number of players: ";
-	public static String SELECT_GAME_DIFFICULTY = "Select the game difficulty: ";
+	public static String SELECT_NUM_PLAYERS = "Select the number of players";
+	public static String SELECT_GAME_DIFFICULTY = "Select the game difficulty";
 	public static String PLAY = "Play";
-	public static String RULES_BUTTON = "Rules";
+	public static String RULES = "Rules";
 	public static String EXIT = "Exit";
-	public static String TWO_PLAYERS_BUTTON = "Two Players";
-	public static String THREE_PLAYERS_BUTTON = "Three Players";
-	public static String FOUR_PLAYERS_BUTTON = "Four Players";
+	public static String TWO_PLAYERS_TEXT = "Two Players";
+	public static String THREE_PLAYERS_TEXT = "Three Players";
+	public static String FOUR_PLAYERS_TEXT = "Four Players";
 	public static String BACK = "Back";
-	public static String INTRODUCTORY_BUTTON = "Introductory";
-	public static String STANDARD_BUTTON = "Standard";
-	public static String HEROIC_BUTTON = "Heroic";
-	public static String START_BUTTON = "Start";
+	public static String PROCEED = "Proceed";
+
 
 	public static String INFECTION_DECK = "Infection Deck";
 	public static String PLAYER_DECK = "Player Deck";
@@ -157,7 +154,6 @@ public class Game {
 	public static final List<String> CHARACTERS_NAME_LIST = new ArrayList<>(Arrays.asList(MEDIC, DISPATCHER,
 			QUARANTINE_SPECIALIST, CONTINGENCY_PLANNER, RESEARCHER, SCIENTIST, OPERATIONS_EXPERT));
 
-	
 	public static String LOST = "You Lost!";
 	public static String LOST_GAME = "Lost Game!";
 	public static String WON = "You Won!";

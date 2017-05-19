@@ -1,3 +1,6 @@
+package main;
+
+import static constants.City.ATLANTA;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +12,6 @@ import characters.CharacterModel;
 import city.CityController;
 import city.CityModel;
 import diseases.DiseaseController;
-import diseases.DiseaseModel;
 import game.GameController;
 import game.GameModel;
 import game.GameView;
@@ -29,19 +31,34 @@ public class Main {
 		languageMenu.selectLocale();
 =======
 		StartMenu startMenu = new StartMenu();
+<<<<<<< HEAD:src/main/java/Main.java
 		
 		startMenu.showOptions();
 //		startMenu.viewMenu();
 >>>>>>> First stage of StartMenu completed
 		
+=======
+>>>>>>> StartMenu completed:src/main/java/main/Main.java
 		GameModel gameModel = new GameModel();
 		DiseaseController diseaseController = new DiseaseController();
 		CityController cityController = new CityController(diseaseController);
+		CityModel atlanta = cityController.getCityByName(ATLANTA);
 		AbstractDeckCardController playerDeckController = new PlayerDeckCardController(cityController);
 		AbstractDeckCardController infectionDeckController = new InfectionDeckCardController(cityController);
 		
+<<<<<<< HEAD:src/main/java/Main.java
 		// This will be retrieved from our other menus
 		CityModel atlanta = cityController.getCityByName(ATLANTA);
+=======
+		
+		startMenu.view();
+		
+		gameModel.setNumberOfStartingCards(6 - startMenu.getNumPlayers());
+		gameModel.setDifficulty(startMenu.getDifficulty());
+		
+		
+		
+>>>>>>> StartMenu completed:src/main/java/main/Main.java
 		CharacterModel medic = new CharacterModel("Medic", atlanta);
 		CharacterModel operations = new CharacterModel("Operations Expert", atlanta);
 		CharacterModel scientist = new CharacterModel("Scientist", atlanta);
@@ -55,9 +72,8 @@ public class Main {
 		characters.add(operations);
 		characters.add(scientist);
 		
-		gameModel.setNumberOfStartingCards(3);
+		
 		gameModel.setCharacters(characters);
-		gameModel.setDifficulty(4);
 		
 		GameController controller = new GameController(gameModel, 
 				diseaseController, cityController, playerDeckController, infectionDeckController);
