@@ -118,7 +118,6 @@ public class OperationExpertCharacterControllerTests {
 		assertFalse(operSpecialist.verifyBuild(this.cityController));
 	}
 	
-	// ask how to test this method to double check
 	@Test
 	public void testMoveWithCardIsAtResearchStation(){
 		operSpecialist.getCharactersCurrentCity().setHasResearchStation(true);
@@ -180,7 +179,6 @@ public class OperationExpertCharacterControllerTests {
 		assertFalse(this.operSpecialist.getMovedFromResearchStationWithcard());
 	}
 	
-	// verify move with card ask how to check again
 	@Test
 	public void testVerifyMoveWithCardHasCurrentCityCard(){
 		operSpecialist.getCharactersCurrentCity().setHasResearchStation(false);

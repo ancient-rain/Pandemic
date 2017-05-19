@@ -658,7 +658,7 @@ public class GameView extends JFrame implements ActionListener {
 		}
 	}
 	
-	@Override // TODO: fix the flashing issue, might have to extend JPanel
+	@Override
 	public void paint(Graphics gr) {
 		super.paint(gr);
 		

@@ -7,7 +7,6 @@ public class CityFrontEndModel {
 	CityModel city;
 	Color color;
 	Point point;
-	// Might need something for diseases
 
 	public CityFrontEndModel(int xlocation, int ylocation) {
 		this.point = new Point(xlocation, ylocation);

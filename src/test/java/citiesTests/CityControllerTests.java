@@ -83,8 +83,6 @@ public class CityControllerTests {
 		boolean comparison = (beforeInfect == afterInfect - 1);
 		boolean cubesLeftComparison = (beforeInfectCubesLeft == afterInfectCubesLeft + 1);
 		
-		//assertTrue(comparison);
-		//assertTrue(cubesLeftComparison);
 		assertEquals(1, this.controller.getInfectedCities().size());
 		assertEquals(0, this.controller.getOutbrokenCities().size());
 	}
@@ -104,9 +102,7 @@ public class CityControllerTests {
 		
 		boolean comparison = (beforeInfect == afterInfect - 1);
 		boolean cubesLeftComparison = (beforeInfectCubesLeft == afterInfectCubesLeft + 1);
-		
-		//assertTrue(comparison);
-		//assertTrue(cubesLeftComparison);
+
 		assertEquals(1, this.controller.getInfectedCities().size());
 		assertEquals(0, this.controller.getOutbrokenCities().size());
 	}
@@ -221,7 +217,7 @@ public class CityControllerTests {
 		Set<CityModel> infectedCities = this.controller.getInfectedCities();
 		List<CityModel> listOfInfectedCities = new ArrayList<CityModel>(infectedCities);
 		assertEquals(1, infectedCities.size());
-		//CityModel cityToRemove = listOfInfectedCities.get(0);
+		
 		assertTrue(infectedCities.contains(cityToInfect));
 		this.controller.removeInfectedCity(cityToInfect);
 		assertFalse(infectedCities.contains(cityToInfect));

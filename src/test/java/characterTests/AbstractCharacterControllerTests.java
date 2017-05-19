@@ -389,6 +389,14 @@ public class AbstractCharacterControllerTests {
 	}
 	
 	@Test
+	public void testVerifyCureFiveCardsFalseCardNotInHAnd(){
+		Set<CardModel> cardsToCure = developCardSetNoHandAdd(5);
+		cardsToCure.add(new CardModel("", CardModel.CardType.PLAYER));
+		this.character.setHasResearchStationAtCurrentCity(true);
+		assertFalse(characterController.verifyCure(cardsToCure, this.blueDisease));
+	}
+	
+	@Test
 	public void testVerifyCureFiveCardsTwoCards(){
 		Set<CardModel> cardsToCure = developCardSetNoHandAdd(2);
 		assertFalse(characterController.verifyCure(cardsToCure, this.blueDisease));
