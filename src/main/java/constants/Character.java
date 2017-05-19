@@ -35,6 +35,5 @@ public class Character {
 	public final static String RESEARCHER_ICON = "images/characters/icons/researcher.png";
 	public final static String SCIENTIST_ICON = "images/characters/icons/scientist.png";
 	public final static String OPERATIONS_EXPERT_ICON =
-			"images/characters/icons/operationsExpert.png";
-	
+			"images/characters/icons/operationsExpert.png";	
 }

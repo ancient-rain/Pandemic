@@ -2,6 +2,9 @@ package constants;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Card {
 	public final static Dimension CARD_SIZE = new Dimension(121, 69);
@@ -40,4 +43,17 @@ public class Card {
 	
 	public final static String EVENT_CARD_PATH = "images/playerDeck/eventCards/";
 	public final static String CITY_CARD_PATH = "images/playerDeck/cityCards/";
+	
+	final static String MEDIC_CARD = "images/characters/cards/medic.png";
+	final static String DISPATCHER_CARD = "images/characters/cards/dispatcher.png";
+	final static String QUARANTINE_SPECIALIST_CARD = "images/characters/cards/quarantineSpecialist.png";
+	final static String CONTINGENCY_PLANNER_CARD = "images/characters/cards/contingencyPlanner.png";
+	final static String RESEARCHER_CARD = "images/characters/cards/researcher.png";
+	final static String SCIENTIST_CARD = "images/characters/cards/scientist.png";
+	final static String OPERATIONS_EXPERT_CARD = "images/characters/cards/operationsExpert.png";
+
+	public static final List<String> CHARACTERS_CARD_LIST = new ArrayList<>(
+			Arrays.asList(MEDIC_CARD, DISPATCHER_CARD, QUARANTINE_SPECIALIST_CARD, CONTINGENCY_PLANNER_CARD,
+					RESEARCHER_CARD, SCIENTIST_CARD, OPERATIONS_EXPERT_CARD));
+
 }

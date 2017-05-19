@@ -3,6 +3,9 @@ package constants;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Game {
 	public final static Dimension START_MENU_SIZE = new Dimension(660, 192);
@@ -74,6 +77,9 @@ public class Game {
 	public final static int STANDARD_DIFFICULTY = 5;
 	public final static int HEROIC_DIFFICULTY = 6;
 	
+	public final static int STARTING_CARD_HELPER = 6;
+	public final static int HALF = 2;
+	
 	public final static String MAP_IMG = "images/map.png";
 	public final static String BIOHAZARD_IMG = "images/biohazard.PNG";
 	public final static String OUTBREAK_IMG = "images/outbreak.png";
@@ -113,6 +119,9 @@ public class Game {
 	public static String RESEARCHER = "Researcher";
 	public static String SCIENTIST = "Scientist";
 	public static String OPERATIONS_EXPERT = "Operations Expert";
+	
+	public static final List<String> CHARACTERS_NAME_LIST = new ArrayList<>(Arrays.asList(MEDIC, DISPATCHER,
+			QUARANTINE_SPECIALIST, CONTINGENCY_PLANNER, RESEARCHER, SCIENTIST, OPERATIONS_EXPERT));
 	
 	public static String MOVE_BUTTON = "Move";
 	public static String TREAT_BUTTON = "Treat";

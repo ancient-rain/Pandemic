@@ -1,354 +1,145 @@
 package menus;
-import java.awt.BorderLayout;
-import java.awt.Color;
+
+import static constants.Game.OFFSET_15;
+import static constants.Game.HALF;
+import static constants.Game.CHARACTERS_NAME_LIST;
+import static constants.Game.GAME_BOARD_SIZE;
+import static constants.Card.CHARACTERS_CARD_LIST;
+import static constants.City.ATLANTA;
+
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import static code.GraphicsConstants.*;
 
-public class CharacterMenu extends JFrame implements ActionListener {
-	List<String> characterList;
-	String[] selectedCharacters;
-	String[] playerNames;
-	Object[] characters;
-	int numPlayers;
-	boolean playerOneSet, playerTwoSet, playerThreeSet, playerFourSet, allPlayersSet,
-		characterListDrawn;
-	JButton changeNameOne, changeRoleOne, changeNameTwo, changeRoleTwo, changeNameThree, 
-		changeRoleThree, changeNameFour, changeRoleFour, startButton, contingencyButton,
-		dispatcherButton, medicButton, operationsButton, quarantineButton, researcherButton,
-		scientistButton;
-	JLabel playerNameOne, characterNameOne, playerNameTwo, characterNameTwo, playerNameThree,
-		characterNameThree, playerNameFour, characterNameFour, warningLabel;
-	JPanel playerPanel;
-	JFrame characterSelection;
+import characters.CharacterModel;
+import city.CityController;
+import city.CityModel;
+
+public class CharacterMenu {
+	private CityModel atlanta;
 	
-	public CharacterMenu(int numPlayers) {
+	List<String> characterCardList, characterNames;
+	List<CharacterModel> characters;
+	int numPlayers;
+	boolean playerOneSet, playerTwoSet, playerThreeSet, playerFourSet, allPlayersSet;
+	JPanel panel;
+	
+	public CharacterMenu(int numPlayers, CityController cityController) {
 		this.numPlayers = numPlayers;
 		this.allPlayersSet = false;
-		this.init(numPlayers);
-	}
-	public void viewMenu() {
-		this.addActionListeners();
-		this.addPlayers();
-		this.updateFrame();
-	}
-	
-	private void addActionListeners() {
-		this.startButton.addActionListener(this);
-		this.changeNameOne.addActionListener(this);
-		this.changeNameTwo.addActionListener(this);
-		this.changeNameThree.addActionListener(this);
-		this.changeNameFour.addActionListener(this);
-		this.changeRoleOne.addActionListener(this);
-		this.changeRoleTwo.addActionListener(this);
-		this.changeRoleThree.addActionListener(this);
-		this.changeRoleFour.addActionListener(this);
+		this.panel = new JPanel();
+		this.characterCardList = CHARACTERS_CARD_LIST;
+		this.characterNames = CHARACTERS_NAME_LIST;
+		this.characters = new ArrayList<>();
+		this.atlanta = cityController.getCityByName(ATLANTA);
 	}
 	
-	private void addPlayers() {
-		for (int i = 1; i <= this.numPlayers; i++) {
-			this.addInitialPlayer(i);
-		}
-		
-		this.playerPanel.add(this.warningLabel);
-		this.playerPanel.add(this.startButton);
-		this.add(this.playerPanel);
+	public List<CharacterModel> getCharacters() {
+		return this.characters;
 	}
 	
-	private void addInitialPlayer(int playerNum) {
-		JPanel playerNamePanel = new JPanel();
-		JPanel playerDescriptionPanel = new JPanel();
-		JPanel playerOptionPanel = new JPanel();
-		JPanel playerRolePanel = new JPanel();
-		FlowLayout playerDescriptionLayout = new FlowLayout(FlowLayout.LEFT, OFFSET_5, 
-				OFFSET_5);
-		FlowLayout playerOptionLayout = new FlowLayout(FlowLayout.LEFT, OFFSET_5, OFFSET_5);
-		BoxLayout playerNameLayout = new BoxLayout(playerNamePanel, BoxLayout.Y_AXIS);
-		BorderLayout playerRoleLayout = new BorderLayout();
-		Color color = Color.GRAY;
-		
-		playerNamePanel.setLayout(playerNameLayout);
-		playerNamePanel.setBackground(color);
-		playerNamePanel.setOpaque(true);
-		addPlayerNameLabels(playerNamePanel, playerNum);
-		
-		playerDescriptionPanel.setLayout(playerDescriptionLayout);
-		playerDescriptionPanel.setAlignmentX(LEFT_ALIGNMENT);
-		playerDescriptionPanel.setBackground(color);
-		playerDescriptionPanel.setOpaque(true);
-		playerDescriptionPanel.add(playerNamePanel);
-		playerDescriptionPanel.setPreferredSize(TURN_HEADER_SIZE);
-		
-		playerOptionPanel.setLayout(playerOptionLayout);
-		playerOptionPanel.setBackground(color);
-		playerOptionPanel.setOpaque(true);
-		
-		addPlayerOptionButtons(playerOptionPanel, playerNum);
-		
-		playerRolePanel.setLayout(playerRoleLayout);
-		playerRolePanel.add(playerDescriptionPanel, BorderLayout.CENTER);
-		playerRolePanel.add(playerOptionPanel, BorderLayout.SOUTH);
-		
-		this.playerPanel.add(playerRolePanel);
+	public void view() {
+		selectCharacters();
+		randomizeOrder();
 	}
 	
-	private void addPlayerNameLabels(JPanel panel, int playerNum) {
-		if (playerNum == PLAYER_ONE) {
-			panel.add(this.playerNameOne);
-			panel.add(this.characterNameOne);
-		} else if (playerNum == PLAYER_TWO) {
-			panel.add(this.playerNameTwo);
-			panel.add(this.characterNameTwo);
-		} else if (playerNum == PLAYER_THREE) {
-			panel.add(this.playerNameThree);
-			panel.add(this.characterNameThree);
-		} else {
-			panel.add(this.playerNameFour);
-			panel.add(this.characterNameFour);
-		}
-	}
-	
-	private void addPlayerOptionButtons(JPanel panel, int playerNum) {
-		if (playerNum == PLAYER_ONE) {
-			panel.add(this.changeNameOne);
-			panel.add(this.changeRoleOne);
-		} else if (playerNum == PLAYER_TWO) {
-			panel.add(this.changeNameTwo);
-			panel.add(this.changeRoleTwo);
-		} else if (playerNum == PLAYER_THREE) {
-			panel.add(this.changeNameThree);
-			panel.add(this.changeRoleThree);
-		} else {
-			panel.add(this.changeNameFour);
-			panel.add(this.changeRoleFour);
-		}
-	}
-	
-	private void updateFrame() {
-		int frameHeight = CHARACTER_MENU_HEIGHT + 
-				(this.numPlayers - TWO_PLAYERS) * OFFSET_100;
-		this.setTitle("Choose Roles");
-		this.setSize(CHARACTER_MENU_SIZE, frameHeight);
-		this.setLocationRelativeTo(null);
-		this.setResizable(false);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setVisible(true);
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		if (event.getSource() instanceof JButton) {
-			Object button = event.getSource();
+	private void selectCharacters() {
+		int count = 0;
+		
+		setCardPanel();
+		
+		while (count < this.numPlayers) {
+			String playerName = enterPlayerName(count + 1);
+			String characterName = selectCharacter(playerName);
+			CharacterModel character = new CharacterModel(characterName, this.atlanta);
 			
-			if (button == this.startButton) {
-				if (checkAllPlayersSet()) {
-					this.allPlayersSet = true;
-					this.setVisible(false);
-				} else {
-					this.warningLabel.setText("Not all players are set");
-				}
-			} else if (button == this.changeNameOne) {
-				String name = JOptionPane.showInputDialog(this,
-						"First player's new name:", "Change Name",
-						JOptionPane.QUESTION_MESSAGE);
-				
-				if (name != null && !name.isEmpty()) {
-					this.playerNameOne.setText(name);
-					this.playerNames[0] = name;
-				} else {
-					this.warningLabel.setText("New name cannot be empty");
-				}
-			} else if (button == this.changeNameTwo) {
-				String name = JOptionPane.showInputDialog(this,
-						"Second player's new name:", "Change Name",
-						JOptionPane.QUESTION_MESSAGE);
-				
-				if (name != null && !name.isEmpty()) {
-					this.playerNameTwo.setText(name);
-					this.playerNames[1] = name;
-				} else {
-					this.warningLabel.setText("New name cannot be empty");
-				}
-			} else if (button == this.changeNameThree) {
-				String name = JOptionPane.showInputDialog(this,
-						"Third player's new name:", "Change Name",
-						JOptionPane.QUESTION_MESSAGE);
-				
-				if (name != null && !name.isEmpty()) {
-					this.playerNameThree.setText(name);
-					this.playerNames[2] = name;
-				} else {
-					this.warningLabel.setText("New name cannot be empty");
-				}
-			} else if (button == this.changeNameFour) {
-				String name = JOptionPane.showInputDialog(this,
-						"Fourth player's new name:", "Change Name",
-						JOptionPane.QUESTION_MESSAGE);
-				
-				if (name != null && !name.isEmpty()) {
-					this.playerNameFour.setText(name);
-					this.playerNames[3] = name;
-				} else {
-					this.warningLabel.setText("New name cannot be empty");
-				}
-			} else if (button == this.changeRoleOne) {
-				this.viewCharacterSelectionFrame();
-				String character = (String) JOptionPane.showInputDialog(this,
-						"Select a character (referencing the other menu):", 
-						"Select character", JOptionPane.INFORMATION_MESSAGE,
-						null, characters, characters[0]); 
-				
-				if (character != null) {
-					this.characterNameOne.setText(character);
-					this.selectedCharacters[0] = character;
-					this.updateCharacterList();
-					this.playerOneSet = true;
-					this.setVisible(true);
-					this.characterSelection.setVisible(false);
-				} else {
-					this.warningLabel.setText("No character selcted");
-					this.setVisible(true);
-					this.characterSelection.setVisible(false);
-				}
-			} else if (button == this.changeRoleTwo) {
-				this.viewCharacterSelectionFrame();
-				String character = (String) JOptionPane.showInputDialog(this,
-						"Select a character (referencing the other menu):",
-						"Select character", JOptionPane.INFORMATION_MESSAGE,
-						null, characters, characters[0]); 
-				
-				if (character != null) {
-					this.characterNameTwo.setText(character);
-					this.selectedCharacters[1] = character;
-					this.updateCharacterList();
-					this.playerTwoSet = true;
-					this.setVisible(true);
-					this.characterSelection.setVisible(false);
-				} else {
-					this.warningLabel.setText("No character selcted");
-					this.setVisible(true);
-					this.characterSelection.setVisible(false);
-				}
-			} else if (button == this.changeRoleThree) {
-				this.viewCharacterSelectionFrame();
-				String character = (String) JOptionPane.showInputDialog(this,
-						"Select a character (referencing the other menu):",
-						"Select character", JOptionPane.INFORMATION_MESSAGE,
-						null, characters, characters[0]); 
-				
-				if (character != null) {
-					this.characterNameThree.setText(character);
-					this.selectedCharacters[2] = character;
-					this.updateCharacterList();
-					this.playerThreeSet = true;
-					this.setVisible(true);
-					this.characterSelection.setVisible(false);
-				} else {
-					this.warningLabel.setText("No character selcted");
-					this.setVisible(true);
-					this.characterSelection.setVisible(false);
-				}
-			} else if (button == this.changeRoleFour) {
-				this.viewCharacterSelectionFrame();
-				String character = (String) JOptionPane.showInputDialog(this,
-						"Select a character (referencing the other menu):",
-						"Select character", JOptionPane.INFORMATION_MESSAGE,
-						null, this.characters, this.characters[0]); 
-				
-				if (character != null) {
-					this.characterNameFour.setText(character);
-					this.selectedCharacters[3] = character;
-					this.updateCharacterList();
-					this.playerFourSet = true;
-					this.setVisible(true);
-					this.characterSelection.setVisible(false);
-				} else {
-					this.warningLabel.setText("No character selcted");
-					this.setVisible(true);
-				}
-			}
+			character.setName(playerName);
+			this.characters.add(character);
+			this.panel.removeAll();
+			setCardPanel();
+			
+			count++;
 		}
 	}
 	
-	private void updateCharacterList() {
-		String [] tempCharacterArray = CHARACTERS_NAME_ARRAY;
-		this.characterList = new ArrayList<>();
-		
-		for (int i = 0; i < this.selectedCharacters.length; i++) {
-			String name = this.selectedCharacters[i];
-			for (int j = 0; j < tempCharacterArray.length; j++) {
-				if (name.equals(tempCharacterArray[j])) {
-					tempCharacterArray[j] = "";
-				}
-			}
-		}		
-		
-		for (String s : tempCharacterArray) {
-			if (!s.equals("")) {
-				this.characterList.add(s);
-			}
-		}
-		this.characters = (Object[]) this.characterList.toArray();
+	private void randomizeOrder() {
+		Collections.shuffle(this.characters);
 	}
 	
-	private boolean checkAllPlayersSet() {
-		return this.playerOneSet && this.playerTwoSet && 
-				this.playerThreeSet && this.playerFourSet;
-	}
-	
-	private void viewCharacterSelectionFrame() {
-		this.setVisible(false);
+	private String enterPlayerName(int count) {
+		String playerName = "";
 		
-		if (!this.characterListDrawn) {
-			this.characterSelection.setLayout(new GridLayout(OFFSET_2, OFFSET_4));
-			this.characterSelection.setLocation(OFFSET_0, OFFSET_0);
-			this.viewCharacterInformation();
-			this.characterSelection.setDefaultCloseOperation(EXIT_ON_CLOSE);
-			this.characterSelection.pack();
-			this.characterListDrawn = true;
+		while (playerName == null|| playerName.equals("")) {
+			playerName = JOptionPane.showInputDialog(null, "Enter the name for Player" + count + ":",
+					"Player Name", JOptionPane.INFORMATION_MESSAGE);
 		}
 		
-		this.characterSelection.setVisible(true);
+		return playerName;
 	}
 	
-	private void viewCharacterInformation() {
-		ImageIcon character = new ImageIcon();
-		List<String> characterCards = CHARACTERS_CARD_LIST;
+	private String selectCharacter(String playerName) {
+		String character = "";
+		int selectedCharacter = -1;
+		
+		while (selectedCharacter == -1) {
+			selectedCharacter = JOptionPane.showOptionDialog(null, this.panel, "Select Character",
+					JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, 
+					this.characterNames.toArray(), null);
+		}
+		
+		character = this.characterNames.get(selectedCharacter);
+		this.characterCardList.remove(selectedCharacter);
+		this.characterNames.remove(selectedCharacter);
+		
+		return character;
+	}
+	
+	
+	private void setCardPanel() {
+		GridLayout cardLayout = new GridLayout(2, 4);
+		List<String> characterCards = this.characterCardList;
 		List<JLabel> cardLabels = new ArrayList<>();
 		
-		this.addCharacterLabels(cardLabels);
+		this.panel.setLayout(cardLayout);
 		
-		for (int i = 0; i < characterCards.size(); i++) {
-			JLabel label = cardLabels.get(i);
-			String imagePath = characterCards.get(i);
-			Image image = this.setImage(imagePath);
-			character = new ImageIcon(image);
-			label.setIcon(character);
-			this.characterSelection.add(label);
-		}
+		addCharacterLabels(cardLabels);
+		addPanelCards(cardLabels, characterCards);
 	}
 	
 	private void addCharacterLabels(List<JLabel> labels) {
-		for (int i = 0; i < CHARACTERS_CARD_LIST.size(); i++) {
+		for (int i = 0; i < this.characterCardList.size(); i++) {
 			labels.add(new JLabel());
-		}		
+		}
 	}
 	
+	private void addPanelCards(List<JLabel> cardLabels, List<String> characterCards) {
+		ImageIcon character = new ImageIcon();
+		List<String> charactersToRemove = new ArrayList<>();
+
+		for (int i = 0; i < cardLabels.size(); i++) {
+			JLabel label = cardLabels.get(i);
+			String imagePath = characterCards.get(i);
+			Image image = setImage(imagePath);
+			character = new ImageIcon(image);
+			
+			label.setIcon(character);
+			charactersToRemove.add(characterCards.get(i));
+			this.panel.add(label);
+		}
+	}
+
 	private Image setImage(String filepath) {
 		Image image = null;
 		
@@ -362,60 +153,5 @@ public class CharacterMenu extends JFrame implements ActionListener {
 		}
 		
 		return image;
-	}
-	
-	public String[] getPlayerNames() {
-		return this.playerNames;
-	}
-	
-	public String[] getCharacterNames() {
-		return this.selectedCharacters;
-	}
-	
-	private void init(int numPlayers) {
-		this.characterList = CHARACTERS_NAME_LIST;
-		this.selectedCharacters = new String[] {"", "", "", ""};
-		this.playerNames = new String[] {"Player1", "Player2", "Player3", "Player4"};
-		this.characters = CHARACTERS_NAME_ARRAY;
-		this.characterSelection = new JFrame("List of characters");
-		this.startButton = new JButton("Start Game");
-		this.warningLabel = new JLabel("Please give all players a role");
-		this.warningLabel.setForeground(Color.RED);
-		this.playerPanel = new JPanel();
-		this.characterListDrawn = false;
-		this.changeNameOne = new JButton("Change Name");
-		this.changeRoleOne = new JButton("Change Role");
-		this.changeNameTwo = new JButton("Change Name");
-		this.changeRoleTwo = new JButton("Change Role");
-		this.changeNameThree = new JButton("Change Name");
-		this.changeRoleThree = new JButton("Change Role");
-		this.changeNameFour = new JButton("Change Name");
-		this.changeRoleFour = new JButton("Change Role");
-		
-		this.playerNameOne = new JLabel("Player1");
-		this.characterNameOne = new JLabel("Character not selected");
-		this.playerNameTwo = new JLabel("Player2");
-		this.characterNameTwo = new JLabel("Character not selected");
-		this.playerNameThree = new JLabel("Player3");
-		this.characterNameThree = new JLabel("Character not selected");
-		this.playerNameFour = new JLabel("Player4");
-		this.characterNameFour = new JLabel("Character not selected");
-		
-		if (numPlayers == TWO_PLAYERS) {
-			this.playerOneSet = false;
-			this.playerTwoSet = false;
-			this.playerThreeSet = true;
-			this.playerFourSet = true;
-		} else if (numPlayers == THREE_PLAYERS) {
-			this.playerOneSet = false;
-			this.playerTwoSet = false;
-			this.playerThreeSet = false;
-			this.playerFourSet = true;
-		} else {
-			this.playerOneSet = false;
-			this.playerTwoSet = false;
-			this.playerThreeSet = false;
-			this.playerFourSet = false;
-		}
 	}
 }
