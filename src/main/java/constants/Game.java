@@ -3,9 +3,17 @@ package constants;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
+
 public class Game {
+	public final static GridLayout CARD_LAYOUT = new GridLayout(2, 4);
+	
+	public final static Dimension START_MENU_SIZE = new Dimension(660, 192);
 	public final static Dimension GAME_BOARD_SIZE = new Dimension(1920, 1040);
 	public final static Dimension PLAYER_HEADER_SIZE = new Dimension(190, 65);
 	public final static Dimension SPACER = new Dimension(180, 30);
@@ -35,6 +43,7 @@ public class Game {
 	public final static int SELECTED_CITY_WIDTH = 180;
 	public final static int SELECTED_CITY_HEIGHT = 45;
 
+	public final static int OFFSET_0 = 0;
 	public final static int OFFSET_1 = 1;
 	public final static int OFFSET_2 = 2;
 	public final static int OFFSET_5 = 5;
@@ -68,8 +77,15 @@ public class Game {
 
 	public final static int TWO_PLAYERS = 2;
 	public final static int THREE_PLAYERS = 3;
-	final static int FOUR_PLAYERS = 4;
-
+	public final static int FOUR_PLAYERS = 4;
+	
+	public final static int INTRODUCTORY_DIFFICULTY = 4;
+	public final static int STANDARD_DIFFICULTY = 5;
+	public final static int HEROIC_DIFFICULTY = 6;
+	
+	public final static int STARTING_CARD_HELPER = 6;
+	public final static int HALF = 2;
+	
 	public final static String MAP_IMG = "images/map.png";
 	public final static String BIOHAZARD_IMG = "images/biohazard.PNG";
 	public final static String OUTBREAK_IMG = "images/outbreak.png";
@@ -78,11 +94,41 @@ public class Game {
 	public final static String RESEARCH_STATION_IMG = "images/researchStation.png";
 	public final static String BMP_FILE = ".bmp";
 	public final static String PNG_FILE = ".png";
+	public final static String PANDEMIC = "Pandemic";
+
+	public static String INTRODUCTORY = "Introductory";
+	public static String STANDARD = "Standard";
+	public static String HEROIC = "Heroic";
+	
+	public static String PROCEED_WITH = "Proceed with ";
+	public static String PLAYERS_AT = " players at ";
+	public static String DIFFICULTY = " difficulty?";
+	
+	public static String SELECT_NUM_PLAYERS = "Select the number of players";
+	public static String SELECT_GAME_DIFFICULTY = "Select the game difficulty";
+	public static String PLAY = "Play";
+	public static String RULES = "Rules";
+	public static String EXIT = "Exit";
+	public static String TWO_PLAYERS_TEXT = "Two Players";
+	public static String THREE_PLAYERS_TEXT = "Three Players";
+	public static String FOUR_PLAYERS_TEXT = "Four Players";
+	public static String PROCEED = "Proceed";
 
 	public static String INFECTION_DECK = "Infection Deck";
 	public static String PLAYER_DECK = "Player Deck";
 	public static String DISCARD_PILE = "Discard Pile";
-
+	
+	public static String MEDIC = "Medic";
+	public static String DISPATCHER = "Dispatcher";
+	public static String QUARANTINE_SPECIALIST = "Quarantine Specialist";
+	public static String CONTINGENCY_PLANNER = "Contingency Planner";
+	public static String RESEARCHER = "Researcher";
+	public static String SCIENTIST = "Scientist";
+	public static String OPERATIONS_EXPERT = "Operations Expert";
+	
+	public static final List<String> CHARACTERS_NAME_LIST = new ArrayList<>(Arrays.asList(MEDIC, DISPATCHER,
+			QUARANTINE_SPECIALIST, CONTINGENCY_PLANNER, RESEARCHER, SCIENTIST, OPERATIONS_EXPERT));
+	
 	public static String MOVE_BUTTON = "Move";
 	public static String TREAT_BUTTON = "Treat";
 	public static String CURE_BUTTON = "Cure";
@@ -111,15 +157,7 @@ public class Game {
 	public static String NO_SHARE_SELF = "You do not want to share with yourself";
 	public static String GAME_OVER = "GAME OVER";
 	public static String YOU_WON = "YOU WON!";
-	
-	public static String CONTINGENCY_PLANNER = "Contingency Planner";
-	public static String DISPATCHER = "Dispatcher";
-	public static String MEDIC = "Medic";
-	public static String OPERATIONS_EXPERT = "Operations Expert";
-	public static String QUARANTINE_SPECIALIST = "Quarantine Specialist";
-	public static String RESEARCHER = "Researcher";
-	public static String SCIENTIST = "Scientist";
-	
+
 	public static String LOST = "You Lost!";
 	public static String LOST_GAME = "Lost Game!";
 	public static String WON = "You Won!";
@@ -140,9 +178,16 @@ public class Game {
 	public static String EVENT_CARD = "Choose Event";
 	public static String SELECT_EVENT_CARD = "Select and event card to play:";
 	public static String NO_EVENT_CARDS = "There are no event cards to play!";
+
 	public static String FORECAST_INFO = "Selected card will be placed on top of the deck:";
 	public static String SELECT_PLAYER_TO_MOVE = "Select player to move:";
 	public static String SELECT_INFECTION_CARD = "Select a card to remove from the infection discard deck";
+
+	public static String PLAYER_NAME = "Player Name";
+	public static String ENTER_PLAYER_NAME = "Enter the name for Player";
+	public static String SELECT_CHARACTER = "Select Character";
+	public static String SELECT_CARD_FROM_INFECTION = "Select card to remove from infection deck: ";
+	public static String SELECT_CARD_PLACED_ON_TOP = "Selected card will be placed on top of the deck:";
 
 	public static void updateConstants(ResourceBundle resourceBundle) {
 		INFECTION_DECK = resourceBundle.getString("INFECTION_DECK");
@@ -178,5 +223,27 @@ public class Game {
 		NO_SHARE_SELF = resourceBundle.getString("NO_SHARE_SELF");
 		GAME_OVER = resourceBundle.getString("GAME_OVER");
 		YOU_WON = resourceBundle.getString("YOU_WON");
+		
+		INTRODUCTORY = resourceBundle.getString("INTRODUCTORY");
+		STANDARD = resourceBundle.getString("STANDARD");
+		HEROIC = resourceBundle.getString("HEROIC");
+		
+		PROCEED_WITH = resourceBundle.getString("PROCEED_WITH");
+		PLAYERS_AT = resourceBundle.getString("PLAYERS_AT");
+		DIFFICULTY = resourceBundle.getString("DIFFICULTY");
+		
+		SELECT_NUM_PLAYERS = resourceBundle.getString("SELECT_NUM_PLAYERS");
+		SELECT_GAME_DIFFICULTY = resourceBundle.getString("SELECT_GAME_DIFFICULTY");
+		PLAY = resourceBundle.getString("PLAY");
+		RULES = resourceBundle.getString("RULES");
+		EXIT = resourceBundle.getString("EXIT");
+		TWO_PLAYERS_TEXT = resourceBundle.getString("TWO_PLAYERS_TEXT");
+		THREE_PLAYERS_TEXT = resourceBundle.getString("THREE_PLAYERS_TEXT");
+		FOUR_PLAYERS_TEXT = resourceBundle.getString("FOUR_PLAYERS_TEXT");
+		PROCEED = resourceBundle.getString("PROCEED");
+		
+		SELECT_CARD_FROM_INFECTION = resourceBundle.getString("SELECT_CARD_FROM_INFECTION");
+		SELECT_CARD_PLACED_ON_TOP = resourceBundle.getString("SELECT_CARD_PLACED_ON_TOP");
+		SELECT_PLAYER_TO_MOVE = resourceBundle.getString("SELECT_PLAYER_TO_MOVE");
 	}
 }

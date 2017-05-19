@@ -2,6 +2,9 @@ package constants;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class Card {
@@ -48,7 +51,20 @@ public class Card {
 	public static String GOVERNMENT_GRANT = "Government Grant";
 	public static String ONE_QUIET_NIGHT = "One Quiet Night";
 	public static String RESILIENT_POPULATION = "Resilient Population";
+	
+	final static String MEDIC_CARD = "images/characters/cards/medic.png";
+	final static String DISPATCHER_CARD = "images/characters/cards/dispatcher.png";
+	final static String QUARANTINE_SPECIALIST_CARD = "images/characters/cards/quarantineSpecialist.png";
+	final static String CONTINGENCY_PLANNER_CARD = "images/characters/cards/contingencyPlanner.png";
+	final static String RESEARCHER_CARD = "images/characters/cards/researcher.png";
+	final static String SCIENTIST_CARD = "images/characters/cards/scientist.png";
+	final static String OPERATIONS_EXPERT_CARD = "images/characters/cards/operationsExpert.png";
 
+	public static final List<String> CHARACTERS_CARD_LIST = new ArrayList<>(
+			Arrays.asList(MEDIC_CARD, DISPATCHER_CARD, QUARANTINE_SPECIALIST_CARD, CONTINGENCY_PLANNER_CARD,
+					RESEARCHER_CARD, SCIENTIST_CARD, OPERATIONS_EXPERT_CARD));
+
+	
 	public static void updateConstants(ResourceBundle resourceBundle) {
 		EPIDEMIC = resourceBundle.getString("EPIDEMIC");
 		AIRLIFT = resourceBundle.getString("AIRLIFT");
