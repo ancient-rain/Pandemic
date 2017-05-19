@@ -20,8 +20,8 @@ public class GameModel {
 	private boolean won;
 	private int forecastCardsLeft;
 	private int quietNightsLeft;
-	private AbstractCharacterController characterToBeAirlifted;
-	private CityModel cityForEvent;
+	private AbstractCharacterController selectedCharacter;
+	private CityModel selectedCity;
 	private CardModel cardToRemoveFromInfectionDeck;
 	private List<CardModel> forecastCards;
 	private CardModel selectedCard;
@@ -39,8 +39,8 @@ public class GameModel {
 		this.won = false;
 		this.forecastCardsLeft = 0;
 		this.quietNightsLeft = 0;
-		this.characterToBeAirlifted = null;
-		this.cityForEvent = null;
+		this.selectedCharacter = null;
+		this.selectedCity = null;
 		this.cardToRemoveFromInfectionDeck = new CardModel("", CardModel.CardType.INFECTION);
 		this.forecastCards = new ArrayList<CardModel>();
 		this.selectedContingencyPlan = new CardModel("", CardModel.CardType.EVENT);
@@ -123,20 +123,20 @@ public class GameModel {
 		this.quietNightsLeft = quietNightsLeft;
 	}
 	
-	public AbstractCharacterController getCharacterToBeAirlifted(){
-		return this.characterToBeAirlifted;
+	public AbstractCharacterController getSelectedCharacter(){
+		return this.selectedCharacter;
 	}
 	
-	public void setCharacterToBeAirlifted(AbstractCharacterController characterToBeAirlifted){
-		this.characterToBeAirlifted = characterToBeAirlifted;
+	public void setSelectedCharacter(AbstractCharacterController selectedCharacter){
+		this.selectedCharacter = selectedCharacter;
 	}
 	
-	public CityModel getCityForEvent(){
-		return this.cityForEvent;
+	public CityModel getSelectedCity(){
+		return this.selectedCity;
 	}
 	
-	public void setCityForEvent(CityModel cityToBeUsedInEvent){
-		this.cityForEvent = cityToBeUsedInEvent;
+	public void setSelectedCity(CityModel selectedCity){
+		this.selectedCity = selectedCity;
 	}
 	
 	public CardModel getCardToRemoveFromInfectionDeck(){

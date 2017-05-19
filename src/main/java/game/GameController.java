@@ -233,12 +233,12 @@ public class GameController {
 		boolean playedEvent = false;
 		
 		if(role.equals("Airlift")) {
-			playedEvent = this.playAirlift(this.gameModel.getCharacterToBeAirlifted(), 
-					this.gameModel.getCityForEvent());
+			playedEvent = this.playAirlift(this.gameModel.getSelectedCharacter(), 
+					this.gameModel.getSelectedCity());
 		} else if(role.equals("Forecast")) {
 			playedEvent = this.playForecast();
 		} else if(role.equals("Government Grant")) {
-			playedEvent = this.playGovernmentGrant(this.gameModel.getCityForEvent());
+			playedEvent = this.playGovernmentGrant(this.gameModel.getSelectedCity());
 		} else if(role.equals("One Quiet Night")){
 			playedEvent = this.playOneQuietNight();
 		} else if(role.equals("Resilient Population")){

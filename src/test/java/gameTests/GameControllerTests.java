@@ -493,10 +493,10 @@ public class GameControllerTests {
 		Iterator<CityModel> iter = currentCity.getNeighbors().iterator();
 		CityModel nextCity = iter.next();
 		CardModel card = new CardModel("Airlift", CardModel.CardType.EVENT);
-
-		this.controller.getGameModel().setCharacterToBeAirlifted(playerController);
-		this.controller.getGameModel().setCityForEvent(nextCity);
-
+		
+		this.controller.getGameModel().setSelectedCharacter(playerController);
+		this.controller.getGameModel().setSelectedCity(nextCity);
+		
 		assertTrue(this.controller.playEventCard(card));
 
 		assertTrue(this.playerController.getCharactersCurrentCity().equals(nextCity));
@@ -508,9 +508,9 @@ public class GameControllerTests {
 		Iterator<CityModel> iter = currentCity.getNeighbors().iterator();
 		CityModel nextCity = iter.next();
 		CardModel card = new CardModel("Government Grant", CardModel.CardType.EVENT);
-
-		this.controller.getGameModel().setCityForEvent(nextCity);
-
+		
+		this.controller.getGameModel().setSelectedCity(nextCity);
+		
 		assertFalse(this.controller.getCityController().getCityByName(nextCity.getName()).hasResearchStation());
 
 		assertTrue(this.controller.playEventCard(card));
@@ -901,9 +901,9 @@ public class GameControllerTests {
 		CityModel nextCity = iter.next();
 		this.cityController.setResearchStationCounter(6);
 		CardModel card = new CardModel("Government Grant", CardModel.CardType.EVENT);
-
-		this.controller.getGameModel().setCityForEvent(nextCity);
-
+		
+		this.controller.getGameModel().setSelectedCity(nextCity);
+		
 		assertFalse(this.controller.getCityController().getCityByName(nextCity.getName()).hasResearchStation());
 
 		assertFalse(this.controller.playEventCard(card));
@@ -918,9 +918,9 @@ public class GameControllerTests {
 		CityModel nextCity = iter.next();
 		nextCity.setHasResearchStation(true);
 		CardModel card = new CardModel("Government Grant", CardModel.CardType.EVENT);
-
-		this.controller.getGameModel().setCityForEvent(nextCity);
-
+		
+		this.controller.getGameModel().setSelectedCity(nextCity);
+		
 		assertTrue(this.controller.getCityController().getCityByName(nextCity.getName()).hasResearchStation());
 
 		this.controller.playEventCard(card);
