@@ -241,10 +241,9 @@ public class GameController {
 		}
 	}
 	
-	private void removeEventCardFromHand(CardModel eventCardToPlay) {
+	public void removeEventCardFromHand(CardModel eventCardToPlay) {
 		for(int i = 0; i < this.getPlayers().size(); i++){
 			if(this.getPlayers().get(i).getCharacterModel().getHandOfCards().contains(eventCardToPlay)){
-				//this.getPlayers().get(i).verifyMoveWithCard(cityToMoveTo, cardToMoveWith)
 				this.getPlayers().get(i).getCharacterModel().removeCardFromHandOfCards(eventCardToPlay);
 			}
 		}
@@ -343,7 +342,7 @@ public class GameController {
 				return listOfTopCards.get(i);
 			}
 		}
-		return listOfTopCards.get(0);
+		return null;
 	}
 	
 	public void addNewInfectionOrderCardsTotop(InfectionDeckCardController infectionController, List<CardModel> cardsToAddToTop){

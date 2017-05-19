@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.easymock.EasyMock;
@@ -32,13 +33,17 @@ public class GameControllerTests {
 	DiseaseController diseaseController;
 	AbstractCharacterController playerController;
 	
+	ArrayList<CityModel> listOfCities;
+	AbstractDeckCardController playerDeckController;
+	AbstractDeckCardController infectionDeckController;
+	
 	@Before
 	public void init(){
 		GameModel gameModel = new GameModel();
 		DiseaseController diseaseController = new DiseaseController();
 		CityController cityController = new CityController(diseaseController);
-		AbstractDeckCardController playerDeckController = new PlayerDeckCardController(cityController);
-		AbstractDeckCardController infectionDeckController = new InfectionDeckCardController(cityController);
+		this.playerDeckController = new PlayerDeckCardController(cityController);
+		this.infectionDeckController = new InfectionDeckCardController(cityController);
 		
 		this.controller = new GameController(gameModel,
 											diseaseController,
@@ -55,6 +60,9 @@ public class GameControllerTests {
 		this.controller.getPlayers().add(factory.createCharacterController(playerModel));
 		this.diseaseController = this.controller.getDiseaseController();
 		this.playerController = this.controller.getCurrentPlayer();
+		
+		Set<CityModel> setOfCities = cityController.getCities();
+		this.listOfCities = new ArrayList<CityModel>(setOfCities);
 	}
 
 	@Test
@@ -902,5 +910,70 @@ public class GameControllerTests {
 		this.controller.getGameModel().setSelectedCard(card);
 		
 		assertTrue(this.controller.specialAbility());
+	}
+	
+	@Test
+	public void testCardNameToCardFindsCard(){
+		String cardName = this.listOfCities.get(0).getName();
+		ArrayList<CardModel> listOfTopCards = new ArrayList<CardModel>();
+		CardModel testCity1 = new CardModel(cardName, CardModel.CardType.PLAYER);
+		CardModel testCity2 = new CardModel("Hello", CardModel.CardType.PLAYER);
+		CardModel testCity3 = new CardModel("myname", CardModel.CardType.PLAYER);
+		CardModel testCity4 = new CardModel("isbob", CardModel.CardType.PLAYER);
+		listOfTopCards.add(testCity1);
+		listOfTopCards.add(testCity2);
+		listOfTopCards.add(testCity3);
+		listOfTopCards.add(testCity4);
+
+		assertEquals(testCity1, this.controller.cardNameToCard(cardName, listOfTopCards));
+		
+	}
+	
+	@Test
+	public void testCardNameToCardDoesntFindCard(){
+		String cardName = this.listOfCities.get(0).getName();
+		ArrayList<CardModel> listOfTopCards = new ArrayList<CardModel>();
+		CardModel testCity1 = new CardModel("notBob", CardModel.CardType.PLAYER);
+		CardModel testCity2 = new CardModel("Hello", CardModel.CardType.PLAYER);
+		CardModel testCity3 = new CardModel("myname", CardModel.CardType.PLAYER);
+		CardModel testCity4 = new CardModel("isbob", CardModel.CardType.PLAYER);
+		listOfTopCards.add(testCity1);
+		listOfTopCards.add(testCity2);
+		listOfTopCards.add(testCity3);
+		listOfTopCards.add(testCity4);
+
+		assertEquals(null, this.controller.cardNameToCard(cardName, listOfTopCards));
+	
+	}
+	
+	@Test
+	public void testAddNewInfectionOrderCardsToTop(){
+		InfectionDeckCardController infectionController = (InfectionDeckCardController) this.infectionDeckController;
+		String cardName = this.listOfCities.get(0).getName();
+		ArrayList<CardModel> listOfTopCards = new ArrayList<CardModel>();
+		CardModel testCity1 = new CardModel("notBob", CardModel.CardType.PLAYER);
+		CardModel testCity2 = new CardModel("Hello", CardModel.CardType.PLAYER);
+		CardModel testCity3 = new CardModel("myname", CardModel.CardType.PLAYER);
+		CardModel testCity4 = new CardModel("isbob", CardModel.CardType.PLAYER);
+		listOfTopCards.add(testCity1);
+		listOfTopCards.add(testCity2);
+		listOfTopCards.add(testCity3);
+		listOfTopCards.add(testCity4);
+		
+		assertEquals(39, infectionController.getNumberOfCardsInDeck());
+		this.controller.addNewInfectionOrderCardsTotop(infectionController, listOfTopCards);
+		assertEquals(43, infectionController.getNumberOfCardsInDeck());
+	}
+	
+	@Test
+	public void testRemoveEventCardFromHand(){
+		CardModel cardToAdd1 = new CardModel("notBob", CardModel.CardType.PLAYER);
+		CardModel cardToAdd2 = new CardModel("Hello", CardModel.CardType.PLAYER);
+		this.controller.getPlayers().get(0).addCardToHandOfCards(cardToAdd1);
+		this.controller.getPlayers().get(0).addCardToHandOfCards(cardToAdd2);
+		assertEquals(2, this.controller.getPlayers().get(0).getCharacterModel().getHandSize());
+		
+		this.controller.removeEventCardFromHand(cardToAdd1);
+		assertEquals(1, this.controller.getPlayers().get(0).getCharacterModel().getHandSize());
 	}
 }
