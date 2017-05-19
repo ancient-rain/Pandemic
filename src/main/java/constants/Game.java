@@ -95,9 +95,9 @@ public class Game {
 	public final static String PNG_FILE = ".png";
 	public final static String PANDEMIC = "Pandemic";
 
-	public final static String INTRODUCTORY = "Introductory";
-	public final static String STANDARD = "Standard";
-	public final static String HEROIC = "Heroic";
+	public static String INTRODUCTORY = "Introductory";
+	public static String STANDARD = "Standard";
+	public static String HEROIC = "Heroic";
 	
 	public static String PROCEED_WITH = "Proceed with ";
 	public static String PLAYERS_AT = " players at ";
@@ -216,5 +216,23 @@ public class Game {
 		NO_SHARE_SELF = resourceBundle.getString("NO_SHARE_SELF");
 		GAME_OVER = resourceBundle.getString("GAME_OVER");
 		YOU_WON = resourceBundle.getString("YOU_WON");
+		
+		INTRODUCTORY = resourceBundle.getString("INTRODUCTORY");
+		STANDARD = resourceBundle.getString("STANDARD");
+		HEROIC = resourceBundle.getString("HEROIC");
+		
+		PROCEED_WITH = resourceBundle.getString("PROCEED_WITH");
+		PLAYERS_AT = resourceBundle.getString("PLAYERS_AT");
+		DIFFICULTY = resourceBundle.getString("DIFFICULTY");
+		
+		SELECT_NUM_PLAYERS = resourceBundle.getString("SELECT_NUM_PLAYERS");
+		SELECT_GAME_DIFFICULTY = resourceBundle.getString("SELECT_GAME_DIFFICULTY");
+		PLAY = resourceBundle.getString("PLAY");
+		RULES = resourceBundle.getString("RULES");
+		EXIT = resourceBundle.getString("EXIT");
+		TWO_PLAYERS_TEXT = resourceBundle.getString("TWO_PLAYERS_TEXT");
+		THREE_PLAYERS_TEXT = resourceBundle.getString("THREE_PLAYERS_TEXT");
+		FOUR_PLAYERS_TEXT = resourceBundle.getString("FOUR_PLAYERS_TEXT");
+		PROCEED = resourceBundle.getString("PROCEED");
 	}
 }
