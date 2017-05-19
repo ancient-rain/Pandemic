@@ -249,7 +249,7 @@ public class GameView extends JFrame implements ActionListener {
 			names.add(card.getName());
 		}
 				
-		String cardToRemove = (String) JOptionPane.showInputDialog(this, "Select card to remove from infectoin deck: ", "Resilient Population", 
+		String cardToRemove = (String) JOptionPane.showInputDialog(this, SELECT_CARD_FROM_INFECTION, "Resilient Population", 
 				JOptionPane.DEFAULT_OPTION, null, names.toArray(), names.toArray()[0]);
 		
 		if (cardToRemove != null) {
@@ -294,7 +294,7 @@ public class GameView extends JFrame implements ActionListener {
 			topCardsArray[i] = listOfTopCards.get(i).getName();
 		}
 		
-		String cardName = (String) JOptionPane.showInputDialog(this, "Selected card will be placed on top of the deck:", 
+		String cardName = (String) JOptionPane.showInputDialog(this, SELECT_CART_PLACED_ON_TOP, 
 				"Forcast", JOptionPane.DEFAULT_OPTION, null, topCardsArray, topCardsArray[0]);
 		
 		return this.controller.cardNameToCard(cardName, listOfTopCards);
@@ -308,7 +308,7 @@ public class GameView extends JFrame implements ActionListener {
 			playersToChoose[i] = controller.getPlayers().get(i).getCharacterModel().getName();
 		}
 		
-		String playerString = (String) JOptionPane.showInputDialog(this, "Select player to move:", 
+		String playerString = (String) JOptionPane.showInputDialog(this, SELECT_PLAYER_TO_MOVE, 
 				"Airlift", JOptionPane.DEFAULT_OPTION, null, playersToChoose, playersToChoose[0]);
 		
 		if (playerString != null && this.model.getCityForEvent() != null) {
