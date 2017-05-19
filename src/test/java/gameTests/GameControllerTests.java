@@ -537,7 +537,8 @@ public class GameControllerTests {
 	@Test
 	public void testEndOfTurnEpidemic() {
 		PlayerDeckCardController deckController = EasyMock.createNiceMock(PlayerDeckCardController.class);
-		InfectionDeckCardController infDeckController = EasyMock.createNiceMock(InfectionDeckCardController.class);
+		InfectionDeckCardController infDeckController = EasyMock.createNiceMock(
+				InfectionDeckCardController.class);
 		this.controller.setPlayerDeck(deckController);
 		this.controller.setInfectionDeck(infDeckController);
 		CityModel infecting = this.controller.getCityController().getCityByName("Atlanta");
@@ -571,7 +572,8 @@ public class GameControllerTests {
 	@Test
 	public void testEndOfTurnEpidemicWithMaxInfectionRate() {
 		PlayerDeckCardController deckController = EasyMock.createNiceMock(PlayerDeckCardController.class);
-		InfectionDeckCardController infDeckController = EasyMock.createNiceMock(InfectionDeckCardController.class);
+		InfectionDeckCardController infDeckController = 
+				EasyMock.createNiceMock(InfectionDeckCardController.class);
 		this.controller.setPlayerDeck(deckController);
 		this.controller.setInfectionDeck(infDeckController);
 		CityModel infecting = this.controller.getCityController().getCityByName("Atlanta");
@@ -607,8 +609,10 @@ public class GameControllerTests {
 	
 	@Test
 	public void testEndOfTurnEpidemicWithQuietNight() {
-		PlayerDeckCardController deckController = EasyMock.createNiceMock(PlayerDeckCardController.class);
-		InfectionDeckCardController infDeckController = EasyMock.createNiceMock(InfectionDeckCardController.class);
+		PlayerDeckCardController deckController = 
+				EasyMock.createNiceMock(PlayerDeckCardController.class);
+		InfectionDeckCardController infDeckController = 
+				EasyMock.createNiceMock(InfectionDeckCardController.class);
 		this.controller.setPlayerDeck(deckController);
 		this.controller.setInfectionDeck(infDeckController);
 		CityModel infecting = this.controller.getCityController().getCityByName("Atlanta");

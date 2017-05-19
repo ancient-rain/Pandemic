@@ -108,7 +108,7 @@ public class CharacterFrontEndModelTests {
 	
 	@Test
 	public void testGetColorQuarentine(){
-		String characterName = "Quarentine Specialist";
+		String characterName = "Quarantine Specialist";
 		CharacterModel characterModel = new CharacterModel(characterName, cityModel);
 		CharacterFrontEndModel frontEndModel = new CharacterFrontEndModel(characterModel);
 	
@@ -117,7 +117,7 @@ public class CharacterFrontEndModelTests {
 	
 	@Test
 	public void testGetImgQuarentine(){
-		String characterName = "Quarentine Specialist";
+		String characterName = "Quarantine Specialist";
 		CharacterModel characterModel = new CharacterModel(characterName, cityModel);
 		CharacterFrontEndModel frontEndModel = new CharacterFrontEndModel(characterModel);
 	

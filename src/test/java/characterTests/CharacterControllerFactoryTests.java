@@ -15,9 +15,12 @@ import city.CityModel;
 import diseases.DiseaseController;
 import diseases.DiseaseModel;
 
+import static constants.Game.*;
+import static constants.City.*;
+
 public class CharacterControllerFactoryTests {
 	DiseaseController diseaseController;
-	String cityName = "Chicago";
+	String cityName = CHICAGO;
 	ResearcherCharacterController researcher;
 	CharacterModel characterModel;
 	CityModel cityModel;
@@ -32,7 +35,7 @@ public class CharacterControllerFactoryTests {
 	
 	@Test
 	public void testCreateContingencyPlanner(){
-		String characterName = "Contingency Planner";
+		String characterName = CONTINGENCY_PLANNER;
 		this.characterModel = new CharacterModel(characterName, cityModel);
 		assertEquals(ContingencyPlannerCharacterController.class, this.characterFactory
 				.createCharacterController(this.characterModel).getClass());
@@ -40,7 +43,7 @@ public class CharacterControllerFactoryTests {
 	
 	@Test
 	public void testCreateOperationsExpert(){
-		String characterName = "Operations Expert";
+		String characterName = OPERATIONS_EXPERT;
 		this.characterModel = new CharacterModel(characterName, cityModel);
 		assertEquals(OperationsExpertCharacterController.class, this.characterFactory
 				.createCharacterController(this.characterModel).getClass());
@@ -48,7 +51,7 @@ public class CharacterControllerFactoryTests {
 	
 	@Test
 	public void testCreateQuarentineSpecialist(){
-		String characterName = "Quarentine Specialist";
+		String characterName = QUARANTINE_SPECIALIST;
 		this.characterModel = new CharacterModel(characterName, cityModel);
 		assertEquals(QuarentineSpecialistCharacterController.class, this.characterFactory
 				.createCharacterController(this.characterModel).getClass());

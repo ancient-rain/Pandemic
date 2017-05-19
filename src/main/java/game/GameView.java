@@ -102,10 +102,10 @@ public class GameView extends JFrame implements ActionListener {
 		this.selectedCity.setColor(CUSTOM_GRAY_1);
 		
 		this.addMouseListener(new MouseListener() {
-			public void mouseReleased(MouseEvent e) {}
-			public void mouseEntered(MouseEvent e) {}
-			public void mouseExited(MouseEvent e) {}
-			public void mouseClicked(MouseEvent e) {}
+			public void mouseReleased(MouseEvent event) {}
+			public void mouseEntered(MouseEvent event) {}
+			public void mouseExited(MouseEvent event) {}
+			public void mouseClicked(MouseEvent event) {}
 
 			@Override
 			public void mousePressed(MouseEvent click) {
@@ -179,7 +179,8 @@ public class GameView extends JFrame implements ActionListener {
 			Object button = event.getSource();
 			
 			if (button == this.moveButton) {
-				this.controller.moveCharacter(this.controller.getCurrentPlayer(), this.selectedCity.getCityModel());
+				this.controller.moveCharacter(this.controller.getCurrentPlayer(), 
+						this.selectedCity.getCityModel());
 			} else if (button == this.treatButton) {
 				treat();
 			} else if (button == this.cureButton) {
@@ -398,15 +399,15 @@ public class GameView extends JFrame implements ActionListener {
 		}
 		
 		if (listOfCities.size() > 1) {
-			Object cardToShare = JOptionPane.showInputDialog(this, "Select a card to share:", 
-					"Treat", JOptionPane.DEFAULT_OPTION, null, cardsArray, cardsArray[0]);
+			Object cardToShare = JOptionPane.showInputDialog(this, SELECT_CARD_SHARE, 
+					SHARE, JOptionPane.DEFAULT_OPTION, null, cardsArray, cardsArray[0]);
 			
 			if (!cardToShare.equals(null)) {
 				CardModel card = stringToCard((String) cardToShare);
 				choosePlayerToShareWith(card);
 			}
 		} else {
-			JOptionPane.showMessageDialog(this, "This can not be shared"); 
+			JOptionPane.showMessageDialog(this, NO_SHARED); 
 		}
 	}
 	
@@ -427,7 +428,7 @@ public class GameView extends JFrame implements ActionListener {
 		boolean cityOccupiedByOtherPlayer = false;
 		if(!cardToShare.getType()
 				.equals(CardModel.CardType.PLAYER)){
-			JOptionPane.showMessageDialog(this, "This card can not be shared");
+			JOptionPane.showMessageDialog(this, NO_SHARED);
 			return;
 		}
 		List<AbstractCharacterController> playerList = this.controller.getPlayers();
@@ -440,22 +441,22 @@ public class GameView extends JFrame implements ActionListener {
 			}
 		}
 		if(!cityOccupiedByOtherPlayer){
-			JOptionPane.showMessageDialog(this, "There are no players to share with");
+			JOptionPane.showMessageDialog(this, NO_PLAYERS_TO_SHARE_WITH);
 		}
 		if (playerList.size() > 1) {
-			Object chosenPlayer = JOptionPane.showInputDialog(this, "Select a card to share:", 
-					"Treat", JOptionPane.DEFAULT_OPTION, null, playerArray, playerArray[0]);
+			Object chosenPlayer = JOptionPane.showInputDialog(this, SELECT_CARD_SHARE, 
+					SHARE, JOptionPane.DEFAULT_OPTION, null, playerArray, playerArray[0]);
 			
 			if (!cardToShare.equals(null)) {
 				AbstractCharacterController player = stringToPlayer((String) chosenPlayer);
 				if(!player.equals(this.controller.getCurrentPlayer())){
 					shareCard(player, cardToShare);
 				} else {
-					JOptionPane.showMessageDialog(this, "You do not want to share with yourself");
+					JOptionPane.showMessageDialog(this, NO_SHARE_SELF);
 				}
 			}
 		} else {
-			JOptionPane.showMessageDialog(this, "This can not be shared"); 
+			JOptionPane.showMessageDialog(this, NO_SHARED); 
 		}
 	}
 	
@@ -1080,13 +1081,15 @@ public class GameView extends JFrame implements ActionListener {
 		Color cityColor = this.selectedCity.getColor();
 		Color color = getColor(cityColor, true);
 		int xloc = SELECTED_CITY_X + (SELECTED_CITY_WIDTH - metrics.stringWidth(name)) / 2;
-		int yloc = SELECTED_CITY_Y + ((SELECTED_CITY_HEIGHT - metrics.getHeight()) / 2) + metrics.getAscent();
+		int yloc = SELECTED_CITY_Y + ((SELECTED_CITY_HEIGHT - metrics.getHeight()) / 2) + 
+				metrics.getAscent();
 
 		if (!this.isSelectedCitySet) {
 			color = CUSTOM_GRAY_1;
 			name = NO_SELECTED_CITY;
 			xloc = SELECTED_CITY_X + (SELECTED_CITY_WIDTH - metrics.stringWidth(name)) / 2;
-			yloc = SELECTED_CITY_Y + ((SELECTED_CITY_HEIGHT - metrics.getHeight()) / 2) + metrics.getAscent();
+			yloc = SELECTED_CITY_Y + ((SELECTED_CITY_HEIGHT - metrics.getHeight()) / 2) + 
+					metrics.getAscent();
 			
 			this.isSelectedCitySet = true;
 		}
@@ -1099,4 +1102,4 @@ public class GameView extends JFrame implements ActionListener {
 		gr.setColor(CUSTOM_GRAY_2);
 		gr.drawString(name, xloc, yloc);
 	}
-}
+}

@@ -31,10 +31,6 @@ public class DiseaseController {
 		return this.yellowDisease;
 	}
 	
-//	public int getBlueDiseaseCubes(){
-//		return this.blueDisease.getCubesLeft();
-//	}
-	
 	public boolean areAllDiseasesCured(){
 		return this.blueDisease.isCured() 
 				&& this.blackDisease.isCured() 
