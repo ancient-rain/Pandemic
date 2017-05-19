@@ -241,6 +241,15 @@ public class GameController {
 		}
 	}
 	
+	public void removeEventCardFromHand(CardModel eventCardToPlay) {
+		for(int i = 0; i < this.getPlayers().size(); i++){
+			if(this.getPlayers().get(i).getCharacterModel().getHandOfCards().contains(eventCardToPlay)){
+				this.getPlayers().get(i).getCharacterModel().removeCardFromHandOfCards(eventCardToPlay);
+			}
+		}
+		
+	}
+
 	private boolean playAirlift(AbstractCharacterController characterToMove, CityModel cityToMoveTo){
 		characterToMove.getCharacterModel().setCurrentCity(cityToMoveTo);
 		return true;
@@ -325,5 +334,21 @@ public class GameController {
 
 	public void setInfectionDeck(InfectionDeckCardController infDeckController) {
 		this.infectionDeckController = infDeckController;
+	}
+	
+	public CardModel cardNameToCard(String cardName, List<CardModel> listOfTopCards) {
+		for(int i = 0; i < listOfTopCards.size();i++){
+			if(listOfTopCards.get(i).getName().equals(cardName)){
+				return listOfTopCards.get(i);
+			}
+		}
+		return null;
+	}
+	
+	public void addNewInfectionOrderCardsTotop(InfectionDeckCardController infectionController, List<CardModel> cardsToAddToTop){
+		for(int i = 0; i < cardsToAddToTop.size();i++){
+			infectionController.addToTop(cardsToAddToTop.get(i));
+		}
+		
 	}
 }

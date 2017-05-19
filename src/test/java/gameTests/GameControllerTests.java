@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.easymock.EasyMock;
@@ -31,14 +32,19 @@ public class GameControllerTests {
 	CityController cityController;
 	DiseaseController diseaseController;
 	AbstractCharacterController playerController;
+	GameModel gameModel;
+	
+	ArrayList<CityModel> listOfCities;
+	AbstractDeckCardController playerDeckController;
+	AbstractDeckCardController infectionDeckController;
 	
 	@Before
 	public void init(){
-		GameModel gameModel = new GameModel();
+		this.gameModel = new GameModel();
 		DiseaseController diseaseController = new DiseaseController();
 		CityController cityController = new CityController(diseaseController);
-		AbstractDeckCardController playerDeckController = new PlayerDeckCardController(cityController);
-		AbstractDeckCardController infectionDeckController = new InfectionDeckCardController(cityController);
+		this.playerDeckController = new PlayerDeckCardController(cityController);
+		this.infectionDeckController = new InfectionDeckCardController(cityController);
 		
 		this.controller = new GameController(gameModel,
 											diseaseController,
@@ -55,6 +61,16 @@ public class GameControllerTests {
 		this.controller.getPlayers().add(factory.createCharacterController(playerModel));
 		this.diseaseController = this.controller.getDiseaseController();
 		this.playerController = this.controller.getCurrentPlayer();
+		
+		Set<CityModel> setOfCities = cityController.getCities();
+		this.listOfCities = new ArrayList<CityModel>(setOfCities);
+	}
+	
+	@Test
+	public void testInitialCityLocations(){
+		for(AbstractCharacterController c : this.controller.getPlayers()){
+			assertTrue(c.getCharactersCurrentCity().getName().equals("Atlanta"));;
+		}
 	}
 
 	@Test
@@ -114,6 +130,8 @@ public class GameControllerTests {
 		assertTrue(!currentCity.getNeighbors().contains(nextCity));
 		
 		assertTrue(this.controller.moveCharacter(playerController, nextCity));
+		assertEquals(nextCity, playerController.getCharactersCurrentCity());
+		assertEquals(3, this.controller.getGameModel().getActionsLeft());
 	}
 	
 	@Test
@@ -158,7 +176,7 @@ public class GameControllerTests {
 		
 		int beforeTreat = currentCity.getCubesByDisease(currentDisease);
 		
-		this.controller.treatCity(currentDisease);
+		assertTrue(this.controller.treatCity(currentDisease));
 		
 		int afterTreat = currentCity.getCubesByDisease(currentDisease);
 		assertTrue(beforeTreat == afterTreat + 1);
@@ -176,7 +194,7 @@ public class GameControllerTests {
 		
 		assertFalse(nextCity.hasResearchStation());
 		
-		this.controller.buildResearchStation();
+		assertTrue(this.controller.buildResearchStation());
 		
 		assertTrue(nextCity.hasResearchStation());
 	}
@@ -191,7 +209,7 @@ public class GameControllerTests {
 		
 		assertFalse(nextCity.hasResearchStation());
 		
-		this.controller.buildResearchStation();
+		assertFalse(this.controller.buildResearchStation());
 		
 		assertFalse(nextCity.hasResearchStation());
 	}
@@ -203,7 +221,7 @@ public class GameControllerTests {
 		CityModel nextCity = iter.next();
 		CardModel card = new CardModel(nextCity.getName(), CardModel.CardType.PLAYER);
 		this.playerController.addCardToHandOfCards(card);
-		this.controller.shareKnowledge(this.controller.getPlayers().get(1), card);
+		assertTrue(this.controller.shareKnowledge(this.controller.getPlayers().get(1), card));
 
 		assertTrue(this.controller.getPlayers().get(1).getCharacterModel().isInHand(card));
 		assertFalse(this.playerController.getCharacterModel().isInHand(card));
@@ -223,7 +241,7 @@ public class GameControllerTests {
 		this.controller.moveCharacter(playerController, currentCity);
 		
 		AbstractCharacterController newPlayer = this.controller.getCurrentPlayer();
-		this.controller.shareKnowledge(this.playerController, card);
+		assertTrue(this.controller.shareKnowledge(this.playerController, card));
 		
 		assertTrue(newPlayer.getCharacterModel().isInHand(card));
 		assertFalse(this.playerController.getCharacterModel().isInHand(card));
@@ -302,7 +320,7 @@ public class GameControllerTests {
 		this.controller.moveCharacter(playerController, currentCity);
 		
 		AbstractCharacterController newPlayer = this.controller.getCurrentPlayer();
-		this.controller.shareKnowledge(this.playerController, card);
+		assertFalse(this.controller.shareKnowledge(this.playerController, card));
 		
 		assertFalse(newPlayer.getCharacterModel().isInHand(card));
 		assertTrue(this.playerController.getCharacterModel().isInHand(card));
@@ -337,6 +355,7 @@ public class GameControllerTests {
 		assertFalse(this.diseaseController.getBlueDisease().isCured());
 		
 		this.controller.cureDisease(toCureWithSet, diseaseToCure);
+		//assertEquals(4, this.controller.getGameModel().getActionsLeft());
 		
 		assertTrue(this.diseaseController.getBlueDisease().isCured());
 	}
@@ -403,7 +422,7 @@ public class GameControllerTests {
 		
 		assertFalse(this.diseaseController.getBlueDisease().isCured());
 		
-		this.controller.cureDisease(toCureWithSet, diseaseToCure);
+		assertFalse(this.controller.cureDisease(toCureWithSet, diseaseToCure));
 		
 		assertFalse(this.diseaseController.getBlueDisease().isCured());
 	}
@@ -440,7 +459,7 @@ public class GameControllerTests {
 		
 		assertFalse(this.diseaseController.getBlueDisease().isCured());
 		
-		this.controller.cureDisease(toCureWithSet, diseaseToCure);
+		assertTrue(this.controller.cureDisease(toCureWithSet, diseaseToCure));
 		
 		assertTrue(this.diseaseController.getBlueDisease().isCured());
 		
@@ -457,7 +476,7 @@ public class GameControllerTests {
 		this.controller.getGameModel().setCharacterToBeAirlifted(playerController);
 		this.controller.getGameModel().setCityForEvent(nextCity);
 		
-		this.controller.playEventCard(card);
+		assertTrue(this.controller.playEventCard(card));
 		
 		assertTrue(this.playerController.getCharactersCurrentCity().equals(nextCity));
 	}
@@ -473,7 +492,7 @@ public class GameControllerTests {
 		
 		assertFalse(this.controller.getCityController().getCityByName(nextCity.getName()).hasResearchStation());
 		
-		this.controller.playEventCard(card);
+		assertTrue(this.controller.playEventCard(card));
 		
 		assertTrue(this.controller.getCityController().getCityByName(nextCity.getName()).hasResearchStation());
 	}
@@ -496,7 +515,7 @@ public class GameControllerTests {
 	}
 	
 	@Test
-	public void testEndOfTurnNoCardsInDeck() {		
+	public void testEndOfTurnNoCardsInDeck() {
 		int cardsInDeck = this.controller.getPlayerDeckController().getNumberOfCardsInDeck();
 		this.controller.getPlayerDeckController().drawNumberOfCards(cardsInDeck);
 		
@@ -506,7 +525,7 @@ public class GameControllerTests {
 	}
 	
 	@Test
-	public void testEndOfTurnOneCardInDeck() {		
+	public void testEndOfTurnOneCardInDeck() {	
 		int cardsInDeck = this.controller.getPlayerDeckController().getNumberOfCardsInDeck();
 		this.controller.getPlayerDeckController().drawNumberOfCards(cardsInDeck - 1);
 		
@@ -638,7 +657,7 @@ public class GameControllerTests {
 		
 		int beforeTreat = currentCity.getCubesByDisease(currentDisease);
 		
-		this.controller.treatCity(currentDisease);
+		assertFalse(this.controller.treatCity(currentDisease));
 		
 		int afterTreat = currentCity.getCubesByDisease(currentDisease);
 		assertTrue(beforeTreat == afterTreat);
@@ -674,6 +693,9 @@ public class GameControllerTests {
 		int cardsPer = this.controller.getGameModel().getNumberOfStartingCards();
 		
 		assertTrue(cardsInHand == this.controller.getPlayers().size() * cardsPer);
+		for(AbstractCharacterController c : this.controller.getPlayers()){
+			assertTrue(c.getCharactersCurrentCity().getName().equals("Atlanta"));;
+		}
 	}
 	
 	@Test
@@ -754,7 +776,8 @@ public class GameControllerTests {
 	public void testOneQuietNight() {
 		CardModel card = new CardModel("One Quiet Night", CardModel.CardType.EVENT);
 		
-		this.controller.playEventCard(card);
+		assertFalse(this.controller.playEventCard(card));
+		//assertEquals(controller.getGameModel().getCharacters().size(), this.gameModel.getQuietNightsLeft());
 		
 		assertTrue(this.controller.getPlayers().size() == this.controller.getGameModel().getQuietNightsLeft());
 	}
@@ -767,7 +790,7 @@ public class GameControllerTests {
 		CardModel cardToRemove = this.controller.getInfectionDeckController().getDiscardedCards().get(0);
 		this.controller.getGameModel().setCardToRemoveFromInfectionDeck(cardToRemove);
 		
-		this.controller.playEventCard(card);
+		assertTrue(this.controller.playEventCard(card));
 		
 		assertTrue(!this.controller.getInfectionDeckController().getDiscardedCards().contains(cardToRemove));
 	}
@@ -777,7 +800,7 @@ public class GameControllerTests {
 		CardModel card = new CardModel("Forecast", CardModel.CardType.EVENT);
 		ArrayList<CardModel> cardsToReturn = new ArrayList<CardModel>();
 		
-		this.controller.playEventCard(card);
+		assertTrue(this.controller.playEventCard(card));
 		
 		for(CardModel newCard : this.controller.getGameModel().getForecastCards()){
 			cardsToReturn.add(newCard);
@@ -785,7 +808,7 @@ public class GameControllerTests {
 		
 		for(CardModel newCard : cardsToReturn){
 			card = newCard;
-			this.controller.forecastReturnCard(newCard);
+			assertTrue(this.controller.forecastReturnCard(newCard));
 		}
 		
 		assertTrue(card.equals(this.controller.getInfectionDeckController().draw()));
@@ -797,7 +820,7 @@ public class GameControllerTests {
 		CardModel card = new CardModel("Forecast", CardModel.CardType.EVENT);
 		ArrayList<CardModel> cardsToReturn = new ArrayList<CardModel>();
 		
-		this.controller.playEventCard(card);
+		assertTrue(this.controller.playEventCard(card));
 		
 		for(CardModel newCard : this.controller.getGameModel().getForecastCards()){
 			cardsToReturn.add(newCard);
@@ -805,7 +828,7 @@ public class GameControllerTests {
 		
 		for(CardModel newCard : cardsToReturn){
 			card = newCard;
-			this.controller.forecastReturnCard(newCard);
+			assertTrue(this.controller.forecastReturnCard(newCard));
 		}
 		
 		assertFalse(this.controller.forecastReturnCard(card));
@@ -906,5 +929,70 @@ public class GameControllerTests {
 		this.controller.getGameModel().setSelectedCard(card);
 		
 		assertTrue(this.controller.specialAbility());
+	}
+	
+	@Test
+	public void testCardNameToCardFindsCard(){
+		String cardName = this.listOfCities.get(0).getName();
+		ArrayList<CardModel> listOfTopCards = new ArrayList<CardModel>();
+		CardModel testCity1 = new CardModel(cardName, CardModel.CardType.PLAYER);
+		CardModel testCity2 = new CardModel("Hello", CardModel.CardType.PLAYER);
+		CardModel testCity3 = new CardModel("myname", CardModel.CardType.PLAYER);
+		CardModel testCity4 = new CardModel("isbob", CardModel.CardType.PLAYER);
+		listOfTopCards.add(testCity1);
+		listOfTopCards.add(testCity2);
+		listOfTopCards.add(testCity3);
+		listOfTopCards.add(testCity4);
+
+		assertEquals(testCity1, this.controller.cardNameToCard(cardName, listOfTopCards));
+		
+	}
+	
+	@Test
+	public void testCardNameToCardDoesntFindCard(){
+		String cardName = this.listOfCities.get(0).getName();
+		ArrayList<CardModel> listOfTopCards = new ArrayList<CardModel>();
+		CardModel testCity1 = new CardModel("notBob", CardModel.CardType.PLAYER);
+		CardModel testCity2 = new CardModel("Hello", CardModel.CardType.PLAYER);
+		CardModel testCity3 = new CardModel("myname", CardModel.CardType.PLAYER);
+		CardModel testCity4 = new CardModel("isbob", CardModel.CardType.PLAYER);
+		listOfTopCards.add(testCity1);
+		listOfTopCards.add(testCity2);
+		listOfTopCards.add(testCity3);
+		listOfTopCards.add(testCity4);
+
+		assertEquals(null, this.controller.cardNameToCard(cardName, listOfTopCards));
+	
+	}
+	
+	@Test
+	public void testAddNewInfectionOrderCardsToTop(){
+		InfectionDeckCardController infectionController = (InfectionDeckCardController) this.infectionDeckController;
+		String cardName = this.listOfCities.get(0).getName();
+		ArrayList<CardModel> listOfTopCards = new ArrayList<CardModel>();
+		CardModel testCity1 = new CardModel("notBob", CardModel.CardType.PLAYER);
+		CardModel testCity2 = new CardModel("Hello", CardModel.CardType.PLAYER);
+		CardModel testCity3 = new CardModel("myname", CardModel.CardType.PLAYER);
+		CardModel testCity4 = new CardModel("isbob", CardModel.CardType.PLAYER);
+		listOfTopCards.add(testCity1);
+		listOfTopCards.add(testCity2);
+		listOfTopCards.add(testCity3);
+		listOfTopCards.add(testCity4);
+		
+		assertEquals(39, infectionController.getNumberOfCardsInDeck());
+		this.controller.addNewInfectionOrderCardsTotop(infectionController, listOfTopCards);
+		assertEquals(43, infectionController.getNumberOfCardsInDeck());
+	}
+	
+	@Test
+	public void testRemoveEventCardFromHand(){
+		CardModel cardToAdd1 = new CardModel("notBob", CardModel.CardType.PLAYER);
+		CardModel cardToAdd2 = new CardModel("Hello", CardModel.CardType.PLAYER);
+		this.controller.getPlayers().get(0).addCardToHandOfCards(cardToAdd1);
+		this.controller.getPlayers().get(0).addCardToHandOfCards(cardToAdd2);
+		assertEquals(2, this.controller.getPlayers().get(0).getCharacterModel().getHandSize());
+		
+		this.controller.removeEventCardFromHand(cardToAdd1);
+		assertEquals(1, this.controller.getPlayers().get(0).getCharacterModel().getHandSize());
 	}
 }

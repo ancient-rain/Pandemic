@@ -35,7 +35,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import cards.AbstractDeckCardController;
 import cards.CardModel;
+import cards.InfectionDeckCardController;
 import characters.AbstractCharacterController;
 import characters.CharacterFrontEndModel;
 import characters.CharacterModel;
@@ -216,7 +218,71 @@ public class GameView extends JFrame implements ActionListener {
 	private void getEventCardFromString(String eventCardString){
 		for(int i = 0; i < this.eventCards.size(); i++){
 			if(eventCardString.equals(eventCards.get(i).getName())){
+				if(eventCardString.equals("Airlift")){
+					selectPlayerToAirlift();
+				} else if(eventCardString.equals("Forecast")){
+					getTopCardsForForecast();
+				}
 				this.controller.playEventCard(eventCards.get(i));
+			}
+		}
+	}
+	
+	private void getTopCardsForForecast(){
+		InfectionDeckCardController infectionController = (InfectionDeckCardController) this.controller.getInfectionDeckController();
+		List<CardModel> listOfTopCards = infectionController.drawNumberOfCards(6);
+		CardModel firstSelectedCard = selectCardFromTopOfInfection(listOfTopCards);
+		listOfTopCards.remove(firstSelectedCard);
+		CardModel secondSelectedCard = selectCardFromTopOfInfection(listOfTopCards);
+		listOfTopCards.remove(secondSelectedCard);
+		CardModel thirdSelectedCard = selectCardFromTopOfInfection(listOfTopCards);
+		listOfTopCards.remove(thirdSelectedCard);
+		CardModel fourthSelectedCard = selectCardFromTopOfInfection(listOfTopCards);
+		listOfTopCards.remove(fourthSelectedCard);
+		CardModel fifthSelectedCard = selectCardFromTopOfInfection(listOfTopCards);
+		listOfTopCards.remove(fifthSelectedCard);
+		CardModel sixthSelectedCard = listOfTopCards.get(0);
+		
+		List<CardModel> cardsToAddToTop = new ArrayList<CardModel>();
+		cardsToAddToTop.add(sixthSelectedCard);
+		cardsToAddToTop.add(fifthSelectedCard);
+		cardsToAddToTop.add(fourthSelectedCard);
+		cardsToAddToTop.add(thirdSelectedCard);
+		cardsToAddToTop.add(secondSelectedCard);
+		cardsToAddToTop.add(firstSelectedCard);
+		
+		this.controller.addNewInfectionOrderCardsTotop(infectionController, cardsToAddToTop);
+		
+	}
+	
+	private CardModel selectCardFromTopOfInfection(List<CardModel> listOfTopCards) {
+		String[] topCardsArray = new String[listOfTopCards.size()];
+		for(int i = 0; i < listOfTopCards.size();i++){
+			topCardsArray[i] = listOfTopCards.get(i).getName();
+		}
+		
+		Object cardName = JOptionPane.showInputDialog(this, "Please select a card to place in order, it moves from the top of the deck down:", 
+				"Treat", JOptionPane.DEFAULT_OPTION, null, topCardsArray, topCardsArray[0]);
+		
+		return this.controller.cardNameToCard((String) cardName, listOfTopCards);
+	}
+
+	private void selectPlayerToAirlift(){
+		String[] playersToChoose = new String[this.controller.getPlayers().size()];
+		for(int i = 0; i < this.controller.getPlayers().size();i++){
+			playersToChoose[i] = controller.getPlayers().get(i).getCharacterModel().getName();
+		}
+		
+		Object playerString = JOptionPane.showInputDialog(this, "Select player to move:", 
+				"Airlift", JOptionPane.DEFAULT_OPTION, null, playersToChoose, playersToChoose[0]);
+		
+		getCharacterFromString((String) playerString);
+	}
+	
+	private void getCharacterFromString(String playerString){
+		for(int i = 0; i < this.players.size();i++){
+			if(this.controller.getPlayers().get(i).getCharacterModel().getName().equals(playerString)){
+				this.model.setCharacterToBeAirlifted(this.controller.getPlayers().get(i));
 			}
 		}
 	}
@@ -425,6 +491,7 @@ public class GameView extends JFrame implements ActionListener {
 			
 			if (inXBounds && inYBounds) {
 				this.selectedCity = city;
+				this.controller.getGameModel().setCityForEvent(city.getCityModel());
 				this.paintSelectedCity(this.getGraphics());
 			}
 		}
