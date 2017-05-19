@@ -98,10 +98,10 @@ public class GameView extends JFrame implements ActionListener {
 		this.selectedCity.setColor(CUSTOM_GRAY_1);
 		
 		this.addMouseListener(new MouseListener() {
-			public void mouseReleased(MouseEvent e) {}
-			public void mouseEntered(MouseEvent e) {}
-			public void mouseExited(MouseEvent e) {}
-			public void mouseClicked(MouseEvent e) {}
+			public void mouseReleased(MouseEvent event) {}
+			public void mouseEntered(MouseEvent event) {}
+			public void mouseExited(MouseEvent event) {}
+			public void mouseClicked(MouseEvent event) {}
 
 			@Override
 			public void mousePressed(MouseEvent click) {
@@ -176,7 +176,8 @@ public class GameView extends JFrame implements ActionListener {
 			Object button = event.getSource();
 			
 			if (button == this.moveButton) {
-				this.controller.moveCharacter(this.controller.getCurrentPlayer(), this.selectedCity.getCityModel());
+				this.controller.moveCharacter(this.controller.getCurrentPlayer(), 
+						this.selectedCity.getCityModel());
 			} else if (button == this.treatButton) {
 				treat();
 			} else if (button == this.cureButton) {
@@ -202,7 +203,8 @@ public class GameView extends JFrame implements ActionListener {
 			}
 			
 			Object cardString = JOptionPane.showInputDialog(this, SELECT_EVENT_CARD, 
-					EVENTS, JOptionPane.DEFAULT_OPTION, null, eventCardsToPlay, eventCardsToPlay[0]);
+					EVENTS, JOptionPane.DEFAULT_OPTION, null, eventCardsToPlay, 
+					eventCardsToPlay[0]);
 			
 			getEventCardFromString((String) cardString);
 			
@@ -850,13 +852,15 @@ public class GameView extends JFrame implements ActionListener {
 		Color cityColor = this.selectedCity.getColor();
 		Color color = getColor(cityColor, true);
 		int xloc = SELECTED_CITY_X + (SELECTED_CITY_WIDTH - metrics.stringWidth(name)) / 2;
-		int yloc = SELECTED_CITY_Y + ((SELECTED_CITY_HEIGHT - metrics.getHeight()) / 2) + metrics.getAscent();
+		int yloc = SELECTED_CITY_Y + ((SELECTED_CITY_HEIGHT - metrics.getHeight()) / 2) + 
+				metrics.getAscent();
 
 		if (!this.isSelectedCitySet) {
 			color = CUSTOM_GRAY_1;
 			name = NO_SELECTED_CITY;
 			xloc = SELECTED_CITY_X + (SELECTED_CITY_WIDTH - metrics.stringWidth(name)) / 2;
-			yloc = SELECTED_CITY_Y + ((SELECTED_CITY_HEIGHT - metrics.getHeight()) / 2) + metrics.getAscent();
+			yloc = SELECTED_CITY_Y + ((SELECTED_CITY_HEIGHT - metrics.getHeight()) / 2) + 
+					metrics.getAscent();
 			
 			this.isSelectedCitySet = true;
 		}

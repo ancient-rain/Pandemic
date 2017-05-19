@@ -102,7 +102,8 @@ public class QuarentineSpecialistCharacterControllerTests {
 		
 		Set<CityModel> previousNeighboringCities = previousCity.getNeighbors();
 		assertFalse(previousCity.isQuarentined());
-		ArrayList<CityModel> previousNeighboringCitiesList = new ArrayList<CityModel>(previousNeighboringCities);
+		ArrayList<CityModel> previousNeighboringCitiesList = 
+				new ArrayList<CityModel>(previousNeighboringCities);
 		for(int i = 0; i < previousNeighboringCitiesList.size(); i++){
 			assertFalse(previousNeighboringCitiesList.get(i).isQuarentined());
 		}
