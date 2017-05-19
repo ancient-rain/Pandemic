@@ -59,8 +59,4 @@ public class Card {
 	final static String RESEARCHER_CARD = "images/characters/cards/researcher.png";
 	final static String SCIENTIST_CARD = "images/characters/cards/scientist.png";
 	final static String OPERATIONS_EXPERT_CARD = "images/characters/cards/operationsExpert.png";
-
-	public static final List<String> CHARACTERS_CARD_LIST = new ArrayList<>(
-			Arrays.asList(MEDIC_CARD, DISPATCHER_CARD, QUARANTINE_SPECIALIST_CARD, CONTINGENCY_PLANNER_CARD,
-					RESEARCHER_CARD, SCIENTIST_CARD, OPERATIONS_EXPERT_CARD));
 }
