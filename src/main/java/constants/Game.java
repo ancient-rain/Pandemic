@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+
 public class Game {
 	public final static GridLayout CARD_LAYOUT = new GridLayout(2, 4);
 	
@@ -112,11 +113,21 @@ public class Game {
 	public static String BACK = "Back";
 	public static String PROCEED = "Proceed";
 
-
 	public static String INFECTION_DECK = "Infection Deck";
 	public static String PLAYER_DECK = "Player Deck";
 	public static String DISCARD_PILE = "Discard Pile";
-
+	
+	public static String MEDIC = "Medic";
+	public static String DISPATCHER = "Dispatcher";
+	public static String QUARANTINE_SPECIALIST = "Quarantine Specialist";
+	public static String CONTINGENCY_PLANNER = "Contingency Planner";
+	public static String RESEARCHER = "Researcher";
+	public static String SCIENTIST = "Scientist";
+	public static String OPERATIONS_EXPERT = "Operations Expert";
+	
+	public static final List<String> CHARACTERS_NAME_LIST = new ArrayList<>(Arrays.asList(MEDIC, DISPATCHER,
+			QUARANTINE_SPECIALIST, CONTINGENCY_PLANNER, RESEARCHER, SCIENTIST, OPERATIONS_EXPERT));
+	
 	public static String MOVE_BUTTON = "Move";
 	public static String TREAT_BUTTON = "Treat";
 	public static String CURE_BUTTON = "Cure";
@@ -145,17 +156,6 @@ public class Game {
 	public static String NO_SHARE_SELF = "You do not want to share with yourself";
 	public static String GAME_OVER = "GAME OVER";
 	public static String YOU_WON = "YOU WON!";
-	
-	public static String CONTINGENCY_PLANNER = "Contingency Planner";
-	public static String DISPATCHER = "Dispatcher";
-	public static String MEDIC = "Medic";
-	public static String OPERATIONS_EXPERT = "Operations Expert";
-	public static String QUARANTINE_SPECIALIST = "Quarantine Specialist";
-	public static String RESEARCHER = "Researcher";
-	public static String SCIENTIST = "Scientist";
-	
-	public static final List<String> CHARACTERS_NAME_LIST = new ArrayList<>(Arrays.asList(MEDIC, DISPATCHER,
-			QUARANTINE_SPECIALIST, CONTINGENCY_PLANNER, RESEARCHER, SCIENTIST, OPERATIONS_EXPERT));
 
 	public static String LOST = "You Lost!";
 	public static String LOST_GAME = "Lost Game!";

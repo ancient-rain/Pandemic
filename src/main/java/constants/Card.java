@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-
 public class Card {
 	public final static Dimension CARD_SIZE = new Dimension(121, 69);
 
@@ -64,6 +63,7 @@ public class Card {
 	public static final List<String> CHARACTERS_CARD_LIST = new ArrayList<>(
 			Arrays.asList(MEDIC_CARD, DISPATCHER_CARD, QUARANTINE_SPECIALIST_CARD, CONTINGENCY_PLANNER_CARD,
 					RESEARCHER_CARD, SCIENTIST_CARD, OPERATIONS_EXPERT_CARD));
+
 	
 	public static void updateConstants(ResourceBundle resourceBundle) {
 		EPIDEMIC = resourceBundle.getString("EPIDEMIC");
