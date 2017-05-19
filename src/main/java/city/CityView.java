@@ -2,6 +2,9 @@ package city;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -11,6 +14,9 @@ import static constants.City.*;
 import static constants.Game.OFFSET_1;
 import static constants.Game.OFFSET_2;
 import static constants.Game.OFFSET_40;
+import static constants.Game.CUSTOM_GRAY_2;
+import static constants.Game.FONT;
+import static constants.Game.FONT2;
 
 public class CityView {
 	CityController controller;
@@ -88,22 +94,23 @@ public class CityView {
 	}
 	
 	private void paintAcrossWorldNeighbors(Graphics gr) {
-		CityFrontEndModel fakeSydneyToLA = new CityFrontEndModel(1940, 630);
+		Graphics2D gr2D = (Graphics2D) gr;
+		CityFrontEndModel fakeSydneyToLA = new CityFrontEndModel(1905, 630);
 		CityFrontEndModel fakeLAToSydney = new CityFrontEndModel(196, 630);
-		CityFrontEndModel fakeTokyoToSF = new CityFrontEndModel(1940, 368);
+		CityFrontEndModel fakeTokyoToSF = new CityFrontEndModel(1905, 368);
 		CityFrontEndModel fakeSFToTokyo = new CityFrontEndModel(196, 368);
-		CityFrontEndModel fakeManilaToSF = new CityFrontEndModel(1940, 487);
+		CityFrontEndModel fakeManilaToSF = new CityFrontEndModel(1905, 487);
 		CityFrontEndModel fakeSFToManila = new CityFrontEndModel(196, 487);
 		CityFrontEndModel sydney = this.citiesToDraw.get(SYDNEY);
 		CityFrontEndModel la = this.citiesToDraw.get(LOS_ANGELES);
 		CityFrontEndModel tokyo = this.citiesToDraw.get(TOKYO);
 		CityFrontEndModel sf = this.citiesToDraw.get(SAN_FRANCISCO);
 		CityFrontEndModel manila = this.citiesToDraw.get(MANILA);
-
+		
 		gr.drawLine(fakeSydneyToLA.getX() + DELTA, fakeSydneyToLA.getY() + DELTA,
 				sydney.getX() + DELTA, sydney.getY() + DELTA);
 		gr.drawLine(fakeLAToSydney.getX() + DELTA, fakeLAToSydney.getY() + DELTA,
-				la.getX() + DELTA, la.getY() + DELTA);
+				la.getX() + DELTA, la.getY() + DELTA);		
 		gr.drawLine(fakeTokyoToSF.getX() + DELTA, fakeTokyoToSF.getY() + DELTA,
 				tokyo.getX() + DELTA, tokyo.getY() + DELTA);
 		gr.drawLine(fakeSFToTokyo.getX() + DELTA, fakeSFToTokyo.getY() + DELTA,
@@ -112,6 +119,25 @@ public class CityView {
 				manila.getX() + DELTA, manila.getY() + DELTA);
 		gr.drawLine(fakeSFToManila.getX() + DELTA, fakeSFToManila.getY() + DELTA,
 				sf.getX() + DELTA, sf.getY() + DELTA);
+		
+		gr2D.setFont(FONT2);
+		gr2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
+				RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+		gr2D.setColor(CUSTOM_GRAY_2);
+		
+		gr2D.drawString(la.getCityModel().getName(), fakeSydneyToLA.getX() - 3 * CITY_RADIUS,
+				fakeSydneyToLA.getY() + CITY_RADIUS);
+		gr2D.drawString(sydney.getCityModel().getName(), fakeLAToSydney.getX() + CITY_RADIUS,
+				fakeLAToSydney.getY() + CITY_RADIUS);
+		gr2D.drawString(sf.getCityModel().getName(), fakeTokyoToSF.getX() - 3 * CITY_RADIUS,
+				fakeTokyoToSF.getY() + CITY_RADIUS);
+		gr2D.drawString(tokyo.getCityModel().getName(), fakeSFToTokyo.getX() + CITY_RADIUS,
+				fakeSFToTokyo.getY() + CITY_RADIUS);
+		gr2D.drawString(sf.getCityModel().getName(), fakeManilaToSF.getX() - 3 * CITY_RADIUS,
+				fakeManilaToSF.getY() + CITY_RADIUS - 10);
+		gr2D.drawString(manila.getCityModel().getName(), fakeSFToManila.getX() + CITY_RADIUS,
+				fakeSFToManila.getY() + CITY_RADIUS);
+		gr2D.setFont(FONT);
 	}
 	
 	private void paintCityLocations(Graphics gr) {

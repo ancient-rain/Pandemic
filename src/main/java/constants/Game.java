@@ -30,6 +30,7 @@ public class Game {
 	public final static int TEXT_SIZE = 12;
 
 	public final static Font FONT = new Font("Dialog", Font.BOLD, TEXT_SIZE);
+	public final static Font FONT2 = new Font("Dialog", Font.BOLD, 9);
 
 	public final static int TOP_PANEL_TEXT_Y = 75;
 
@@ -69,10 +70,12 @@ public class Game {
 	public final static int SECOND_PLAYER_INDEX = 1;
 	public final static int THIRD_PLAYER_INDEX = 2;
 
-	final static int PLAYER_ONE = 1;
-	final static int PLAYER_TWO = 2;
-	final static int PLAYER_THREE = 3;
-	final static int PLAYER_FOUR = 4;
+	public final static int FORECAST_CARDS = 6;
+	public final static int MAX_CARDS = 7;
+	public final static int MAX_NUM_OUTBREAKS = 7;
+	public final static int NUM_INFECTIONS = 4;
+	public final static int ACTION_COUNT = 4;
+	public final static int MAX_RESEARCH_COUNT = 6;
 
 	public final static int TWO_PLAYERS = 2;
 	public final static int THREE_PLAYERS = 3;
@@ -177,15 +180,17 @@ public class Game {
 	public static String EVENT_CARD = "Choose Event";
 	public static String SELECT_EVENT_CARD = "Select and event card to play:";
 	public static String NO_EVENT_CARDS = "There are no event cards to play!";
-	
+
+	public static String FORECAST_INFO = "Selected card will be placed on top of the deck:";
+	public static String SELECT_PLAYER_TO_MOVE = "Select player to move:";
+	public static String SELECT_INFECTION_CARD = "Select a card to remove from the infection discard deck";
+
 	public static String PLAYER_NAME = "Player Name";
 	public static String ENTER_PLAYER_NAME = "Enter the name for Player";
 	public static String SELECT_CHARACTER = "Select Character";
-	// here
-	public static String SELECT_CARD_FROM_INFECTION = "Select card to remove from infectoin deck: ";
-	public static String SELECT_CART_PLACED_ON_TOP = "Selected card will be placed on top of the deck:";
-	public static String SELECT_PLAYER_TO_MOVE = "Select player to move:";
-	
+	public static String SELECT_CARD_FROM_INFECTION = "Select card to remove from infection deck: ";
+	public static String SELECT_CARD_PLACED_ON_TOP = "Selected card will be placed on top of the deck:";
+
 	public static void updateConstants(ResourceBundle resourceBundle) {
 		INFECTION_DECK = resourceBundle.getString("INFECTION_DECK");
 		PLAYER_DECK = resourceBundle.getString("PLAYER_DECK");
@@ -240,7 +245,32 @@ public class Game {
 		PROCEED = resourceBundle.getString("PROCEED");
 		
 		SELECT_CARD_FROM_INFECTION = resourceBundle.getString("SELECT_CARD_FROM_INFECTION");
-		SELECT_CART_PLACED_ON_TOP = resourceBundle.getString("SELECT_CART_PLACED_ON_TOP");
+		SELECT_CARD_PLACED_ON_TOP = resourceBundle.getString("SELECT_CARD_PLACED_ON_TOP");
 		SELECT_PLAYER_TO_MOVE = resourceBundle.getString("SELECT_PLAYER_TO_MOVE");
+		
+		LOST = resourceBundle.getString("LOST");
+		LOST_GAME = resourceBundle.getString("LOST_GAME");
+		WON = resourceBundle.getString("WON");
+		WON_GAME = resourceBundle.getString("WON_GAME");
+
+		SELECT_DISEASE_TO_TREAT = resourceBundle.getString("SELECT_DISEASE_TO_TREAT");
+		NO_DISEASES_TO_TREAT = resourceBundle.getString("NO_DISEASES_TO_TREAT");
+
+		CURE = resourceBundle.getString("CURE");
+		SELECT_DISEASE_TO_CURE = resourceBundle.getString("SELECT_DISEASE_TO_CURE");
+		ALREADY_ERADICATED = resourceBundle.getString("ALREADY_ERADICATED");
+		ALREADY_CURED = resourceBundle.getString("ALREADY_CURED");
+		NOT_ENOUGH_CARDS_TO_CURE = resourceBundle.getString("NOT_ENOUGH_CARDS_TO_CURE");
+		SELECT_CARD_TO_KEEP = resourceBundle.getString("SELECT_CARD_TO_KEEP"); 
+		NOT_AT_RESEARCH_STATION = resourceBundle.getString("NOT_AT_RESEARCH_STATION");
+
+		EVENT_CARD = resourceBundle.getString("EVENT_CARD");
+
+		FORECAST_INFO = resourceBundle.getString("FORECAST_INFO");
+		SELECT_INFECTION_CARD = resourceBundle.getString("SELECT_INFECTION_CARD");
+
+		PLAYER_NAME = resourceBundle.getString("PLAYER_NAME");
+		ENTER_PLAYER_NAME = resourceBundle.getString("ENTER_PLAYER_NAME");
+		SELECT_CHARACTER = resourceBundle.getString("SELECT_CHARACTER");
 	}
 }

@@ -1,7 +1,6 @@
 package constants;
 
 import java.awt.Color;
-import java.util.ResourceBundle;
 
 public class Character {
 	public final static int PLAYER_HAND_HEIGHT = 20;

@@ -79,9 +79,13 @@ public class CharacterMenu {
 	private String enterPlayerName(int count) {
 		String playerName = "";
 		
-		while (playerName == null|| playerName.equals("")) {
+		while (playerName.equals("")) {
 			playerName = JOptionPane.showInputDialog(null, ENTER_PLAYER_NAME + count + ":",
 					PLAYER_NAME, JOptionPane.INFORMATION_MESSAGE);
+			
+			if (playerName == null) {
+				System.exit(0);
+			}
 		}
 		
 		return playerName;

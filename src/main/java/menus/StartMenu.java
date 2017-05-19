@@ -139,15 +139,15 @@ public class StartMenu {
 
 	private String getConfirmTitle() {
 		String title = PROCEED_WITH;
-		String currentPlayers =  this.numPlayers + PLAYERS_AT;
+		String currentPlayers =  this.numPlayers + " " + PLAYERS_AT;
 		String currentDifficulty = "";
 
 		if (this.difficulty == INTRODUCTORY_DIFFICULTY) {
-			currentDifficulty = INTRODUCTORY.toUpperCase() + DIFFICULTY;
+			currentDifficulty = INTRODUCTORY.toUpperCase() + " " + DIFFICULTY;
 		} else if (this.difficulty == STANDARD_DIFFICULTY) {
-			currentDifficulty = STANDARD.toUpperCase() + DIFFICULTY;
+			currentDifficulty = STANDARD.toUpperCase() + " " + DIFFICULTY;
 		} else {
-			currentDifficulty = HEROIC.toUpperCase() + DIFFICULTY;
+			currentDifficulty = HEROIC.toUpperCase() + " " + DIFFICULTY;
 		}
 		
 		title += currentPlayers;
