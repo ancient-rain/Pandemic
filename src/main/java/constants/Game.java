@@ -245,5 +245,30 @@ public class Game {
 		SELECT_CARD_FROM_INFECTION = resourceBundle.getString("SELECT_CARD_FROM_INFECTION");
 		SELECT_CARD_PLACED_ON_TOP = resourceBundle.getString("SELECT_CARD_PLACED_ON_TOP");
 		SELECT_PLAYER_TO_MOVE = resourceBundle.getString("SELECT_PLAYER_TO_MOVE");
+		
+		LOST = resourceBundle.getString("LOST");
+		LOST_GAME = resourceBundle.getString("LOST_GAME");
+		WON = resourceBundle.getString("WON");
+		WON_GAME = resourceBundle.getString("WON_GAME");
+
+		SELECT_DISEASE_TO_TREAT = resourceBundle.getString("SELECT_DISEASE_TO_TREAT");
+		NO_DISEASES_TO_TREAT = resourceBundle.getString("NO_DISEASES_TO_TREAT");
+
+		CURE = resourceBundle.getString("CURE");
+		SELECT_DISEASE_TO_CURE = resourceBundle.getString("SELECT_DISEASE_TO_CURE");
+		ALREADY_ERADICATED = resourceBundle.getString("ALREADY_ERADICATED");
+		ALREADY_CURED = resourceBundle.getString("ALREADY_CURED");
+		NOT_ENOUGH_CARDS_TO_CURE = resourceBundle.getString("NOT_ENOUGH_CARDS_TO_CURE");
+		SELECT_CARD_TO_KEEP = resourceBundle.getString("SELECT_CARD_TO_KEEP"); 
+		NOT_AT_RESEARCH_STATION = resourceBundle.getString("NOT_AT_RESEARCH_STATION");
+
+		EVENT_CARD = resourceBundle.getString("EVENT_CARD");
+
+		FORECAST_INFO = resourceBundle.getString("FORECAST_INFO");
+		SELECT_INFECTION_CARD = resourceBundle.getString("SELECT_INFECTION_CARD");
+
+		PLAYER_NAME = resourceBundle.getString("PLAYER_NAME");
+		ENTER_PLAYER_NAME = resourceBundle.getString("ENTER_PLAYER_NAME");
+		SELECT_CHARACTER = resourceBundle.getString("SELECT_CHARACTER");
 	}
 }
