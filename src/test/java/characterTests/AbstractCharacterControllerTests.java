@@ -60,7 +60,7 @@ public class AbstractCharacterControllerTests {
 											infectionDeckController);
 
 		
-		String characterName = "CharacterName";
+		String characterName = "Medic";
 		this.blueDisease = diseaseController.getBlueDisease();
 		this.redDisease = diseaseController.getRedDisease();
 		
@@ -354,8 +354,10 @@ public class AbstractCharacterControllerTests {
 	@Test
 	public void testTreatIsCuredWith24Cubes(){
 		this.blueDisease.setCured(true);
-		this.blueDisease.setCubesLeft(24);
-		this.characterController.treat(this.blueDisease);
+		for(CityModel city : this.cityController.getCities()){
+			this.characterController.moveWithoutCard(city);
+			this.characterController.treat(this.blueDisease);
+		}
 		
 		assertTrue(this.blueDisease.isEradicated());
 		assertEquals(0, this.character.getCurrentCity().getCubesByDisease(this.blueDisease));
@@ -375,7 +377,8 @@ public class AbstractCharacterControllerTests {
 	
 	@Test
 	public void testVerifyCureFiveCardsTrue(){
-		Set<CardModel> cardsToCure = developCardSet(5);
+		this.character.setHasResearchStationAtCurrentCity(true);
+		Set<CardModel> cardsToCure = developCardSet(5, this.blueDisease);
 		assertTrue(characterController.verifyCure(cardsToCure, this.blueDisease));
 	}
 	
@@ -399,26 +402,46 @@ public class AbstractCharacterControllerTests {
 	}
 	
 	@Test
+	public void testVerifyCureFiveCardsNotInHand(){
+		Set<CardModel> cardsToCure = developCardSetNoHandAdd(4);
+		cardsToCure.add(new CardModel("", CardModel.CardType.PLAYER));
+		this.blueDisease.setCured(true);
+		assertFalse(characterController.verifyCure(cardsToCure, this.blueDisease));
+	}
+	
+	@Test
+	public void testVerifyCureFiveCardsNotAlreadyCured(){
+		Set<CardModel> cardsToCure = developCardSetNoHandAdd(5);
+		this.blueDisease.setCured(false);
+		assertFalse(characterController.verifyCure(cardsToCure, this.blueDisease));
+	}
+	
+	@Test
 	public void testVerifyDiseaseCanBeTreatedFalse(){
 		this.characterController.getCharactersCurrentCity().setCubesByDisease(this.blueDisease, 0);
 		assertFalse(this.characterController.verifyDiseaseCanBeTreated(this.blueDisease));
 	}
 	
 	
-	private Set<CardModel> developCardSet(int numCards) {
-		Set<CityModel> setOfCities = cityController.getCities();
-		this.listOfCities = new ArrayList<CityModel>(setOfCities);
-		
+	private Set<CardModel> developCardSet(int numCards, DiseaseModel disease) {
 		Set<CardModel> cardsToCure = new HashSet<CardModel>();
-		for(int i = 0; i < numCards; i++){
-			CityModel cityToAdd = listOfCities.get(i);
-			this.characterController.addCardToHandOfCards(this.cityToCardMap.get(cityToAdd));
-			cardsToCure.add(this.cityToCardMap.get(cityToAdd));
+		int count = 0;
+		
+		for(CityModel cityToAdd : cityController.getCities()){
+			if(cityToAdd.getPrimaryDisease().equals(disease)){
+				this.characterController.addCardToHandOfCards(this.cityToCardMap.get(cityToAdd));
+				cardsToCure.add(this.cityToCardMap.get(cityToAdd));
+				count ++;
+				
+				if(count == numCards){
+					return cardsToCure;
+				}
+			}
 		}
 		
 		return cardsToCure;
 	}
-	String helloWorld;
+
 	private Set<CardModel> developCardSetNoHandAdd(int numCards) {
 		Set<CityModel> setOfCities = cityController.getCities();
 		this.listOfCities = new ArrayList<CityModel>(setOfCities);
