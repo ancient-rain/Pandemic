@@ -139,7 +139,6 @@ public class StartMenu {
 
 	private String getConfirmTitle() {
 		String title = PROCEED_WITH;
-
 		String currentPlayers =  this.numPlayers + " " + PLAYERS_AT;
 		String currentDifficulty = "";
 
