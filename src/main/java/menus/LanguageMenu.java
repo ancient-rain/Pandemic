@@ -1,7 +1,5 @@
 package menus;
 
-import java.awt.Color;
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -22,7 +20,7 @@ public class LanguageMenu {
 		panel.add(new JLabel(constants.Game.LOCALE_INFO));
 		JComboBox localeBox = new JComboBox();
 		localeBox.addItem("English");
-		localeBox.addItem("Français");
+		localeBox.addItem("French");
 		panel.add(localeBox);
 		
 		String[] languageLocaleList = new String[2];
@@ -41,7 +39,7 @@ public class LanguageMenu {
 	}
 	
 	public void updateLocale() {
-		if(location.equals("France")){
+		if(location.equals("French")){
 			this.locale = locale.FRANCE;
 		}
 		updateResources();
