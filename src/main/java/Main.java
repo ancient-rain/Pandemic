@@ -13,6 +13,7 @@ import diseases.DiseaseModel;
 import game.GameController;
 import game.GameModel;
 import game.GameView;
+import menus.StartMenu;
 
 import static constants.Card.*;
 import static constants.Game.*;
@@ -23,8 +24,15 @@ import static constants.Character.*;
 public class Main {
 	
 	public static void main(String [] args) {
+<<<<<<< HEAD
 		LanguageMenu languageMenu = new LanguageMenu();
 		languageMenu.selectLocale();
+=======
+		StartMenu startMenu = new StartMenu();
+		
+		startMenu.showOptions();
+//		startMenu.viewMenu();
+>>>>>>> First stage of StartMenu completed
 		
 		GameModel gameModel = new GameModel();
 		DiseaseController diseaseController = new DiseaseController();
