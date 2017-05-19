@@ -964,26 +964,7 @@ public class GameControllerTests {
 		assertEquals(null, this.controller.cardNameToCard(cardName, listOfTopCards));
 	
 	}
-	
-	@Test
-	public void testAddNewInfectionOrderCardsToTop(){
-		InfectionDeckCardController infectionController = (InfectionDeckCardController) this.infectionDeckController;
-		String cardName = this.listOfCities.get(0).getName();
-		ArrayList<CardModel> listOfTopCards = new ArrayList<CardModel>();
-		CardModel testCity1 = new CardModel("notBob", CardModel.CardType.PLAYER);
-		CardModel testCity2 = new CardModel("Hello", CardModel.CardType.PLAYER);
-		CardModel testCity3 = new CardModel("myname", CardModel.CardType.PLAYER);
-		CardModel testCity4 = new CardModel("isbob", CardModel.CardType.PLAYER);
-		listOfTopCards.add(testCity1);
-		listOfTopCards.add(testCity2);
-		listOfTopCards.add(testCity3);
-		listOfTopCards.add(testCity4);
 		
-		assertEquals(39, infectionController.getNumberOfCardsInDeck());
-		this.controller.addNewInfectionOrderCardsTotop(infectionController, listOfTopCards);
-		assertEquals(43, infectionController.getNumberOfCardsInDeck());
-	}
-	
 	@Test
 	public void testRemoveEventCardFromHand(){
 		CardModel cardToAdd1 = new CardModel("notBob", CardModel.CardType.PLAYER);

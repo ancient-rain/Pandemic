@@ -44,8 +44,7 @@ public abstract class AbstractCharacterController {
 	}
 	
 	public boolean verifyMoveWithCard(CityModel cityToMoveTo, CardModel cardToMoveWith){
-		return cardToMoveWith.sharesName(this.getCharactersCurrentCity()) 
-				|| cardToMoveWith.sharesName(cityToMoveTo);
+		return cardToMoveWith.sharesName(this.getCharactersCurrentCity()) || cardToMoveWith.sharesName(cityToMoveTo);
 	}
 	
 	public void moveWithCard(CityModel cityToMoveTo, CardModel cardToMoveWith){
@@ -70,7 +69,10 @@ public abstract class AbstractCharacterController {
 		}
 	}
 	
-	public boolean verifyCure(Set<CardModel> cardsToCureWith, DiseaseModel diseaseToCure){
+	public boolean verifyCure(Set<CardModel> cardsToCureWith, DiseaseModel diseaseToCure) {
+		if (!this.character.isAtResearchStation()) {
+			return false;
+		}
 		if(cardsToCureWith.size() < 5 || diseaseToCure.isCured()){
 			return false;
 		}
