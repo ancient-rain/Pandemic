@@ -492,8 +492,8 @@ public class GameControllerTests {
 		CityModel nextCity = iter.next();
 		CardModel card = new CardModel("Airlift", CardModel.CardType.EVENT);
 		
-		this.controller.getGameModel().setCharacterToBeAirlifted(playerController);
-		this.controller.getGameModel().setCityForEvent(nextCity);
+		this.controller.getGameModel().setSelectedCharacter(playerController);
+		this.controller.getGameModel().setSelectedCity(nextCity);
 		
 		assertTrue(this.controller.playEventCard(card));
 		
@@ -507,7 +507,7 @@ public class GameControllerTests {
 		CityModel nextCity = iter.next();
 		CardModel card = new CardModel("Government Grant", CardModel.CardType.EVENT);
 		
-		this.controller.getGameModel().setCityForEvent(nextCity);
+		this.controller.getGameModel().setSelectedCity(nextCity);
 		
 		assertFalse(this.controller.getCityController().getCityByName(nextCity.getName()).hasResearchStation());
 		
@@ -872,7 +872,7 @@ public class GameControllerTests {
 		this.cityController.setResearchStationCounter(6);
 		CardModel card = new CardModel("Government Grant", CardModel.CardType.EVENT);
 		
-		this.controller.getGameModel().setCityForEvent(nextCity);
+		this.controller.getGameModel().setSelectedCity(nextCity);
 		
 		assertFalse(this.controller.getCityController().getCityByName(nextCity.getName()).hasResearchStation());
 		
@@ -889,7 +889,7 @@ public class GameControllerTests {
 		nextCity.setHasResearchStation(true);
 		CardModel card = new CardModel("Government Grant", CardModel.CardType.EVENT);
 		
-		this.controller.getGameModel().setCityForEvent(nextCity);
+		this.controller.getGameModel().setSelectedCity(nextCity);
 		
 		assertTrue(this.controller.getCityController().getCityByName(nextCity.getName()).hasResearchStation());
 		
