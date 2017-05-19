@@ -221,21 +221,35 @@ public class GameController {
 	public boolean playEventCard(CardModel eventCardToPlay){
 		String role = eventCardToPlay.getName();
 		if(role.equals("Airlift")) {
+			removeEventCardFromHand(eventCardToPlay);
 			return this.playAirlift(this.gameModel.getCharacterToBeAirlifted(), 
 					this.gameModel.getCityForEvent());
 		} else if(role.equals("Forecast")) {
+			removeEventCardFromHand(eventCardToPlay);
 			return this.playForecast();
 		} else if(role.equals("Government Grant")) {
+			removeEventCardFromHand(eventCardToPlay);
 			return this.playGovernmentGrant(this.gameModel.getCityForEvent());
 		} else if(role.equals("One Quiet Night")){
+			removeEventCardFromHand(eventCardToPlay);
 			return this.playOneQuietNight();
 		} else if(role.equals("Resilient Population")){
+			removeEventCardFromHand(eventCardToPlay);
 			return this.playResilientPopulation(this.gameModel.getCardToRemoveFromInfectionDeck());
 		} else {
 			return false;
 		}
 	}
 	
+	public void removeEventCardFromHand(CardModel eventCardToPlay) {
+		for(int i = 0; i < this.getPlayers().size(); i++){
+			if(this.getPlayers().get(i).getCharacterModel().getHandOfCards().contains(eventCardToPlay)){
+				this.getPlayers().get(i).getCharacterModel().removeCardFromHandOfCards(eventCardToPlay);
+			}
+		}
+		
+	}
+
 	private boolean playAirlift(AbstractCharacterController characterToMove, CityModel cityToMoveTo){
 		characterToMove.getCharacterModel().setCurrentCity(cityToMoveTo);
 		return true;
@@ -320,5 +334,21 @@ public class GameController {
 
 	public void setInfectionDeck(InfectionDeckCardController infDeckController) {
 		this.infectionDeckController = infDeckController;
+	}
+	
+	public CardModel cardNameToCard(String cardName, List<CardModel> listOfTopCards) {
+		for(int i = 0; i < listOfTopCards.size();i++){
+			if(listOfTopCards.get(i).getName().equals(cardName)){
+				return listOfTopCards.get(i);
+			}
+		}
+		return null;
+	}
+	
+	public void addNewInfectionOrderCardsTotop(InfectionDeckCardController infectionController, List<CardModel> cardsToAddToTop){
+		for(int i = 0; i < cardsToAddToTop.size();i++){
+			infectionController.addToTop(cardsToAddToTop.get(i));
+		}
+		
 	}
 }
