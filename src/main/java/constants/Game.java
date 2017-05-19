@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 
 public class Game {
+	public final static Dimension START_MENU_SIZE = new Dimension(660, 192);
 	public final static Dimension GAME_BOARD_SIZE = new Dimension(1920, 1040);
 	public final static Dimension PLAYER_HEADER_SIZE = new Dimension(190, 65);
 	public final static Dimension SPACER = new Dimension(180, 30);
@@ -33,6 +34,7 @@ public class Game {
 	public final static int SELECTED_CITY_WIDTH = 180;
 	public final static int SELECTED_CITY_HEIGHT = 45;
 	
+	public final static int OFFSET_0 = 0;
 	public final static int OFFSET_1 = 1;
 	public final static int OFFSET_2 = 2;
 	public final static int OFFSET_5 = 5;
@@ -66,7 +68,11 @@ public class Game {
 	
 	public final static int TWO_PLAYERS = 2;
 	public final static int THREE_PLAYERS = 3;
-	final static int FOUR_PLAYERS = 4;
+	public final static int FOUR_PLAYERS = 4;
+	
+	public final static int INTRODUCTORY_DIFFICULTY = 4;
+	public final static int STANDARD_DIFFICULTY = 5;
+	public final static int HEROIC_DIFFICULTY = 6;
 	
 	public final static String MAP_IMG = "images/map.png";
 	public final static String BIOHAZARD_IMG = "images/biohazard.PNG";
@@ -76,6 +82,30 @@ public class Game {
 	public final static String RESEARCH_STATION_IMG = "images/researchStation.png";
 	public final static String BMP_FILE = ".bmp";
 	public final static String PNG_FILE = ".png";
+	
+	public final static String INTRODUCTORY = "Introductory";
+	public final static String STANDARD = "Standard";
+	public final static String HEROIC = "Heroic";
+	
+	public static String START_GAME_WITH = "Start game with ";
+	public static String AT_STRING = " at ";
+	public static String PLAYERS_STRING = " players ";
+	public static String DIFFICULTY = " difficulty";
+	
+	public static String SELECT_NUM_PLAYERS = "Select the number of players: ";
+	public static String SELECT_GAME_DIFFICULTY = "Select the game difficulty: ";
+	public static String PLAY = "Play";
+	public static String RULES_BUTTON = "Rules";
+	public static String EXIT = "Exit";
+	public static String TWO_PLAYERS_BUTTON = "Two Players";
+	public static String THREE_PLAYERS_BUTTON = "Three Players";
+	public static String FOUR_PLAYERS_BUTTON = "Four Players";
+	public static String BACK = "Back";
+	public static String INTRODUCTORY_BUTTON = "Introductory";
+	public static String STANDARD_BUTTON = "Standard";
+	public static String HEROIC_BUTTON = "Heroic";
+	public static String START_BUTTON = "Start";
+
 	
 	public static String INFECTION_DECK = "Infection Deck";
 	public static String PLAYER_DECK = "Player Deck";

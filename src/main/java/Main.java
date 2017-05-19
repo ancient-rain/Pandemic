@@ -13,10 +13,16 @@ import diseases.DiseaseModel;
 import game.GameController;
 import game.GameModel;
 import game.GameView;
+import menus.StartMenu;
 
 public class Main {
 	
 	public static void main(String [] args) {
+		StartMenu startMenu = new StartMenu();
+		
+		startMenu.showOptions();
+//		startMenu.viewMenu();
+		
 		GameModel gameModel = new GameModel();
 		DiseaseController diseaseController = new DiseaseController();
 		CityController cityController = new CityController(diseaseController);
