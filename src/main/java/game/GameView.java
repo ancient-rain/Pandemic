@@ -225,7 +225,7 @@ public class GameView extends JFrame implements ActionListener {
 				} else if (eventCardString.equals(RESILIENT_POPULATION)) {
 					playEvent = selectInfectionCardToRemove();
 				} else if (eventCardString.equals(GOVERNMENT_GRANT)) {
-					playEvent = this.model.getCityForEvent() != null;
+					playEvent = this.model.getSelectedCity() != null;
 				}
 				
 				if (playEvent) {
@@ -312,7 +312,7 @@ public class GameView extends JFrame implements ActionListener {
 		String playerString = (String) JOptionPane.showInputDialog(this, SELECT_PLAYER_TO_MOVE, 
 				AIRLIFT, JOptionPane.DEFAULT_OPTION, null, playersToChoose, playersToChoose[0]);
 		
-		if (playerString != null && this.model.getCityForEvent() != null) {
+		if (playerString != null && this.model.getSelectedCity() != null) {
 			getCharacterFromString(playerString);
 			airliftSelected = true;
 		}
@@ -323,7 +323,7 @@ public class GameView extends JFrame implements ActionListener {
 	private void getCharacterFromString(String playerString) {
 		for (int i = 0; i < this.players.size(); i++) {
 			if (this.controller.getPlayers().get(i).getCharacterModel().getName().equals(playerString)) {
-				this.model.setCharacterToBeAirlifted(this.controller.getPlayers().get(i));
+				this.model.setSelectedCharacter(this.controller.getPlayers().get(i));
 			}
 		}
 	}
@@ -652,7 +652,7 @@ public class GameView extends JFrame implements ActionListener {
 			
 			if (inXBounds && inYBounds) {
 				this.selectedCity = city;
-				this.model.setCityForEvent(city.getCityModel());
+				this.model.setSelectedCity(city.getCityModel());
 				this.paintSelectedCity(this.getGraphics());
 			}
 		}
