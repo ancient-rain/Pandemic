@@ -182,7 +182,6 @@ public class Game {
 	public static String ENTER_PLAYER_NAME = "Enter the name for Player";
 	public static String SELECT_CHARACTER = "Select Character";
 
-
 	public static void updateConstants(ResourceBundle resourceBundle) {
 		INFECTION_DECK = resourceBundle.getString("INFECTION_DECK");
 		PLAYER_DECK = resourceBundle.getString("PLAYER_DECK");
