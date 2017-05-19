@@ -24,4 +24,8 @@ public class InfectionDeckCardController extends AbstractDeckCardController{
 	public CardModel drawBottomCard(){
 		return this.deckCards.remove(0);
 	}
+	
+	public void addToBottom(CardModel cardToPutOnBottom){
+		this.deckCards.add(0, cardToPutOnBottom);
+	}
 }

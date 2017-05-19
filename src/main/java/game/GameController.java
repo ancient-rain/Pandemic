@@ -136,7 +136,6 @@ public class GameController {
 		return false;
 	}
 	
-	//TEST
 	public boolean specialAbility(){
 		if(this.getCurrentPlayer().verifyAbility(this)){
 			this.getCurrentPlayer().ability(this);
