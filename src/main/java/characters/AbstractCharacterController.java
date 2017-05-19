@@ -26,8 +26,6 @@ public abstract class AbstractCharacterController {
 	}
 	
 	public boolean verifyMoveWithoutCard(CityModel cityToMoveTo){
-		// this method has complete coverage whenever there println lines are in the code
-		// but if they are not there then it doesnt.
 		if(this.character.getCurrentNeighbors().contains(cityToMoveTo)){
 			return true;
 		}
