@@ -16,11 +16,13 @@ import game.GameController;
 import game.GameModel;
 import game.GameView;
 import menus.CharacterMenu;
+import menus.LanguageMenu;
 import menus.StartMenu;
 
 public class Main {
 	
 	public static void main(String [] args) {
+		LanguageMenu languageMenu = new LanguageMenu();
 		StartMenu startMenu = new StartMenu();
 		GameModel gameModel = new GameModel();
 		DiseaseController diseaseController = new DiseaseController();
@@ -28,6 +30,8 @@ public class Main {
 		AbstractDeckCardController playerDeckController = new PlayerDeckCardController(cityController);
 		AbstractDeckCardController infectionDeckController = new InfectionDeckCardController(cityController);
 		List<CharacterModel> characters = new ArrayList<>();
+		
+		languageMenu.selectLocale();
 		
 		startMenu.view();
 		
