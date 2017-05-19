@@ -22,6 +22,7 @@ public class Game {
 	public final static int TEXT_SIZE = 12;
 
 	public final static Font FONT = new Font("Dialog", Font.BOLD, TEXT_SIZE);
+	public final static Font FONT2 = new Font("Dialog", Font.BOLD, 9);
 
 	public final static int TOP_PANEL_TEXT_Y = 75;
 
