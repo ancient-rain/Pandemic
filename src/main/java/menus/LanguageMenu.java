@@ -49,6 +49,5 @@ public class LanguageMenu {
 	public void updateResources() {
 		this.resourceBundle = ResourceBundle.getBundle("resources/resources", locale);
 		constants.Game.updateConstants(resourceBundle);
-		constants.Card.updateConstants(resourceBundle);
 	}
 }
