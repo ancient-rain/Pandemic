@@ -15,6 +15,7 @@ public class PlayerDeckCardController extends AbstractDeckCardController{
 	public void specialShuffle(int numberOfEpidemics) {
 		ArrayList<ArrayList<CardModel>> deckPartitions = new ArrayList<ArrayList<CardModel>>();
 		Collections.shuffle(this.deckCards);
+		System.out.println(numberOfEpidemics);
 		int partitionSize = this.deckCards.size()/numberOfEpidemics;
 		for(int i = 0; i < this.deckCards.size(); i+=(partitionSize+1)){
 			int end = Math.min(this.deckCards.size(), i + partitionSize + 1);
