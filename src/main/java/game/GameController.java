@@ -221,7 +221,8 @@ public class GameController {
 	private void infect(CityModel cityToInfect, DiseaseModel diseaseInfecting){
 		if(!diseaseInfecting.isEradicated() && !cityToInfect.isQuarentined()){
 			this.cityController.infect(cityToInfect, diseaseInfecting);
-			if(diseaseInfecting.getCubesLeft() < 0 || this.cityController.getOutbreakCoutner() > MAX_NUM_OUTBREAKS){
+			if(diseaseInfecting.getCubesLeft() < 0 || 
+					this.cityController.getOutbreakCoutner() > MAX_NUM_OUTBREAKS){
 				this.gameModel.setLost(true);
 			}
 		}

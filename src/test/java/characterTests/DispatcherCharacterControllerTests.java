@@ -75,12 +75,14 @@ public class DispatcherCharacterControllerTests{
 		EasyMock.expect(this.characterToMove.verifyMoveWithoutCard(this.cityToMoveTo)).andStubReturn(true);
 				
 		EasyMock.replay(gameModel, gameController, cityToMoveFrom, cityToMoveTo, cardToMoveWith, 
-				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, dispatcherModel);
+				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, 
+				dispatcherModel);
 		
 		boolean verified = this.dispatcher.verifyAbility(this.gameController);
 		
 		EasyMock.verify(gameModel, gameController, cityToMoveFrom, cityToMoveTo, cardToMoveWith, 
-				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, dispatcherModel);
+				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, 
+				dispatcherModel);
 		assertTrue(verified);
 	}
 	
@@ -90,7 +92,8 @@ public class DispatcherCharacterControllerTests{
 		EasyMock.expect(this.gameModel.getSelectedCity()).andStubReturn(this.cityToMoveTo);
 		EasyMock.expect(this.gameModel.getSelectedCharacter()).andStubReturn(this.characterToMove);
 		
-		EasyMock.expect(this.characterToMove.verifyMoveWithoutCard(this.cityToMoveTo)).andStubReturn(false);		
+		EasyMock.expect(this.characterToMove.verifyMoveWithoutCard(this.cityToMoveTo)).
+			andStubReturn(false);		
 		
 		EasyMock.expect(this.gameController.getPlayers()).andStubReturn(this.characters);
 		this.characters.remove(this.characterToMove);
@@ -99,12 +102,14 @@ public class DispatcherCharacterControllerTests{
 		EasyMock.expect(this.characterToMoveToModel.getCurrentCity()).andStubReturn(this.cityToMoveTo);
 		
 		EasyMock.replay(gameModel, gameController, cityToMoveFrom, cityToMoveTo, cardToMoveWith, 
-				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, dispatcherModel);
+				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, 
+				dispatcherModel);
 		
 		boolean verified = this.dispatcher.verifyAbility(this.gameController);
 		
 		EasyMock.verify(gameModel, gameController, cityToMoveFrom, cityToMoveTo, cardToMoveWith, 
-				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, dispatcherModel);
+				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, 
+				dispatcherModel);
 		assertTrue(verified);	
 	}
 	
@@ -125,15 +130,18 @@ public class DispatcherCharacterControllerTests{
 		Set<CardModel> stubHand = new HashSet<CardModel>();
 		stubHand.add(this.cardToMoveWith);
 		EasyMock.expect(this.dispatcherModel.getHandOfCards()).andStubReturn(stubHand);
-		EasyMock.expect(this.characterToMove.verifyMoveWithCard(this.cityToMoveTo, this.cardToMoveWith)).andStubReturn(true);
+		EasyMock.expect(this.characterToMove.verifyMoveWithCard(this.cityToMoveTo, 
+				this.cardToMoveWith)).andStubReturn(true);
 		
 		EasyMock.replay(gameModel, gameController, cityToMoveFrom, cityToMoveTo, cardToMoveWith, 
-				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, dispatcherModel);
+				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, 
+				dispatcherModel);
 		
 		boolean verified = this.dispatcher.verifyAbility(this.gameController);
 		
 		EasyMock.verify(gameModel, gameController, cityToMoveFrom, cityToMoveTo, cardToMoveWith, 
-				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, dispatcherModel);
+				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, 
+				dispatcherModel);
 		assertTrue(verified);	
 	}
 	
@@ -149,20 +157,24 @@ public class DispatcherCharacterControllerTests{
 		this.characters.remove(this.characterToMove);
 		EasyMock.expect(this.dispatcherModel.getCurrentCity()).andStubReturn(this.cityToMoveFrom);
 		EasyMock.expect(this.characterToMoveTo.getCharacterModel()).andStubReturn(this.characterToMoveToModel);
-		EasyMock.expect(this.characterToMoveToModel.getCurrentCity()).andStubReturn(EasyMock.createNiceMock(CityModel.class));
+		EasyMock.expect(this.characterToMoveToModel.getCurrentCity()).andStubReturn(
+				EasyMock.createNiceMock(CityModel.class));
 
 		Set<CardModel> stubHand = new HashSet<CardModel>();
 		stubHand.add(this.cardToMoveWith);
 		EasyMock.expect(this.dispatcherModel.getHandOfCards()).andStubReturn(stubHand);
-		EasyMock.expect(this.characterToMove.verifyMoveWithCard(this.cityToMoveTo, this.cardToMoveWith)).andStubReturn(false);
+		EasyMock.expect(this.characterToMove.verifyMoveWithCard(this.cityToMoveTo, 
+				this.cardToMoveWith)).andStubReturn(false);
 		
 		EasyMock.replay(gameModel, gameController, cityToMoveFrom, cityToMoveTo, cardToMoveWith, 
-				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, dispatcherModel);
+				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, 
+				dispatcherModel);
 		
 		boolean verified = this.dispatcher.verifyAbility(this.gameController);
 		
 		EasyMock.verify(gameModel, gameController, cityToMoveFrom, cityToMoveTo, cardToMoveWith, 
-				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, dispatcherModel);
+				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, 
+				dispatcherModel);
 		assertFalse(verified);
 	}
 	
@@ -176,13 +188,15 @@ public class DispatcherCharacterControllerTests{
 		EasyMock.expect(this.characterToMove.verifyMoveWithoutCard(this.cityToMoveTo)).andStubReturn(true);
 		
 		EasyMock.replay(gameModel, gameController, cityToMoveFrom, cityToMoveTo, cardToMoveWith, 
-				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, dispatcherModel);
+				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, 
+				dispatcherModel);
 		
 		this.dispatcher.ability(this.gameController);
 		CityModel movedTo = this.characterToMove.getCharactersCurrentCity();
 		
 		EasyMock.verify(gameModel, gameController, cityToMoveFrom, cityToMoveTo, cardToMoveWith, 
-				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, dispatcherModel);
+				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, 
+				dispatcherModel);
 		assertEquals(this.cityToMoveTo, movedTo);
 	}
 	
@@ -201,13 +215,15 @@ public class DispatcherCharacterControllerTests{
 		EasyMock.expect(this.characterToMoveToModel.getCurrentCity()).andStubReturn(this.cityToMoveTo);
 		
 		EasyMock.replay(gameModel, gameController, cityToMoveFrom, cityToMoveTo, cardToMoveWith, 
-				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, dispatcherModel);
+				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, 
+				dispatcherModel);
 		
 		this.dispatcher.ability(this.gameController);
 		CityModel movedTo = this.characterToMove.getCharactersCurrentCity();
 		
 		EasyMock.verify(gameModel, gameController, cityToMoveFrom, cityToMoveTo, cardToMoveWith, 
-				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, dispatcherModel);
+				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, 
+				dispatcherModel);
 		assertEquals(this.cityToMoveTo, movedTo);
 	}
 	
@@ -228,18 +244,21 @@ public class DispatcherCharacterControllerTests{
 		Set<CardModel> stubHand = new HashSet<CardModel>();
 		stubHand.add(this.cardToMoveWith);
 		EasyMock.expect(this.dispatcherModel.getHandOfCards()).andStubReturn(stubHand);
-		EasyMock.expect(this.characterToMove.verifyMoveWithCard(this.cityToMoveTo, this.cardToMoveWith)).andStubReturn(true);
+		EasyMock.expect(this.characterToMove.verifyMoveWithCard(this.cityToMoveTo, 
+				this.cardToMoveWith)).andStubReturn(true);
 		this.dispatcherModel.removeCardFromHandOfCards(cardToMoveWith);
 		EasyMock.expectLastCall();
 		
 		EasyMock.replay(gameModel, gameController, cityToMoveFrom, cityToMoveTo, cardToMoveWith, 
-				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, dispatcherModel);
+				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, 
+				dispatcherModel);
 
 		this.dispatcher.ability(this.gameController);
 		CityModel movedTo = this.characterToMove.getCharactersCurrentCity();
 		
 		EasyMock.verify(gameModel, gameController, cityToMoveFrom, cityToMoveTo, cardToMoveWith, 
-				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, dispatcherModel);
+				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, 
+				dispatcherModel);
 		assertEquals(this.cityToMoveTo, movedTo);
 	}
 	
@@ -260,16 +279,19 @@ public class DispatcherCharacterControllerTests{
 		Set<CardModel> stubHand = new HashSet<CardModel>();
 		stubHand.add(this.cardToMoveWith);
 		EasyMock.expect(this.dispatcherModel.getHandOfCards()).andStubReturn(stubHand);
-		EasyMock.expect(this.characterToMove.verifyMoveWithCard(this.cityToMoveTo, this.cardToMoveWith)).andStubReturn(false);
+		EasyMock.expect(this.characterToMove.verifyMoveWithCard(this.cityToMoveTo, this.cardToMoveWith))
+			.andStubReturn(false);
 		
 		EasyMock.replay(gameModel, gameController, cityToMoveFrom, cityToMoveTo, cardToMoveWith, 
-				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, dispatcherModel);
+				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, 
+				dispatcherModel);
 
 		this.dispatcher.ability(this.gameController);
 		CityModel movedTo = this.characterToMove.getCharactersCurrentCity();
 		
 		EasyMock.verify(gameModel, gameController, cityToMoveFrom, cityToMoveTo, cardToMoveWith, 
-				characterToMoveModel, characterToMove, characterToMoveTo, characterToMoveToModel, dispatcherModel);
+				characterToMoveModel, characterToMove, characterToMoveTo, 
+				characterToMoveToModel, dispatcherModel);
 		assertEquals(this.cityToMoveFrom, movedTo);
 	}
 }
