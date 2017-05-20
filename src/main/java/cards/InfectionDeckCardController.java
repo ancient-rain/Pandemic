@@ -1,6 +1,7 @@
 package cards;
 
 import java.util.Collections;
+import java.util.Random;
 
 import city.CityController;
 
@@ -12,7 +13,11 @@ public class InfectionDeckCardController extends AbstractDeckCardController{
 
 	@Override
 	public void specialShuffle(int numberToUseInShuffle) {
-		Collections.shuffle(this.discardCards);
+		this.specialShuffle(new Random(System.nanoTime()));
+	}
+	
+	public void specialShuffle(Random seed){
+		Collections.shuffle(this.discardCards, seed);
 		this.deckCards.addAll(discardCards);
 		this.discardCards.clear();
 	}

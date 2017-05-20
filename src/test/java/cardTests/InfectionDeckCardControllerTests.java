@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import org.junit.Before;
@@ -49,6 +50,15 @@ public class InfectionDeckCardControllerTests {
 
 		this.cityToCardMap = playerDeckController.getCityToCardMap();
 		
+	}
+	
+	@Test
+	public void testKillMutants(){
+		InfectionDeckCardController infectionDeckController1 = new InfectionDeckCardController(cityController);
+		InfectionDeckCardController infectionDeckController2 = new InfectionDeckCardController(cityController);
+		infectionDeckController1.specialShuffle(new Random(0l));
+		infectionDeckController2.specialShuffle(new Random(1l));
+		assertFalse(infectionDeckController1.draw().getName().equals(infectionDeckController2.draw().getName()));
 	}
 	
 	@Test

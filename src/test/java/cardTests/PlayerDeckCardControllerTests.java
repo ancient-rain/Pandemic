@@ -58,9 +58,9 @@ public class PlayerDeckCardControllerTests {
 	
 	@Test
 	public void testSpecialShuffleNoSeed(){
+		int initCards = playerDeck1.getNumberOfCardsInDeck();
 		playerDeck1.specialShuffle(introDifficulty);
-		playerDeck2.specialShuffle(introDifficulty);
-		assertFalse(playerDeck1.draw().getName().equals(playerDeck2.draw().getName()));
+		assertEquals(initCards+introDifficulty, playerDeck1.getNumberOfCardsInDeck());
 	}
 	
 	public void testSetupShuffleXDifficultyXPlayers(int difficulty, int numberOfCardsToDrawBefore){
