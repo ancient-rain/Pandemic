@@ -46,8 +46,8 @@ public class GameControllerTests {
 	@Before
 	public void init() {
 		this.gameModel = new GameModel();
-		DiseaseController diseaseController = new DiseaseController();
-		CityController cityController = new CityController(diseaseController);
+		this.diseaseController = new DiseaseController();
+	    this.cityController = new CityController(diseaseController);
 		this.playerDeckController = new PlayerDeckCardController(cityController);
 		this.infectionDeckController = new InfectionDeckCardController(cityController);
 
@@ -800,6 +800,32 @@ public class GameControllerTests {
 
 		assertTrue(this.controller.getGameModel().isLost());
 	}
+	
+	@Test
+	public void testEndOfTurnUntilGameLossCubesPositive() {
+		this.controller.getDiseaseController().getBlackDisease().setCubesLeft(1);
+		this.controller.getDiseaseController().getBlueDisease().setCubesLeft(1);
+		this.controller.getDiseaseController().getYellowDisease().setCubesLeft(1);
+		this.controller.getDiseaseController().getRedDisease().setCubesLeft(1);
+		this.controller.getCityController().setOutbreakCounter(MAX_NUM_OUTBREAKS-1);
+		
+		this.controller.endOfTurn();
+
+		assertFalse(this.controller.getGameModel().isLost());
+	}
+	
+	@Test
+	public void testEndOfTurnUntilGameLossCubesNegative() {
+		this.controller.getDiseaseController().getBlackDisease().setCubesLeft(-1);
+		this.controller.getDiseaseController().getBlueDisease().setCubesLeft(-1);
+		this.controller.getDiseaseController().getYellowDisease().setCubesLeft(-1);
+		this.controller.getDiseaseController().getRedDisease().setCubesLeft(-1);
+		this.controller.getCityController().setOutbreakCounter(MAX_NUM_OUTBREAKS-1);
+		
+		this.controller.endOfTurn();
+
+		assertTrue(this.controller.getGameModel().isLost());
+	}
 
 	@Test
 	public void testOneQuietNight() {
@@ -1068,10 +1094,59 @@ public class GameControllerTests {
 		
 		CityModel bottomCity = this.controller.getCityController().getCityByName(bottom.getName());
 		assertEquals(3, bottomCity.getCubesByDisease(bottomCity.getPrimaryDisease()));
-		assertEquals(0, infectController.getDiscardedCards().size());
+		assertEquals(10, infectController.getDiscardedCards().size());
 
 		int indexAfter = this.controller.getGameModel().getInfectionRateIndex();
 
 		assertTrue(infectionIndex < indexAfter);
+	}
+	
+	@Test
+	public void testHandleEpidemicInfectionRateIndexMinusOne() {
+		int currentInfectionRateIndex = 7;
+		this.controller.getGameModel().setInfectionRateIndex(currentInfectionRateIndex);
+		this.controller.handleEpidemic();
+		assertEquals(7, this.controller.getGameModel().getInfectionRateIndex());
+	}
+	@Test
+	public void testHandleEpidemicInfectionRateIndexChangeBoundary() {
+		int currentInfectionRateIndex = 8;
+		this.controller.getGameModel().setInfectionRateIndex(currentInfectionRateIndex);
+		this.controller.handleEpidemic();
+		assertEquals(8, this.controller.getGameModel().getInfectionRateIndex());
+	}
+	
+	@Test
+	public void testDrawDoubleEpidemic(){
+		CardModel epidemicOne = new CardModel(EPIDEMIC, CardModel.CardType.EPIDEMIC);
+		CardModel epidemicTwo = new CardModel(EPIDEMIC, CardModel.CardType.EPIDEMIC);
+		this.playerDeckController.addCard(epidemicTwo);
+		this.playerDeckController.addCard(epidemicOne);
+		int infectionIndexBefore = this.controller.getGameModel().getInfectionRateIndex();
+		this.controller.endOfTurn();
+		int infectionIndexAfter = this.controller.getGameModel().getInfectionRateIndex();
+		assertEquals(infectionIndexAfter, infectionIndexBefore + 2);
+		assertEquals(infectionIndexAfter, this.playerDeckController.getDiscardedCards().size());
+	}
+	
+	@Test
+	public void testDrawOneEpidemicOnePlayer() {
+		CardModel epidemicOne = new CardModel(EPIDEMIC, CardModel.CardType.EPIDEMIC);
+		CardModel epidemicTwo = new CardModel("player", CardModel.CardType.PLAYER);
+		this.playerDeckController.addCard(epidemicTwo);
+		this.playerDeckController.addCard(epidemicOne);
+		
+		AbstractCharacterController player = this.controller.getCurrentPlayer();
+		int numPlayerCardsBefore = player.getCharacterModel().getHandSize();
+		int infectionIndexBefore = this.controller.getGameModel().getInfectionRateIndex();
+		
+		this.controller.endOfTurn();
+		
+		int infectionIndexAfter = this.controller.getGameModel().getInfectionRateIndex();
+		int numPlayerCardsAfter = player.getCharacterModel().getHandSize();
+		
+		assertEquals(infectionIndexAfter, infectionIndexBefore + 1);
+		assertEquals(numPlayerCardsAfter, numPlayerCardsBefore + 1);
+		assertEquals(infectionIndexAfter, this.playerDeckController.getDiscardedCards().size());
 	}
 }

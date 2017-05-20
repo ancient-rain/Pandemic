@@ -69,7 +69,6 @@ public class GameController {
 			for(int i = 0; i < this.gameModel.getNumberOfStartingCards(); i++){
 				c.addCardToHandOfCards(this.playerDeckController.draw());
 			}
-			c.moveWithoutCard(this.cityController.getCityByName(ATLANTA));
 		}
 		
 		this.playerDeckController.specialShuffle(this.gameModel.getDifficulty());
@@ -167,6 +166,7 @@ public class GameController {
 		CardModel drawnCard2 = this.playerDeckController.draw();
 		if(drawnCard1.getName().equals(EPIDEMIC)){
 			this.handleEpidemic();
+			this.infectionDeckController.specialShuffle(0);
 			this.playerDeckController.discard(drawnCard1);
 		} else {
 			this.getCurrentPlayer().addCardToHandOfCards(drawnCard1);
@@ -174,6 +174,7 @@ public class GameController {
 		
 		if(drawnCard2.getName().equals(EPIDEMIC)){
 			this.handleEpidemic();
+			this.infectionDeckController.specialShuffle(0);
 			this.playerDeckController.discard(drawnCard2);
 		} else {
 			this.getCurrentPlayer().addCardToHandOfCards(drawnCard2);
@@ -216,7 +217,7 @@ public class GameController {
 				this.cityController.getCityByName(bottom.getName()).getPrimaryDisease());
 		this.infectionDeckController.discard(bottom);
 		
-		this.infectionDeckController.specialShuffle(0);
+		//this.infectionDeckController.specialShuffle(0);
 	}
 	
 	private void infect(CityModel cityToInfect, DiseaseModel diseaseInfecting){
