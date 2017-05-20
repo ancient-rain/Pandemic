@@ -63,5 +63,9 @@ public abstract class AbstractDeckCardController {
 		return this.cityToCardMap;
 	}
 	
+	public void addCard(CardModel newCard){
+		this.deckCards.add(newCard);
+	}
+	
 	public abstract void specialShuffle(int numberToUseInShuffle);
 }
