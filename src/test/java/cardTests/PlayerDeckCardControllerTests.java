@@ -4,8 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import java.util.List;
+import java.util.Random;
 
 import org.easymock.EasyMock;
+import org.junit.Before;
 import org.junit.Test;
 
 import cards.AbstractDeckCardController;
@@ -23,7 +25,11 @@ public class PlayerDeckCardControllerTests {
 	private int players2or4 = 8;
 	private int players3 = 9;
 	
-	public void testSetupShuffleXDifficultyXPlayers(int difficulty, int numberOfCardsToDrawBefore){
+	private PlayerDeckCardController playerDeck1;
+	private PlayerDeckCardController playerDeck2;
+	
+	@Before
+	public void init(){
 		DiseaseModel diseaseModelMock = EasyMock.createNiceMock(DiseaseModel.class);
 		DiseaseController diseaseMock = EasyMock.createNiceMock(DiseaseController.class);
 		EasyMock.expect(diseaseMock.getBlueDisease()).andStubReturn(diseaseModelMock);
@@ -32,16 +38,41 @@ public class PlayerDeckCardControllerTests {
 		EasyMock.expect(diseaseMock.getYellowDisease()).andStubReturn(diseaseModelMock);
 		EasyMock.replay(diseaseMock, diseaseModelMock);
 		CityController cityController = new CityController(diseaseMock);
-		AbstractDeckCardController playerDeck = new PlayerDeckCardController(cityController);
-		
-		playerDeck.drawNumberOfCards(numberOfCardsToDrawBefore);
-		int originalSize = playerDeck.getNumberOfCardsInDeck();
-		int partitionSize = playerDeck.getNumberOfCardsInDeck()/difficulty;
-		playerDeck.specialShuffle(difficulty);
+		playerDeck1 = new PlayerDeckCardController(cityController);
+		playerDeck2 = new PlayerDeckCardController(cityController);
+	}
+	
+	@Test
+	public void testShufflesPartitions(){
+		playerDeck1.specialShuffle(introDifficulty, new Random(0l));
+		playerDeck2.specialShuffle(introDifficulty, new Random(1l));
+		assertFalse(playerDeck1.draw().getName().equals(playerDeck2.draw().getName()));
+	}
+	
+	@Test
+	public void testDeckSameSize(){
+		int initCards = playerDeck1.getNumberOfCardsInDeck();
+		playerDeck1.specialShuffle(introDifficulty, new Random(0l));
+		assertEquals(initCards+introDifficulty, playerDeck1.getNumberOfCardsInDeck());
+	}
+	
+	@Test
+	public void testSpecialShuffleNoSeed(){
+		playerDeck1.specialShuffle(introDifficulty);
+		playerDeck2.specialShuffle(introDifficulty);
+		assertFalse(playerDeck1.draw().getName().equals(playerDeck2.draw().getName()));
+	}
+	
+	public void testSetupShuffleXDifficultyXPlayers(int difficulty, int numberOfCardsToDrawBefore){
+		Random seed = new Random(0l);
+		playerDeck1.drawNumberOfCards(numberOfCardsToDrawBefore);
+		int originalSize = playerDeck1.getNumberOfCardsInDeck();
+		int partitionSize = playerDeck1.getNumberOfCardsInDeck()/difficulty;
+		playerDeck1.specialShuffle(difficulty, seed);
 		boolean twoInARow = false;
 		int cardsSinceLastEpidemic = 0;
 		int epidemics = 0;
-		List<CardModel> cards = playerDeck.drawNumberOfCards(playerDeck.getNumberOfCardsInDeck());
+		List<CardModel> cards = playerDeck1.drawNumberOfCards(playerDeck1.getNumberOfCardsInDeck());
 		for(int i = 0; i < cards.size(); i++){
 			if(cards.get(i).getType().equals(CardModel.CardType.EPIDEMIC)){
 				if(cardsSinceLastEpidemic == 0 && i != 0){
