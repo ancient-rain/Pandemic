@@ -216,8 +216,6 @@ public class GameController {
 		this.infect(this.cityController.getCityByName(bottom.getName()), 
 				this.cityController.getCityByName(bottom.getName()).getPrimaryDisease());
 		this.infectionDeckController.discard(bottom);
-		
-		//this.infectionDeckController.specialShuffle(0);
 	}
 	
 	private void infect(CityModel cityToInfect, DiseaseModel diseaseInfecting){

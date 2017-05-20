@@ -1117,6 +1117,22 @@ public class GameControllerTests {
 	}
 	
 	@Test
+	public void testHandleEpidemicInfectionRateIndexChangeBoundaryNine() {
+		int currentInfectionRateIndex = 9;
+		this.controller.getGameModel().setInfectionRateIndex(currentInfectionRateIndex);
+		this.controller.handleEpidemic();
+		assertEquals(9, this.controller.getGameModel().getInfectionRateIndex());
+	}
+	
+	@Test
+	public void testHandleEpidemicInfectionRateIndexChangeBoundarySix() {
+		int currentInfectionRateIndex = 6;
+		this.controller.getGameModel().setInfectionRateIndex(currentInfectionRateIndex);
+		this.controller.handleEpidemic();
+		assertEquals(6, this.controller.getGameModel().getInfectionRateIndex());
+	}
+	
+	@Test
 	public void testDrawDoubleEpidemic(){
 		CardModel epidemicOne = new CardModel(EPIDEMIC, CardModel.CardType.EPIDEMIC);
 		CardModel epidemicTwo = new CardModel(EPIDEMIC, CardModel.CardType.EPIDEMIC);
@@ -1130,8 +1146,8 @@ public class GameControllerTests {
 	}
 	
 	@Test
-	public void testDrawOneEpidemicOnePlayer() {
-		CardModel epidemicOne = new CardModel(EPIDEMIC, CardModel.CardType.EPIDEMIC);
+	public void testDrawTwoPlayer() {
+		CardModel epidemicOne = new CardModel("player", CardModel.CardType.PLAYER);
 		CardModel epidemicTwo = new CardModel("player", CardModel.CardType.PLAYER);
 		this.playerDeckController.addCard(epidemicTwo);
 		this.playerDeckController.addCard(epidemicOne);
@@ -1139,14 +1155,15 @@ public class GameControllerTests {
 		AbstractCharacterController player = this.controller.getCurrentPlayer();
 		int numPlayerCardsBefore = player.getCharacterModel().getHandSize();
 		int infectionIndexBefore = this.controller.getGameModel().getInfectionRateIndex();
-		
+		this.cityController.getOutbrokenCities().add(new CityModel("meow", this.controller.getDiseaseController().getBlueDisease()));
 		this.controller.endOfTurn();
 		
 		int infectionIndexAfter = this.controller.getGameModel().getInfectionRateIndex();
 		int numPlayerCardsAfter = player.getCharacterModel().getHandSize();
 		
-		assertEquals(infectionIndexAfter, infectionIndexBefore + 1);
-		assertEquals(numPlayerCardsAfter, numPlayerCardsBefore + 1);
+		assertEquals(0,this.controller.getCityController().getOutbrokenCities().size());
+		assertEquals(infectionIndexAfter, infectionIndexBefore + 0);
+		assertEquals(numPlayerCardsAfter, numPlayerCardsBefore + 2);
 		assertEquals(infectionIndexAfter, this.playerDeckController.getDiscardedCards().size());
 	}
 }
