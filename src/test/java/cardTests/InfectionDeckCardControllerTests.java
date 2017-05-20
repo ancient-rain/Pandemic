@@ -58,7 +58,8 @@ public class InfectionDeckCardControllerTests {
 		InfectionDeckCardController infectionDeckController2 = new InfectionDeckCardController(cityController);
 		infectionDeckController1.specialShuffle(new Random(0l));
 		infectionDeckController2.specialShuffle(new Random(1l));
-		assertFalse(infectionDeckController1.draw().getName().equals(infectionDeckController2.draw().getName()));
+		assertFalse(infectionDeckController1.draw().getName()
+				.equals(infectionDeckController2.draw().getName()));
 	}
 	
 	@Test

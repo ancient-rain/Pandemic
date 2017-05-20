@@ -53,17 +53,20 @@ public class AbstractDeckCardControllerTests {
 	public void testKillShuffleMutant(){
 		Random seed1 = new Random(0l);
 		Random seed2 = new Random(System.nanoTime());
-		AbstractDeckCardController abstractDeckCardController1 = new AbstractDeckCardController(cityController, seed1){
+		AbstractDeckCardController abstractDeckCardController1 = new AbstractDeckCardController(cityController, 
+				seed1){
 			@Override
 			public void specialShuffle(int numberToUseInShuffle) {
 			}
 		};
-		AbstractDeckCardController abstractDeckCardController2 = new AbstractDeckCardController(cityController, seed2){
+		AbstractDeckCardController abstractDeckCardController2 = new AbstractDeckCardController(cityController, 
+				seed2){
 			@Override
 			public void specialShuffle(int numberToUseInShuffle) {
 			}
 		};
-		assertFalse(abstractDeckCardController1.draw().getName().equals(abstractDeckCardController2.draw().getName()));
+		assertFalse(abstractDeckCardController1.draw().getName()
+				.equals(abstractDeckCardController2.draw().getName()));
 	}
 	
 	@Test
