@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import city.CityController;
 import city.CityModel;
@@ -16,11 +17,15 @@ public abstract class AbstractDeckCardController {
 	protected Map<CityModel, CardModel> cityToCardMap;
 	
 	public AbstractDeckCardController(CityController cityController){
+		this(cityController, new Random(System.nanoTime()));
+	}
+	
+	public AbstractDeckCardController(CityController cityController, Random seed){
 		this.deckCards = new ArrayList<>();
 		this.discardCards = new ArrayList<>();
 		this.cityToCardMap = new HashMap<CityModel, CardModel>();
 		this.initializeDeck(cityController);
-		Collections.shuffle(deckCards);
+		Collections.shuffle(deckCards, seed);
 	}
 	
 	public int getNumberOfCardsInDeck(){

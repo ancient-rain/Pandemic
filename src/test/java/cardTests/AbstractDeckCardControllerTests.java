@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import org.junit.Before;
@@ -31,8 +32,7 @@ public class AbstractDeckCardControllerTests {
 	GameController gameController;
 	OperationsExpertCharacterController operSpecialist;
 	Map<CityModel, CardModel> cityToCardMap;
-	AbstractDeckCardController playerDeckController;
-	AbstractDeckCardController infectionDeckController;
+	AbstractDeckCardController abstractDeckCardController;
 	CityController cityController;
 	List<CityModel> listOfCities;
 	CharacterModel characterModel;
@@ -42,32 +42,53 @@ public class AbstractDeckCardControllerTests {
 		GameModel gameModel = new GameModel();
 		DiseaseController diseaseController = new DiseaseController();
 		this.cityController = new CityController(diseaseController);
-		this.playerDeckController = new PlayerDeckCardController(cityController);
+		this.abstractDeckCardController = new AbstractDeckCardController(cityController){
+			@Override
+			public void specialShuffle(int numberToUseInShuffle) {
+			}
+		};
+	}
+	
+	@Test 
+	public void testKillShuffleMutant(){
+		Random seed1 = new Random(0l);
+		Random seed2 = new Random(1l);
+		AbstractDeckCardController abstractDeckCardController1 = new AbstractDeckCardController(cityController, seed1){
+			@Override
+			public void specialShuffle(int numberToUseInShuffle) {
+			}
+		};
+		AbstractDeckCardController abstractDeckCardController2 = new AbstractDeckCardController(cityController, seed2){
+			@Override
+			public void specialShuffle(int numberToUseInShuffle) {
+			}
+		};
+		assertFalse(abstractDeckCardController1.draw().equals(abstractDeckCardController2.draw()));
 	}
 	
 	@Test
 	public void testDrawZeroCards(){
 		int numCardsToDraw = 0;
-		assertEquals(0, this.playerDeckController.drawNumberOfCards(numCardsToDraw).size());
+		assertEquals(0, this.abstractDeckCardController.drawNumberOfCards(numCardsToDraw).size());
 	}
 	
 	@Test
 	public void testDrawOneCards(){
 		int numCardsToDraw = 1;
-		assertEquals(1, this.playerDeckController.drawNumberOfCards(numCardsToDraw).size());
+		assertEquals(1, this.abstractDeckCardController.drawNumberOfCards(numCardsToDraw).size());
 	}
 	
 	@Test
 	public void testDrawTenCards(){
 		int numCardsToDraw = 10;
-		assertEquals(10, this.playerDeckController.drawNumberOfCards(numCardsToDraw).size());
+		assertEquals(10, this.abstractDeckCardController.drawNumberOfCards(numCardsToDraw).size());
 	}
 	
 	@Test
 	public void testDrawNegativeCards(){
 		int numCardsToDraw = -10;
-		assertEquals(0, this.playerDeckController.drawNumberOfCards(numCardsToDraw).size());
-		assertEquals(0, this.playerDeckController.getNumberOfCardsInDiscard());
+		assertEquals(0, this.abstractDeckCardController.drawNumberOfCards(numCardsToDraw).size());
+		assertEquals(0, this.abstractDeckCardController.getNumberOfCardsInDiscard());
 	}
 
 }
